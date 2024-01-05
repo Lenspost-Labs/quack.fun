@@ -1,0 +1,1 @@
+This folder contains all the Types supported across the App
