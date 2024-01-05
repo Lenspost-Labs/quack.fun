@@ -1,5 +1,5 @@
 interface BasicModalType {
-    isOpen: boolean
+    // isOpen: boolean // optional
     modalOkText: string
     modalTitle: string
     modalContent: JSX.Element

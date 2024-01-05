@@ -1,5 +1,5 @@
-import React from "react";
-import { useContext, useState } from "react";
+import React, { useContext, useEffect } from "react";
+import { useState } from "react";
 // @ts-ignore
 import BsHouse from "@meronex/icons/bs/BsHouse";
 // @ts-ignore
@@ -8,22 +8,24 @@ import MdNotificationsOutline from "@meronex/icons/ios/MdNotificationsOutline";
 import MdCreate from "@meronex/icons/ios/MdCreate";
 
 import { Link } from "react-router-dom";
-import  NewPostCard from "../../Components/Cards/NewPostCard.tsx";
-import  ProfileCard from "../../Components/Cards/ProfileCard.tsx";
-import  SidebarItem from "../../Components/Items/SidebarItem.tsx";
-import  BasicModal from "../../Components/Modals/BasicModal.tsx";
-import { AppContext } from "../../../contexts/AppContext.tsx";
+import NewPostCard from "../../Components/Cards/NewPostCard.tsx";
+import ProfileCard from "../../Components/Cards/ProfileCard.tsx";
+import SidebarItem from "../../Components/Items/SidebarItem.tsx";
+import { Modal } from "antd";
 
-const LeftSidebar : React.FC<any>  = () => {
+const LeftSidebar: React.FC<any> = () => {
   const [isSideNavOpen, setIsSideNavOpen] = useState(true);
-  const { isBasicModalOpen, openBasicModal } = useContext(AppContext);
+  const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
 
-  console.log("isBasicModalOpen", isBasicModalOpen);
+  const showModal = () => {
+    setIsBasicModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsBasicModalOpen(false);
+  };
 
   return (
     <>
-      {/*  <!-- Component: Side navigation menu with user profile and user contacts --> */}
-
       {/*  <!-- Mobile trigger --> */}
       <button
         title="Side navigation"
@@ -89,23 +91,17 @@ const LeftSidebar : React.FC<any>  = () => {
               </Link>
 
               {/* <Link to="/new"> */}
-              <SidebarItem
-                itemName="New Post"
-                onClick={openBasicModal}
-                dashIcon={<MdCreate color="#000" />}
-              />
+              <div>
+                <SidebarItem
+                  onClickFn={showModal}
+                  itemName="New Post"
+                  dashIcon={<MdCreate color="#000" />}
+                />
+              </div>
               {/* </Link> */}
             </ul>
           </div>
 
-          {
-            <BasicModal
-              isOpen={true}
-              modalContent={<NewPostCard />}
-              modalTitle="New Post"
-              modalOkText="Post"
-            />
-          }
           <div>
             <h3 className="p-6 pb-0 text-sm font-medium text-slate-400">
               Recent Contacts
@@ -156,6 +152,16 @@ const LeftSidebar : React.FC<any>  = () => {
         }`}
         onClick={() => setIsSideNavOpen(false)}
       ></div>
+      <Modal
+        centered
+        okText={"Post"}
+        title={"Create new post"}
+        open={isBasicModalOpen}
+        onOk={closeModal}
+        onCancel={closeModal}
+      >
+        <NewPostCard />
+      </Modal>
     </>
   );
 };

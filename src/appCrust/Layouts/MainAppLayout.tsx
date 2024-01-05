@@ -4,6 +4,7 @@ import Navbar from "../appMantle/topMantle/Navbar.tsx";
 import TopicsCard from "../Components/Cards/TopicsCard.tsx";
 import Search, { SearchProps } from "antd/es/input/Search";
 import { Outlet } from "react-router-dom";
+import FeedWrapper from "../appMantle/midMantle/FeedWrapper.tsx";
 
 // const MainAppLayout : React.FC = ( ) => {
 //   const  onSearch: SearchProps["onSearch"] = (value, _e, info) =>
@@ -60,6 +61,9 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = () => {
           <div className="h-100 overflow-y-auto">
             <Outlet />
           </div>
+
+          {/* <FeedWrapper /> */}
+
         </div>
 
         <div className="w-1/6 m-4 ">

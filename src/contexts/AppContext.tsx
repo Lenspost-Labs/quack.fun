@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, Dispatch, SetStateAction } from "react";
 
 export interface AppContextProps {
   // Theme Selection
@@ -7,7 +7,8 @@ export interface AppContextProps {
 
   // Modals
   isBasicModalOpen: boolean;
-  openBasicModal: () => void;
+  setIsBasicModalOpen: Dispatch<SetStateAction<boolean>>; // Updated type
+
 }
 
 export const AppContext = createContext<AppContextProps>({
@@ -16,7 +17,7 @@ export const AppContext = createContext<AppContextProps>({
 
   // Modals
   isBasicModalOpen: false,
-  openBasicModal: () => {},
+  setIsBasicModalOpen: () => {}, // Updated type;
 });
 
 const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -35,7 +36,7 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
         // Modals
         isBasicModalOpen,
-        openBasicModal: () => setIsBasicModalOpen(!isBasicModalOpen),
+        setIsBasicModalOpen,
       }}
     >
       {children}

@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Modal } from "antd";
+import { AppContext, AppContextProps } from "src/contexts/AppContext";
+
 const BasicModal: React.FC<BasicModalType> = ({
-  isOpen,
   modalOkText,
   modalTitle,
   modalContent,
 }: BasicModalType) => {
-  const [isModalOpen, setIsModalOpen] = useState(isOpen);
+  
+  const { isBasicModalOpen, setIsBasicModalOpen } = useContext<AppContextProps>(AppContext);
 
   const handleOk = () => {
-    setIsModalOpen(false);
+    setIsBasicModalOpen(false);
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setIsBasicModalOpen(false);
   };
 
   return (
@@ -22,7 +24,7 @@ const BasicModal: React.FC<BasicModalType> = ({
         centered
         okText={modalOkText}
         title={modalTitle}
-        open={isModalOpen}
+        open={isBasicModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >

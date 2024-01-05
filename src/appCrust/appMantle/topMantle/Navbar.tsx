@@ -2,10 +2,14 @@ import React, { useState } from "react";
 // @ts-ignore
 import MdNotificationsOutline from "@meronex/icons/ios/MdNotificationsOutline";
 import solLogo from "src/assets/Logos/logoSolana.png";
+import { SolLogin } from "src/appCrust/Components/Items/SolLoginBtn";
+import { useWallet } from "@solana/wallet-adapter-react";
 // import solLogo from "../../../assets/Logos/logoSolana.png";
 
 const Navbar: React.FC = () => {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
+
+  const { publicKey } = useWallet();
 
   return (
     <>
@@ -77,8 +81,15 @@ const Navbar: React.FC = () => {
               </li>
             </ul>
             <div className="ml-auto flex items-center px-6 lg:ml-0 lg:p-0 cursor-pointer">
-              <div className="m-2">0Xes...2W</div>
-              <div className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white">
+              <div className="m-2">
+                {publicKey ? (
+                  <div className="">{publicKey.toString()}</div>
+                ) : (
+                  ""
+                )}
+              </div>
+              <SolLogin />
+              {/* <div className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white">
                 <img
                   src={solLogo}
                   alt="user name"
@@ -87,7 +98,7 @@ const Navbar: React.FC = () => {
                   height="40"
                   className="max-w-full rounded-full object-contain"
                 />
-              </div>
+              </div> */}
             </div>
           </nav>
         </div>

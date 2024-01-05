@@ -11,7 +11,7 @@ const CommentsCard = ({
       <ul
         aria-label="Nested user feed"
         role="feed"
-        className="bg-white relative flex flex-col gap-12 py-12 pl-6 before:absolute before:top-0 before:left-6 before:h-full before:-translate-x-1/2 before:border before:border-dashed before:border-slate-200 after:absolute after:top-6 after:left-6 after:bottom-6 after:-translate-x-1/2 after:border after:border-slate-200 "
+        className="bg-white relative flex flex-col cursor-pointer gap-12 py-12 pl-6 hover:bg-slate-50 before:absolute before:top-0 before:left-6 before:h-full before:-translate-x-1/2 before:border before:border-dashed before:border-slate-200 after:absolute after:top-6 after:left-6 after:bottom-6 after:-translate-x-1/2 after:border after:border-slate-200 "
       >
         <li role="article" className="relative pl-6 ">
           <div className="flex flex-col flex-1 gap-2">
@@ -36,7 +36,7 @@ const CommentsCard = ({
                   {commentAction}{" "}
                 </span>
               </span>
-              <span className="text-xs font-normal text-slate-400">
+              <span className="text-xs font-normal text-slate-400 mr-4">
                 {" "}
                 {commentTimeStamp}
               </span>
