@@ -11,7 +11,7 @@ const CommentsCard = ({
       <ul
         aria-label="Nested user feed"
         role="feed"
-        className="bg-white relative flex flex-col cursor-pointer gap-16 py-12 pl-6 hover:bg-slate-50 before:absolute before:top-0 before:left-6 before:h-full before:-translate-x-1/2 before:border before:border-dashed before:border-slate-200 after:absolute after:top-6 after:left-6 after:bottom-6 after:-translate-x-1/2 after:border after:border-slate-200 "
+        className="mt-0.5 bg-white relative flex flex-col cursor-pointer gap-16 py-6 pl-6 hover:bg-slate-50 before:absolute before:top-0 before:left-6 before:h-full before:-translate-x-1/2 before:border before:border-dashed before:border-slate-200 after:absolute after:top-6 after:left-6 after:bottom-6 after:-translate-x-1/2 after:border after:border-slate-200 "
       >
         <li role="article" className="relative pl-6 ">
           <div className="flex flex-col flex-1 gap-2">

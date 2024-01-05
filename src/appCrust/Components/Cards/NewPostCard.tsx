@@ -7,28 +7,35 @@ import EnEmojiHappy from "@meronex/icons/en/EnEmojiHappy";
 import MdAccessTime from "@meronex/icons/md/MdAccessTime";
 import TextArea from "antd/es/input/TextArea";
 import { DatePicker, DatePickerProps } from "antd";
+import CustomUploadBtn from "../Items/CustomUploadBtn";
+// import { Picker } from "emoji-mart";
+// import data from '@emoji-mart/data'
 
-const NewPostCard : React.FC = () => {
-  const  onChange: DatePickerProps["onChange"] = (date, dateString) => {
+const NewPostCard: React.FC = () => {
+  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
   };
 
   return (
     <>
-      <div className="relative bg-white mt-8 mb-8">
+      <div className="relative bg-white mt-8 mb-8 flex flex-col items-left justify-left">
+        <CustomUploadBtn  />
+
         <TextArea
           color="yellow"
           placeholder="What's on your mind today?"
           rows={4}
         />
         {/* Icons Wrapper */}
+
         <div className="flex justify-between align-middle m-1 ">
           <div className="flex ">
-            <BsImage size={20} className="m-2 text-slate-700 cursor-pointer" />
+            {/* <BsImage size={20} className="m-2 text-slate-700 cursor-pointer" /> */}
             <EnEmojiHappy
               size={20}
               className="m-2 text-slate-700 cursor-pointer"
             />
+            {/* <Picker data={data} onEmojiSelect={console.log} /> */}
           </div>
 
           <div className="flex">

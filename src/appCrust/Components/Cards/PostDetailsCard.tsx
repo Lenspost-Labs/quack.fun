@@ -14,7 +14,8 @@ import BsCollection from "@meronex/icons/bs/BsCollection";
 // @ts-ignore
 import GrSync from "@meronex/icons/gr/GrSync";
 
-import { Modal } from "antd";
+import { Modal, Spin } from "antd";
+import { apiGetComments } from "src/services/BEApis/PostsAPIs/CommentsApi.tsx";
 
 const PostDetailsCard = ({
   userProfileName,
@@ -22,14 +23,24 @@ const PostDetailsCard = ({
   userPostImage,
   userProfileImage,
   userProfilePostText,
+  postLikes,
 }: // onClick,
 PostCardType) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [isLike, setIsLike] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleLikeBtn = () => {
     setIsLike(!isLike);
+  };
+  const handleCommentBtn = () => {
+    setLoading(true);
+    setIsCommentsOpen(!isCommentsOpen);
+
+    fnLoadComments();
+    setLoading(false);
   };
 
   const showModal = () => {
@@ -43,12 +54,18 @@ PostCardType) => {
     setIsModalOpen(false);
   };
 
+  const fnLoadComments = async () => {
+    const res = await apiGetComments();
+    console.log(res);
+    setComments(res?.data?.comments.slice(0, 5));
+  };
+
   return (
     <>
       {/*<!-- Component: Social story card --> */}
       <div
         // onClick={onClick}
-        className="overflow-hidden rounded bg-white text-slate-500 shadow-md shadow-slate-200"
+        className="overflow-hidden rounded bg-white text-slate-500 shadow-md shadow-slate-200 my-2"
       >
         {/*  <!-- Header--> */}
         <div className="px-6 pt-6 flex justify-between">
@@ -106,11 +123,11 @@ PostCardType) => {
                 <BsHeartFill size={20} />
               </div>
             )}
-            <div className="ml-0 m-2 text-sm">100+ </div>
+            <div className="ml-0 m-2 text-sm">{postLikes} </div>
           </div>
 
           <div
-            onClick={() => setIsCommentsOpen(!isCommentsOpen)}
+            onClick={handleCommentBtn}
             className="m-2  hover:text-pink-500 selection: text-yellow-500"
           >
             <BsChat size={20} />
@@ -138,24 +155,23 @@ PostCardType) => {
 
       {isCommentsOpen ? (
         <>
-          <div className="m-2">
-            <CommentsCard
-              commentUserImage={"https://picsum.photos/id/183/40/40"}
-              commentAction={"Commented"}
-              commentUser={"Aryan Ag"}
-              commentTimeStamp={"2 hours ago"}
-              commentText="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-              commentUsername={"useraryanag"}
-            />
-            <CommentsCard
-              commentUserImage={"https://picsum.photos/id/185/40/40"}
-              commentAction={"Replied to a comment"}
-              commentUser={"Sudeep S"}
-              commentTimeStamp={"12 minutes ago"}
-              commentText="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-              commentUsername={"usersudeeeps"}
-            />
-          </div>
+          {" "}
+          {loading && <Spin />}
+          {comments?.length > 0 && (
+            <div className="">
+              {comments?.map((comment: any) => (
+                <CommentsCard
+                  commentUserImage={`https://picsum.photos/id/${comment?.id}/40/40`}
+                  commentAction={"Replied"}
+                  commentUser={comment?.user?.username}
+                  commentTimeStamp={"2 hours ago"}
+                  commentText={comment?.body}
+                  commentUsername={comment?.userProfileUsername}
+                />
+              ))}
+            </div>
+          )}
+          {/* <Button onClick={handleCommentBtn()}>View all comments</Button> */}
         </>
       ) : (
         ""
