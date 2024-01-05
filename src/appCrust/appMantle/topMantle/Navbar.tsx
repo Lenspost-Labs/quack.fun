@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // @ts-ignore
 import MdNotificationsOutline from "@meronex/icons/ios/MdNotificationsOutline";
-import solLogo from "src/assets/Logos/logoSolana.png";
+// import solLogo from "src/assets/Logos/logoSolana.png";
 import { SolLogin } from "src/appCrust/Components/Items/SolLoginBtn";
 import { useWallet } from "@solana/wallet-adapter-react";
 // import solLogo from "../../../assets/Logos/logoSolana.png";
