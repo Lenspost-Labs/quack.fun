@@ -16,7 +16,7 @@ import SidebarItem from "../../Components/Items/SidebarItem.tsx";
 import { Modal } from "antd";
 
 const LeftSidebar: React.FC<any> = () => {
-  const [isSideNavOpen, setIsSideNavOpen] = useState(true);
+  const [isSideNavOpen] = useState(true);
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
 
  const showModal = () => {
