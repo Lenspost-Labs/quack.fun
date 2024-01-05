@@ -23,7 +23,7 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = () => {
   return (
     <>
       <Navbar />
-      <div className="flex justify-around">
+      <div className="flex justify-center">
         <div className="m-4 hidden md:block">
           <LeftSidebar />
         </div>
