@@ -6,6 +6,8 @@ import BsHouse from "@meronex/icons/bs/BsHouse";
 import MdNotificationsOutline from "@meronex/icons/ios/MdNotificationsOutline";
 // @ts-ignore
 import MdCreate from "@meronex/icons/ios/MdCreate";
+// ts-ignore
+import MdPower from "@meronex/icons/ios/MdPower";
 
 import { Link } from "react-router-dom";
 import NewPostCard from "../../Components/Cards/NewPostCard.tsx";
@@ -17,7 +19,7 @@ const LeftSidebar: React.FC<any> = () => {
   const [isSideNavOpen, setIsSideNavOpen] = useState(true);
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
 
-  const showModal = () => {
+ const showModal = () => {
     setIsBasicModalOpen(true);
   };
   const closeModal = () => {
@@ -27,7 +29,7 @@ const LeftSidebar: React.FC<any> = () => {
   return (
     <>
       {/*  <!-- Mobile trigger --> */}
-      <button
+      {/* <button
         title="Side navigation"
         type="button"
         className={`visible fixed left-6 top-6 z-40 order-10 block h-10 w-10 self-center rounded bg-white opacity-100 lg:hidden ${
@@ -41,9 +43,7 @@ const LeftSidebar: React.FC<any> = () => {
         aria-controls="nav-menu-5"
         onClick={() => setIsSideNavOpen(!isSideNavOpen)}
       >
-        <div onClick={() => setIsSideNavOpen(!isSideNavOpen)}>
-          {/* Click me */}
-        </div>
+        <div onClick={() => setIsSideNavOpen(!isSideNavOpen)}>Click me</div>
         <div className="absolute top-1/2 left-1/2 w-6 -translate-x-1/2 -translate-y-1/2 transform">
           <span
             aria-hidden="true"
@@ -58,7 +58,7 @@ const LeftSidebar: React.FC<any> = () => {
             className="absolute block h-0.5 w-1/2 origin-top-left translate-y-2 transform rounded-full bg-slate-900 transition-all duration-300"
           ></span>
         </div>
-      </button>
+      </button> */}
 
       {/*  <!-- Side Navigation --> */}
       <aside
@@ -109,49 +109,28 @@ const LeftSidebar: React.FC<any> = () => {
             <ul className="flex flex-1 flex-col gap-1 py-3">
               <SidebarItem
                 statusIcon
-                itemName="John Doe"
+                itemName="Jeff Bezos"
                 userPicture={"https://i.pravatar.cc/24?img=3"}
               />
             </ul>
           </div>
         </nav>
 
-        <footer className="border-t border-slate-200 p-3">
-          <a
-            href="#"
-            className="flex items-center gap-3 rounded p-3 text-slate-900 transition-colors hover:text-red-500 "
-          >
-            <div className="flex items-center self-center ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="h-6 w-6"
-                aria-label="Dashboard icon"
-                role="graphics-symbol"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm font-medium">
-              Logout
-            </div>
-          </a>
+        <footer className="border-t border-slate-200 p-2 mb-6">
+          <SidebarItem
+            className="w-full"
+            itemName={"Disconnect"}
+            dashIcon={<MdPower color="#000" />}
+          />
         </footer>
       </aside>
 
-      <div
+      {/* <div
         className={`fixed top-0 bottom-0 left-0 right-0 z-30 bg-slate-900/20 transition-colors sm:hidden ${
           isSideNavOpen ? "block" : "hidden"
         }`}
         onClick={() => setIsSideNavOpen(false)}
-      ></div>
+      >Close</div> */}
       <Modal
         centered
         okText={"Post"}
@@ -166,4 +145,5 @@ const LeftSidebar: React.FC<any> = () => {
   );
 };
 
+export const bisNeera = 12
 export default LeftSidebar;

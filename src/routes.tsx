@@ -3,7 +3,7 @@ import  { createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import PostsWrapper from "./appCrust/Components/Wrappers/PostsWrapper.tsx";
 import NotificationsWrapper from "./appCrust/Components/Wrappers/NotificationsWrapper.tsx";
-import ProfileSectionCard from "./appCrust/Components/Cards/ProfileSectionCard.tsx";
+import ProfilePageWrapper from "./appCrust/Components/Wrappers/ProfilePageWrapper.tsx";
 
 const  router = createBrowserRouter([
   {
@@ -31,7 +31,7 @@ const  router = createBrowserRouter([
 
       {
         path: "/profile",
-        element: <ProfileSectionCard />,
+        element: <ProfilePageWrapper />,
         // errorElement: <ErrorPage />,
       }
     ],

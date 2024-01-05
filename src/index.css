@@ -8,7 +8,12 @@ body {
   margin: 0;
   background-color: rgb(243, 241, 248);
 }
-
+.wallet-adapter-button-trigger {
+  /* all:unset !important; */
+  background-color: rgb(234, 179, 8) !important;
+  color: rgb(48, 48, 48) !important;
+  /* border: 1px solid rgb(243, 241, 248); */
+}
 
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

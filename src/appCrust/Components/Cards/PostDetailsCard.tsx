@@ -9,6 +9,11 @@ import BsChat from "@meronex/icons/bs/BsChat";
 import BsCursor from "@meronex/icons/bs/BsCursor";
 // @ts-ignore
 import BsHeartFill from "@meronex/icons/bs/BsHeartFill";
+// @ts-ignore
+import BsCollection from "@meronex/icons/bs/BsCollection";
+// @ts-ignore
+import GrSync from "@meronex/icons/gr/GrSync";
+
 import { Modal } from "antd";
 
 const PostDetailsCard = ({
@@ -43,10 +48,10 @@ PostCardType) => {
       {/*<!-- Component: Social story card --> */}
       <div
         // onClick={onClick}
-        className="overflow-hidden rounded bg-white text-slate-500 shadow-md shadow-slate-200 m-2"
+        className="overflow-hidden rounded bg-white text-slate-500 shadow-md shadow-slate-200"
       >
         {/*  <!-- Header--> */}
-        <div className="px-6 pt-6">
+        <div className="px-6 pt-6 flex justify-between">
           <header className="flex gap-2">
             <a
               href="#"
@@ -68,6 +73,7 @@ PostCardType) => {
               <p className="text-sm text-slate-400"> @{userProfileUsername}</p>
             </div>
           </header>
+          <div className="text-sm"> 2 hours ago </div>
         </div>
 
         <div className="p-6 pb-0">
@@ -83,21 +89,21 @@ PostCardType) => {
         </div>
 
         {/* Icons container */}
-        <div className="ml-4 mt-2 mb-4 flex cursor-pointer">
+        <div className="ml-4 mt-2 mb-4 flex gap-2 cursor-pointer">
           <div className="flex ">
             {isLike ? (
               <div
                 onClick={handleLikeBtn}
-                className="  mt-2.5 m-2 hover:text-emerald-500 shadow-sm selection: text-red-500 "
+                className="  mt-2.5 m-2 hover:text-pink-500 selection: text-red-500 "
               >
-                <BsHeart />
+                <BsHeart size={20} />
               </div>
             ) : (
               <div
                 onClick={handleLikeBtn}
-                className="  mt-2.5 m-2 hover:text-emerald-500 shadow-sm selection: text-pink-500 "
+                className="  mt-2.5 m-2 hover:text-pink-500 selection: text-pink-500 "
               >
-                <BsHeartFill />
+                <BsHeartFill size={20} />
               </div>
             )}
             <div className="ml-0 m-2 text-sm">100+ </div>
@@ -105,12 +111,16 @@ PostCardType) => {
 
           <div
             onClick={() => setIsCommentsOpen(!isCommentsOpen)}
-            className="m-2  hover:text-emerald-500 shadow-sm selection: text-blue-500"
+            className="m-2  hover:text-pink-500 selection: text-yellow-500"
           >
-            <BsChat />
+            <BsChat size={20} />
           </div>
-          <div className=" m-2  hover:text-emerald-500 shadow-sm selection: text-yellow-500">
-            <BsCursor onClick={showModal} />
+          <div className=" m-2  hover:text-pink-500 selection: text-yellow-500">
+            <BsCursor size={20} onClick={showModal} />
+          </div>
+
+          <div className=" m-2  hover:text-pink-500 selection: text-yellow-500">
+            <GrSync size={20} />
           </div>
         </div>
       </div>
