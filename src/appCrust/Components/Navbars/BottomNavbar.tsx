@@ -53,7 +53,7 @@ const BottomNavbar = () => {
           onOk={closeModal}
           onCancel={closeModal}
         >
-          <NewPostCard />
+          <NewPostCard isInFeed={false} />
         </Modal>
       </div>
     </>
