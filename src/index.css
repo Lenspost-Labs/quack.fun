@@ -6,13 +6,24 @@
 
 body {
   margin: 0;
-  background-color: rgb(243, 241, 248);
+  background-color: #f9f9f9;
+  height: 100vh;
+  width: 100vw;
 }
 .wallet-adapter-button-trigger {
   /* all:unset !important; */
-  background-color: rgb(234, 179, 8) !important;
-  color: rgb(48, 48, 48) !important;
+  /* background-color: rgb(234, 179, 8) !important; */
+  background-color: #fef08a !important;
+  color: #334155 !important;
+  width: 100% !important;
+  padding : 0.5rem 1rem !important;
   /* border: 1px solid rgb(243, 241, 248); */
+}
+
+@layer utilities {
+  .h-96vh {
+    height: 96vh;
+  }
 }
 
 /* :root {

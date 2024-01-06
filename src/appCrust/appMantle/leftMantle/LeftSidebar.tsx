@@ -7,19 +7,24 @@ import MdNotificationsOutline from "@meronex/icons/ios/MdNotificationsOutline";
 // @ts-ignore
 import MdCreate from "@meronex/icons/ios/MdCreate";
 // ts-ignore
-import MdPower from "@meronex/icons/ios/MdPower";
+// import MdPower from "@meronex/icons/ios/MdPower";
 
 import { Link } from "react-router-dom";
 import NewPostCard from "../../Components/Cards/NewPostCard.tsx";
 import ProfileCard from "../../Components/Cards/ProfileCard.tsx";
 import SidebarItem from "../../Components/Items/SidebarItem.tsx";
 import { Modal } from "antd";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { SolLogin } from "src/appCrust/Components/Items/SolLoginBtn.tsx";
 
 const LeftSidebar: React.FC<any> = () => {
   const [isSideNavOpen] = useState(true);
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
 
- const showModal = () => {
+  const {publicKey, connected} = useWallet();
+  console.log(publicKey, connected);
+
+  const showModal = () => {
     setIsBasicModalOpen(true);
   };
   const closeModal = () => {
@@ -93,6 +98,7 @@ const LeftSidebar: React.FC<any> = () => {
               {/* <Link to="/new"> */}
               <div>
                 <SidebarItem
+                  className="cursor-pointer bg-yellow-200 text-slate-700 transition-colors hover:bg-yellow-50 hover:text-yellow-500 focus:bg-yellow-50 aria-[current=page]:bg-yellow-50 aria-[current=page]:text-yellow-500"
                   onClickFn={showModal}
                   itemName="New Post"
                   dashIcon={<MdCreate color="#000" />}
@@ -116,12 +122,16 @@ const LeftSidebar: React.FC<any> = () => {
           </div>
         </nav>
 
-        <footer className="border-t border-slate-200 p-2 mb-6">
-          <SidebarItem
+        <footer className="border-t border-slate-200 p-2 mb-6 w-full">
+          {connected && <SidebarItem itemName="@Username" userPicture={"https://i.pravatar.cc/24?img=3"}/>}
+          {/* <SidebarItem
             className="w-full"
             itemName={"Disconnect"}
             dashIcon={<MdPower color="#000" />}
-          />
+          /> */}
+
+          {!connected && <SolLogin />}
+          
         </footer>
       </aside>
 
@@ -138,6 +148,8 @@ const LeftSidebar: React.FC<any> = () => {
         open={isBasicModalOpen}
         onOk={closeModal}
         onCancel={closeModal}
+        cancelButtonProps={{type: "text"}}
+        okButtonProps={{color: "yellow", type: "default"}}
       >
         <NewPostCard />
       </Modal>
@@ -145,5 +157,5 @@ const LeftSidebar: React.FC<any> = () => {
   );
 };
 
-export const bisNeera = 12
+export const bisNeera = 12;
 export default LeftSidebar;

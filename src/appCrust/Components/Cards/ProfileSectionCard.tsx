@@ -72,6 +72,7 @@ const ProfileSectionCard : React.FC = () => {
           open={isModalOpen}
           onOk={() => setIsModalOpen(false)}
           onCancel={() => setIsModalOpen(false)}
+          okButtonProps={{color: "yellow", type: "default"}}
         >
           <EditProfileCard />
         </Modal>

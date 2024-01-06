@@ -18,10 +18,11 @@ const NewPostCard: React.FC = () => {
 
   return (
     <>
-      <div className="relative bg-white mt-8 mb-8 flex flex-col items-left justify-left">
+      <div className="relative bg-white mt-2 mb-8 p-2 flex flex-col items-left justify-center ">
         <CustomUploadBtn  />
 
         <TextArea
+          className=""
           color="yellow"
           placeholder="What's on your mind today?"
           rows={4}
