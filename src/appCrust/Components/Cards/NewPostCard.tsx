@@ -6,12 +6,12 @@ import EnEmojiHappy from "@meronex/icons/en/EnEmojiHappy";
 // @ts-ignore
 import MdAccessTime from "@meronex/icons/md/MdAccessTime";
 import TextArea from "antd/es/input/TextArea";
-import { DatePicker, DatePickerProps } from "antd";
+import { Button, DatePicker, DatePickerProps } from "antd";
 import CustomUploadBtn from "../Items/CustomUploadBtn";
 // import { Picker } from "emoji-mart";
 // import data from '@emoji-mart/data'
 
-const NewPostCard: React.FC = () => {
+const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
   };
@@ -19,7 +19,7 @@ const NewPostCard: React.FC = () => {
   return (
     <>
       <div className="relative bg-white mt-2 mb-8 p-2 flex flex-col items-left justify-center ">
-        <CustomUploadBtn  />
+        <CustomUploadBtn />
 
         <TextArea
           className=""
@@ -49,9 +49,11 @@ const NewPostCard: React.FC = () => {
               />
             </div>
 
-            {/* <Button type="primary" className="m-2">
-              Post
-            </Button> */}
+            {isInFeed && (
+              <Button type="text" className="m-2">
+                Post
+              </Button>
+            )}
           </div>
         </div>
       </div>

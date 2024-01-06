@@ -67,7 +67,7 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = () => {
                     items={items}
                     onChange={onChange}
                   />
-                  <NewPostCard />
+                  <NewPostCard isInFeed={true} />
                 </>
               )}
               <Outlet />
