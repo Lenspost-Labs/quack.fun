@@ -65,7 +65,7 @@ PostCardType) => {
       {/*<!-- Component: Social story card --> */}
       <div
         // onClick={onClick}
-        className="overflow-hidden rounded bg-white text-slate-500 shadow-md shadow-slate-200 my-2"
+        className="overflow-hidden rounded-lg bg-white text-slate-800 shadow-md shadow-slate-200 my-2"
       >
         {/*  <!-- Header--> */}
         <div className="px-6 pt-6 flex justify-between">
@@ -108,7 +108,7 @@ PostCardType) => {
         {/* Icons container */}
         <div className="ml-4 mt-2 mb-4 flex gap-2 cursor-pointer">
           <div className="flex ">
-            {isLike ? (
+            {!isLike ? (
               <div
                 onClick={handleLikeBtn}
                 className="  mt-2.5 m-2 hover:text-pink-500 selection: text-red-500 "

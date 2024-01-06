@@ -3,6 +3,10 @@ import React from "react";
 import PostsWrapper from "./PostsWrapper";
 import ProfileSectionCard from "../Cards/ProfileSectionCard";
 import CommentsWrapper from "./CommentsWrapper";
+import { Link } from "react-router-dom";
+
+// @ts-ignore
+import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
 
 const ProfilePageWrapper = () => {
   const onChange = (key: string) => {
@@ -23,13 +27,24 @@ const ProfilePageWrapper = () => {
     },
     {
       key: "3",
-      label: "Tab 3",
-      children: "Content of Tab Pane 3",
+      label: "Likes",
+      children: <PostsWrapper />,
     },
   ];
   return (
     <>
       <div className="m-4 md:m-0">
+        <div className="flex m-2">
+          <div className="mt-2">
+            {" "}
+            <Link to="/feed">
+              {" "}
+              <BsArrowLeft size={24} />{" "}
+            </Link>{" "}
+          </div>
+          <div className="m-2">Profile</div>
+        </div>
+
         <ProfileSectionCard />
         <Tabs
           className="mt-4"

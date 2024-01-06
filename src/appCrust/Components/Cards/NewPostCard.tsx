@@ -18,7 +18,7 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
 
   return (
     <>
-      <div className="relative bg-white mt-2 mb-8 p-2 flex flex-col items-left justify-center ">
+      <div className="relative bg-white mt-2 mb-8 p-2 flex flex-col items-left justify-center rounded-lg">
         <CustomUploadBtn />
 
         <TextArea

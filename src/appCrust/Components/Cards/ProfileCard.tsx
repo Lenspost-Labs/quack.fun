@@ -6,7 +6,7 @@ const ProfileCard : React.FC<any>  = () => {
   const  navigate = useNavigate();
   return (
     <>
-      <div className="flex flex-col items-center gap-4 border-b border-slate-200 p-6 bg-white shadow-sm">
+      <div className="flex flex-col items-center gap-4 border-b border-slate-200 p-6 bg-white shadow-sm rounded-lg">
         <div className="shrink-0">
           <a
             href="#"

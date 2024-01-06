@@ -69,7 +69,7 @@ const LeftSidebar: React.FC<any> = () => {
       <aside
         id="nav-menu-5"
         aria-label="Side navigation"
-        className={`relative top-0 bottom-0 left-0 z-40 flex w-72 flex-col border-r border-r-slate-200 bg-white transition-transform lg:translate-x-0 ${
+        className={`relative top-0 bottom-0 left-0 z-40 flex w-72 flex-col border-r border-r-slate-200 bg-white transition-transform lg:translate-x-0 rounded-lg ${
           isSideNavOpen ? "translate-x-0" : " -translate-x-full"
         }`}
       >
@@ -98,7 +98,7 @@ const LeftSidebar: React.FC<any> = () => {
               {/* <Link to="/new"> */}
               <div>
                 <SidebarItem
-                  className="cursor-pointer bg-yellow-200 text-slate-700 transition-colors hover:bg-yellow-50 hover:text-yellow-500 focus:bg-yellow-50 aria-[current=page]:bg-yellow-50 aria-[current=page]:text-yellow-500"
+                  className="cursor-pointer m-2 bg-yellow-200 text-slate-700 transition-colors hover:bg-yellow-50 hover:text-yellow-500 focus:bg-yellow-50 aria-[current=page]:bg-yellow-50 aria-[current=page]:text-yellow-500"
                   onClickFn={showModal}
                   itemName="New Post"
                   dashIcon={<MdCreate color="#000" />}
