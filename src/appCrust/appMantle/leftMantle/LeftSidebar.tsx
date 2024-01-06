@@ -151,7 +151,7 @@ const LeftSidebar: React.FC<any> = () => {
         cancelButtonProps={{type: "text"}}
         okButtonProps={{color: "yellow", type: "default"}}
       >
-        <NewPostCard />
+        <NewPostCard isInFeed={false} />
       </Modal>
     </>
   );
