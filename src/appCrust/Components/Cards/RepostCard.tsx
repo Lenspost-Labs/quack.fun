@@ -14,7 +14,7 @@ import BsCollection from "@meronex/icons/bs/BsCollection";
 // @ts-ignore
 import GrSync from "@meronex/icons/gr/GrSync";
 
-import { Modal, Spin } from "antd";
+import { Modal } from "antd";
 
 const RepostCard = ({
   userProfileName,
@@ -28,7 +28,7 @@ PostCardType) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [isLike, setIsLike] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [comments, setComments] = useState([]);
+  // const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleLikeBtn = () => {
@@ -38,6 +38,7 @@ PostCardType) => {
     setLoading(true);
     setIsCommentsOpen(!isCommentsOpen);
 
+    console.log(loading);
     setLoading(false);
   };
 
