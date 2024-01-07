@@ -6,9 +6,9 @@ import EnEmojiHappy from "@meronex/icons/en/EnEmojiHappy";
 // @ts-ignore
 import MdAccessTime from "@meronex/icons/md/MdAccessTime";
 import TextArea from "antd/es/input/TextArea";
-import { Button, DatePicker, DatePickerProps, Dropdown, MenuProps } from "antd";
+import { Button, DatePicker, DatePickerProps } from "antd";
 import CustomUploadBtn from "../Items/CustomUploadBtn";
-import EmojiPicker from "emoji-picker-react";
+// import EmojiPicker from "emoji-picker-react";
 // import { Picker } from "emoji-mart";
 // import data from '@emoji-mart/data'
 
@@ -19,12 +19,12 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
     console.log(date, dateString);
   };
 
-  const items: MenuProps["items"] = [
-    {
-      label: <EmojiPicker onEmojiClick={(e) => console.log(e)} />,
-      key: "0",
-    },
-  ];
+  // const items: MenuProps["items"] = [
+  //   {
+  //     label: <EmojiPicker onEmojiClick={(e) => console.log(e)} />,
+  //     key: "0",
+  //   },
+  // ];
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
