@@ -12,7 +12,7 @@ import BsHeartFill from "@meronex/icons/bs/BsHeartFill";
 // @ts-ignore
 import BsCollection from "@meronex/icons/bs/BsCollection";
 // @ts-ignore
-import GrSync from "@meronex/icons/gr/GrSync";
+import BiRepost from "@meronex/icons/bi/BiRepost";
 
 import { Modal, Spin } from "antd";
 import { apiGetComments } from "src/services/BEApis/PostsAPIs/CommentsApi.tsx";
@@ -62,14 +62,12 @@ PostCardType) => {
 
   return (
     <>
-      {/*<!-- Component: Social story card --> */}
       <div
         // onClick={onClick}
-        className="overflow-hidden rounded-lg bg-white text-slate-800 shadow-md shadow-slate-200 my-2"
+        className="overflow-hidden bg-white text-slate-800 border-y border-slate-200"
       >
-        {/*  <!-- Header--> */}
-        <div className="px-6 pt-6 flex justify-between">
-          <header className="flex gap-2">
+        <div className="px-6 pt-6 flex justify-between align-middle">
+          <header className="flex gap-2 align-middle items-center">
             <a
               href="#"
               className="relative inline-flex h-12 w-12 items-center justify-center rounded-full text-white"
@@ -83,14 +81,17 @@ PostCardType) => {
                 className="max-w-full rounded-full "
               />
             </a>
-            <div>
-              <h3 className="text-sm font-medium text-slate-700">
-                {userProfileName}
-              </h3>
-              <p className="text-sm text-slate-400"> @{userProfileUsername}</p>
-            </div>
+
+            <h3 className="text-sm font-medium text-slate-700">
+              {userProfileName}
+            </h3>
+            <p className="text-sm text-slate-400 cursor-pointer">
+              {" "}
+              @{userProfileUsername}
+            </p>
+
+            <div className="text-sm text-slate-600"> 2 hours ago </div>
           </header>
-          <div className="text-sm"> 2 hours ago </div>
         </div>
 
         <div className="p-6 pb-0">
@@ -106,38 +107,40 @@ PostCardType) => {
         </div>
 
         {/* Icons container */}
-        <div className="ml-4 mt-2 mb-4 flex gap-2 cursor-pointer">
+        <div className="ml-4 mt-2 mb-4 flex flex-row justify-between gap-2 cursor-pointer">
           <div className="flex ">
-            {!isLike ? (
-              <div
-                onClick={handleLikeBtn}
-                className="  mt-2.5 m-2 hover:text-pink-500 selection: text-red-500 "
-              >
-                <BsHeart size={20} />
-              </div>
-            ) : (
-              <div
-                onClick={handleLikeBtn}
-                className="  mt-2.5 m-2 hover:text-pink-500 selection: text-pink-500 "
-              >
-                <BsHeartFill size={20} />
-              </div>
-            )}
-            <div className="ml-0 m-2 text-sm">{postLikes} </div>
-          </div>
+            <div className="flex">
+              {!isLike ? (
+                <div
+                  onClick={handleLikeBtn}
+                  className="  mt-2.5 m-2 hover:text-pink-500 selection: text-red-500 "
+                >
+                  <BsHeart size={20} />
+                </div>
+              ) : (
+                <div
+                  onClick={handleLikeBtn}
+                  className="  mt-2.5 m-2 hover:text-pink-500 selection: text-pink-500 "
+                >
+                  <BsHeartFill size={20} />
+                </div>
+              )}
+              <div className="ml-0 m-2 text-sm">{postLikes} </div>
+            </div>
 
-          <div
-            onClick={handleCommentBtn}
-            className="m-2  hover:text-pink-500 selection: text-yellow-500"
-          >
-            <BsChat size={20} />
+            <div
+              onClick={handleCommentBtn}
+              className="m-2  hover:text-pink-500 selection: text-yellow-500"
+            >
+              <BsChat size={20} />
+            </div>
+
+            <div className=" m-2  hover:text-pink-500 selection: text-yellow-500">
+              <BiRepost size={26} />
+            </div>
           </div>
-          <div className=" m-2  hover:text-pink-500 selection: text-yellow-500">
+          <div className="m-2 mr-4  hover:text-pink-500 selection: text-yellow-500">
             <BsCursor size={20} onClick={showModal} />
-          </div>
-
-          <div className=" m-2  hover:text-pink-500 selection: text-yellow-500">
-            <GrSync size={20} />
           </div>
         </div>
       </div>

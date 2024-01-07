@@ -4,11 +4,12 @@
 
 /* Tailwind CSS Config */
 
-body {
+html, body {
   margin: 0;
-  background-color: #f9f9f9;
+  background-color: #fff;  
   height: 100vh;
   width: 100vw;
+  /* overflow: hidden; */
 }
 .wallet-adapter-button-trigger {
   /* all:unset !important; */

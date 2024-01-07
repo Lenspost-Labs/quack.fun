@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { message, Upload } from "antd";
+import { Button, message, Upload } from "antd";
 import type { UploadChangeParam } from "antd/es/upload";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
+// @ts-ignore
+import BsUpload from "@meronex/icons/bs/BsUpload";
 
-const CustomUploadBtn = () => {
+const CustomUploadBtn = ({ isInFeed, className }: { isInFeed: boolean, className?: string }) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
@@ -47,23 +49,54 @@ const CustomUploadBtn = () => {
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );
+
+  const props: UploadProps = {
+    name: "file",
+    action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+    headers: {
+      authorization: "authorization-text",
+    },
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+
   return (
     <>
-      <Upload
-        name="avatar"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
-        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-        beforeUpload={beforeUpload}
-        onChange={handleChange}
-      >
-        {imageUrl ? (
-          <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
-        ) : (
-          uploadButton
-        )}
-      </Upload>
+      {!isInFeed && (
+        <>
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className={`avatar-uploader ${className}`}
+            showUploadList={false}
+            action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+            beforeUpload={beforeUpload}
+            onChange={handleChange}
+          >
+            {imageUrl ? (
+              <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+            ) : (
+              uploadButton
+            )}
+          </Upload>
+        </>
+      )}
+
+      {isInFeed && (
+        <>
+          <Upload {...props}>
+            <Button icon={<BsUpload />}></Button>
+          </Upload>
+        </>
+      )}
     </>
   );
 };

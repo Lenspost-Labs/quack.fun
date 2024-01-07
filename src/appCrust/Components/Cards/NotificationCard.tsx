@@ -10,7 +10,7 @@ const NotificationCard : React.FC<any> = ({
   return (
     <>
       {/*<!-- Component: Social story card --> */}
-      <div className="overflow-hidden rounded-lg bg-white text-slate-500 shadow-md shadow-slate-200 hover:shadow-lg cursor-pointer">
+      <div className="overflow-hidden bg-white border-b-2  text-slate-500 hover:bg-slate-100 hover:cursor-pointer">
         {/*  <!-- Header--> */}
         <div className="px-4 pt-4 ">
           <header className="flex gap-2">

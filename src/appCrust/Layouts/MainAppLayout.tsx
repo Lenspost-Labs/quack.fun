@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import BottomNavbar from "../Components/Navbars/BottomNavbar.tsx";
 import CustomSearchIp from "../Components/Items/CustomSearchIp.tsx";
-import { Tabs, TabsProps } from "antd";
+import { Divider, Tabs, TabsProps } from "antd";
 import NewPostCard from "../Components/Cards/NewPostCard.tsx";
 
 interface MainAppLayoutProps {
@@ -47,41 +47,36 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = () => {
   return (
     <>
       {/* <Navbar /> */}
-      <div className="flex flex-col">
-        <div className="flex justify-center">
-          <div className="m-2 hidden md:block">
-            <div className="p-4 pl-0 text-lg">Solgram Logo</div>
-            <LeftSidebar />
-          </div>
+      {/* <div className="h-50vh"> */}
+      <div className="flex justify-center">
+        <div className="my-2 border-r border-slate-200 hidden md:block h-100vh">
+          <LeftSidebar />
+        </div>
+        <div className="">
+          {/* <div className="p-4 pl-0 text-md">Solgram Logo</div> */}
+          <BottomNavbar />
+        </div>{" "}
+        <Divider type="vertical" className="h-full" />
+        <div className="w-full h-96vh overflow-scroll my-2 md:w-2/4 lg:w-1/3">
           <div className="">
-            {/* <div className="p-4 pl-0 text-md">Solgram Logo</div> */}
-            <BottomNavbar />
+            {pathname === "/feed" && (
+              <>
+                <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+                <NewPostCard isInFeed={true} />
+              </>
+            )}
+            <Outlet />
           </div>
 
-          <div className="w-full h-96vh overflow-scroll m-2 md:w-2/4 lg:w-1/3">
-            <div className="">
-              {pathname === "/feed" && (
-                <>
-                  <Tabs
-                    defaultActiveKey="1"
-                    items={items}
-                    onChange={onChange}
-                  />
-                  <NewPostCard isInFeed={true} />
-                </>
-              )}
-              <Outlet />
-            </div>
-
-            {/* <FeedWrapper /> */}
-          </div>
-
-          <div className="hidden m-2 lg:block w-1/6">
-            <CustomSearchIp />
-            <TopicsCard />
-          </div>
+          {/* <FeedWrapper /> */}
+        </div>
+        <Divider type="vertical" className="h-full" />
+        <div className="pl-2 hidden my-2  border-l border-slate-200 lg:block w-1/6">
+          <CustomSearchIp />
+          <TopicsCard />
         </div>
       </div>
+      {/* </div> */}
     </>
   );
 };
