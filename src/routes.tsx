@@ -30,6 +30,12 @@ const  router = createBrowserRouter([
       },
 
       {
+        path: "/post",
+        // element: <PostDetailsCard  />,
+        // errorElement: <ErrorPage />,
+      },
+
+      {
         path: "/profile",
         element: <ProfilePageWrapper />,
         // errorElement: <ErrorPage />,

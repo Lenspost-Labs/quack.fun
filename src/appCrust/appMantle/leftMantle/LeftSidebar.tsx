@@ -7,13 +7,13 @@ import MdNotificationsOutline from "@meronex/icons/ios/MdNotificationsOutline";
 // @ts-ignore
 import MdCreate from "@meronex/icons/ios/MdCreate";
 // ts-ignore
-// import MdPower from "@meronex/icons/ios/MdPower";
+import AiOutlineUser from "@meronex/icons/ai/AiOutlineUser";
 
 import { Link } from "react-router-dom";
 import NewPostCard from "../../Components/Cards/NewPostCard.tsx";
-import ProfileCard from "../../Components/Cards/ProfileCard.tsx";
+// import ProfileCard from "../../Components/Cards/ProfileCard.tsx";
 import SidebarItem from "../../Components/Items/SidebarItem.tsx";
-import { Modal } from "antd";
+import { Divider, Modal } from "antd";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { SolLogin } from "src/appCrust/Components/Items/SolLoginBtn.tsx";
 
@@ -21,7 +21,7 @@ const LeftSidebar: React.FC<any> = () => {
   const [isSideNavOpen] = useState(true);
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
 
-  const {publicKey, connected} = useWallet();
+  const { publicKey, connected, disconnect} = useWallet();
   console.log(publicKey, connected);
 
   const showModal = () => {
@@ -33,53 +33,20 @@ const LeftSidebar: React.FC<any> = () => {
 
   return (
     <>
-      {/*  <!-- Mobile trigger --> */}
-      {/* <button
-        title="Side navigation"
-        type="button"
-        className={`visible fixed left-6 top-6 z-40 order-10 block h-10 w-10 self-center rounded bg-white opacity-100 lg:hidden ${
-          isSideNavOpen
-            ? "visible opacity-100 [&_span:nth-child(1)]:w-6 [&_span:nth-child(1)]:translate-y-0 [&_span:nth-child(1)]:rotate-45 [&_span:nth-child(3)]:w-0 [&_span:nth-child(2)]:-rotate-45 "
-            : ""
-        }`}
-        aria-haspopup="menu"
-        aria-label="Side navigation"
-        aria-expanded={isSideNavOpen ? "true" : "false"}
-        aria-controls="nav-menu-5"
-        onClick={() => setIsSideNavOpen(!isSideNavOpen)}
-      >
-        <div onClick={() => setIsSideNavOpen(!isSideNavOpen)}>Click me</div>
-        <div className="absolute top-1/2 left-1/2 w-6 -translate-x-1/2 -translate-y-1/2 transform">
-          <span
-            aria-hidden="true"
-            className="absolute block h-0.5 w-9/12 -translate-y-2 transform rounded-full bg-slate-700 transition-all duration-300"
-          ></span>
-          <span
-            aria-hidden="true"
-            className="absolute block h-0.5 w-6 transform rounded-full bg-slate-900 transition duration-300"
-          ></span>
-          <span
-            aria-hidden="true"
-            className="absolute block h-0.5 w-1/2 origin-top-left translate-y-2 transform rounded-full bg-slate-900 transition-all duration-300"
-          ></span>
-        </div>
-      </button> */}
-
-      {/*  <!-- Side Navigation --> */}
       <aside
-        id="nav-menu-5"
         aria-label="Side navigation"
-        className={`relative top-0 bottom-0 left-0 z-40 flex w-72 flex-col border-r border-r-slate-200 bg-white transition-transform lg:translate-x-0 rounded-lg ${
+        className={`relative top-0 bottom-0 left-0 z-40 flex h-96vh w-72 flex-col border-r-slate-200 bg-white transition-transform lg:translate-x-0 ${
           isSideNavOpen ? "translate-x-0" : " -translate-x-full"
         }`}
       >
-        <nav
-          aria-label="side navigation"
-          className="flex-1 divide-y divide-slate-100 overflow-auto"
-        >
-          <ProfileCard />
+        <nav aria-label="side navigation" className="flex-1 overflow-auto">
+          {/* <ProfileCard /> */}
           <div>
-            <ul className="flex flex-1 flex-col gap-1 py-3">
+            <ul className="flex flex-1 flex-col gap-0 py-3">
+              <Link to="/feed">
+                <div className="m-4">Logo</div>
+              </Link>
+
               <Link to="/feed">
                 <SidebarItem
                   itemName="Home"
@@ -95,52 +62,32 @@ const LeftSidebar: React.FC<any> = () => {
                 />
               </Link>
 
+              <Link to="/profile">
+                <SidebarItem
+                  itemName="Profile"
+                  dashIcon={<AiOutlineUser color="#000" />}
+                />
+              </Link>
+
               {/* <Link to="/new"> */}
               <div>
+                <Divider className="m-2" />
                 <SidebarItem
-                  className="cursor-pointer m-2 bg-yellow-200 text-slate-700 transition-colors hover:bg-yellow-50 hover:text-yellow-500 focus:bg-yellow-50 aria-[current=page]:bg-yellow-50 aria-[current=page]:text-yellow-500"
+                  className="cursor-pointer m-2 mt-0  bg-yellow-200 text-slate-700 transition-colors hover:bg-yellow-50 hover:text-yellow-500 focus:bg-yellow-50 aria-[current=page]:bg-yellow-50 aria-[current=page]:text-yellow-500"
                   onClickFn={showModal}
-                  itemName="New Post"
+                  itemName="Post"
                   dashIcon={<MdCreate color="#000" />}
                 />
               </div>
               {/* </Link> */}
             </ul>
           </div>
-
-          <div>
-            <h3 className="p-6 pb-0 text-sm font-medium text-slate-400">
-              Recent Contacts
-            </h3>
-            <ul className="flex flex-1 flex-col gap-1 py-3">
-              <SidebarItem
-                statusIcon
-                itemName="Jeff Bezos"
-                userPicture={"https://i.pravatar.cc/24?img=3"}
-              />
-            </ul>
-          </div>
         </nav>
-
-        <footer className="border-t border-slate-200 p-2 mb-6 w-full">
-          {connected && <SidebarItem itemName="@Username" userPicture={"https://i.pravatar.cc/24?img=3"}/>}
-          {/* <SidebarItem
-            className="w-full"
-            itemName={"Disconnect"}
-            dashIcon={<MdPower color="#000" />}
-          /> */}
-
-          {!connected && <SolLogin />}
-          
-        </footer>
+        <SolLogin/>
       </aside>
 
-      {/* <div
-        className={`fixed top-0 bottom-0 left-0 right-0 z-30 bg-slate-900/20 transition-colors sm:hidden ${
-          isSideNavOpen ? "block" : "hidden"
-        }`}
-        onClick={() => setIsSideNavOpen(false)}
-      >Close</div> */}
+
+
       <Modal
         centered
         okText={"Post"}
@@ -148,8 +95,8 @@ const LeftSidebar: React.FC<any> = () => {
         open={isBasicModalOpen}
         onOk={closeModal}
         onCancel={closeModal}
-        cancelButtonProps={{type: "text"}}
-        okButtonProps={{color: "yellow", type: "default"}}
+        cancelButtonProps={{ type: "text" }}
+        okButtonProps={{ color: "yellow", type: "default" }}
       >
         <NewPostCard isInFeed={false} />
       </Modal>

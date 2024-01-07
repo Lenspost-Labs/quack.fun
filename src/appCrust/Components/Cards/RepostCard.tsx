@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import CommentsCard from "../Cards/CommentsCard.tsx";
+// import CommentsCard from "../Cards/CommentsCard.tsx";
 // @ts-ignore
 import BsHeart from "@meronex/icons/bs/BsHeart";
 // @ts-ignore
@@ -12,12 +12,11 @@ import BsHeartFill from "@meronex/icons/bs/BsHeartFill";
 // @ts-ignore
 import BsCollection from "@meronex/icons/bs/BsCollection";
 // @ts-ignore
-import BiRepost from "@meronex/icons/bi/BiRepost";
+import GrSync from "@meronex/icons/gr/GrSync";
 
 import { Modal, Spin } from "antd";
-import { apiGetComments } from "src/services/BEApis/PostsAPIs/CommentsApi.tsx";
 
-const PostDetailsCard = ({
+const RepostCard = ({
   userProfileName,
   userProfileUsername,
   userPostImage,
@@ -39,7 +38,6 @@ PostCardType) => {
     setLoading(true);
     setIsCommentsOpen(!isCommentsOpen);
 
-    fnLoadComments();
     setLoading(false);
   };
 
@@ -53,19 +51,14 @@ PostCardType) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  const fnLoadComments = async () => {
-    const res = await apiGetComments();
-    console.log(res);
-    setComments(res?.data?.comments.slice(0, 5));
-  };
-
   return (
     <>
+      {/*<!-- Component: Social story card --> */}
       <div
         // onClick={onClick}
         className="overflow-hidden bg-white text-slate-800 border-y border-slate-200"
       >
+        {/*  <!-- Header--> */}
         <div className="px-6 pt-6 flex justify-between align-middle">
           <header className="flex gap-2 align-middle items-center">
             <a
@@ -82,13 +75,11 @@ PostCardType) => {
               />
             </a>
 
-            <h3 className="text-sm font-medium text-slate-700">
-              {userProfileName}
-            </h3>
-            <p className="text-sm text-slate-400 cursor-pointer">
-              {" "}
-              @{userProfileUsername}
-            </p>
+      
+              <h3 className="text-sm font-medium text-slate-700">
+                {userProfileName}
+              </h3>
+              <p className="text-sm text-slate-400 cursor-pointer"> @{userProfileUsername}</p>
 
             <div className="text-sm text-slate-600"> 2 hours ago </div>
           </header>
@@ -107,40 +98,38 @@ PostCardType) => {
         </div>
 
         {/* Icons container */}
-        <div className="ml-4 mt-2 mb-4 flex flex-row justify-between gap-2 cursor-pointer">
+        <div className="ml-4 mt-2 mb-4 flex gap-2 cursor-pointer">
           <div className="flex ">
-            <div className="flex">
-              {!isLike ? (
-                <div
-                  onClick={handleLikeBtn}
-                  className="  mt-2.5 m-2 hover:text-pink-500 selection: text-red-500 "
-                >
-                  <BsHeart size={20} />
-                </div>
-              ) : (
-                <div
-                  onClick={handleLikeBtn}
-                  className="  mt-2.5 m-2 hover:text-pink-500 selection: text-pink-500 "
-                >
-                  <BsHeartFill size={20} />
-                </div>
-              )}
-              <div className="ml-0 m-2 text-sm">{postLikes} </div>
-            </div>
-
-            <div
-              onClick={handleCommentBtn}
-              className="m-2  hover:text-pink-500 selection: text-yellow-500"
-            >
-              <BsChat size={20} />
-            </div>
-
-            <div className=" m-2  hover:text-pink-500 selection: text-yellow-500">
-              <BiRepost size={26} />
-            </div>
+            {!isLike ? (
+              <div
+                onClick={handleLikeBtn}
+                className="  mt-2.5 m-2 hover:text-pink-500 selection: text-red-500 "
+              >
+                <BsHeart size={20} />
+              </div>
+            ) : (
+              <div
+                onClick={handleLikeBtn}
+                className="  mt-2.5 m-2 hover:text-pink-500 selection: text-pink-500 "
+              >
+                <BsHeartFill size={20} />
+              </div>
+            )}
+            <div className="ml-0 m-2 text-sm">{postLikes} </div>
           </div>
-          <div className="m-2 mr-4  hover:text-pink-500 selection: text-yellow-500">
+
+          <div
+            onClick={handleCommentBtn}
+            className="m-2  hover:text-pink-500 selection: text-yellow-500"
+          >
+            <BsChat size={20} />
+          </div>
+          <div className=" m-2  hover:text-pink-500 selection: text-yellow-500">
             <BsCursor size={20} onClick={showModal} />
+          </div>
+
+          <div className=" m-2  hover:text-pink-500 selection: text-yellow-500">
+            <GrSync size={20} />
           </div>
         </div>
       </div>
@@ -156,31 +145,8 @@ PostCardType) => {
         {userProfilePostText}
       </Modal>
 
-      {isCommentsOpen ? (
-        <>
-          {" "}
-          {loading && <Spin />}
-          {comments?.length > 0 && (
-            <div className="">
-              {comments?.map((comment: any) => (
-                <CommentsCard
-                  commentUserImage={`https://picsum.photos/id/${comment?.id}/40/40`}
-                  commentAction={"Replied"}
-                  commentUser={comment?.user?.username}
-                  commentTimeStamp={"2 hours ago"}
-                  commentText={comment?.body}
-                  commentUsername={comment?.userProfileUsername}
-                />
-              ))}
-            </div>
-          )}
-          {/* <Button onClick={handleCommentBtn()}>View all comments</Button> */}
-        </>
-      ) : (
-        ""
-      )}
     </>
   );
 };
 
-export default PostDetailsCard;
+export default RepostCard;
