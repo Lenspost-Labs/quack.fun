@@ -6,7 +6,7 @@ import EnEmojiHappy from "@meronex/icons/en/EnEmojiHappy";
 // @ts-ignore
 import MdAccessTime from "@meronex/icons/md/MdAccessTime";
 import TextArea from "antd/es/input/TextArea";
-import { DatePicker, DatePickerProps, Divider, Popover } from "antd";
+import { Button, DatePicker, DatePickerProps, Divider, Popover } from "antd";
 import CustomUploadBtn from "../Items/CustomUploadBtn";
 import EmojiPicker from "emoji-picker-react";
 import data from "@emoji-mart/data";
@@ -71,6 +71,7 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
               />
             </div>
           </div>
+      {isInFeed && <Button className="m-1" type="primary">Post</Button>}
         </div>
         <Divider />
       </div>
