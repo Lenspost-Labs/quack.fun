@@ -46,16 +46,17 @@ const SinglePostWrapper = () => {
       </div>
       {!loading && posts.length === 0 && <div>No Posts Found</div>}
 
-      <PostDetailsCard
-        userPostId={postId}
-        postLikes={"10"}
-        userProfileImage={`https://picsum.photos/id/400/40/40`}
-        userProfileName={"Scripts"}
-        userProfileUsername={`userid${postId}`}
-        userPostImage={`https://picsum.photos/id/600/800/600`}
-        userProfilePostText={"test"}
-      />
-
+      {postId && (
+        <PostDetailsCard
+          userPostId={postId}
+          postLikes={"10"}
+          userProfileImage={`https://picsum.photos/${postId + 300}/400/40/40`}
+          userProfileName={"Scripts"}
+          userProfileUsername={`userid${postId}`}
+          userPostImage={`https://picsum.photos/${postId + 300}600/800/600`}
+          userProfilePostText={"test"}
+        />
+      )}
       <Outlet />
     </>
   );

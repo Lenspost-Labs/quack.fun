@@ -16,6 +16,7 @@ import ZoRepost from "@meronex/icons/zo/ZoRepost";
 
 import { Modal, Spin } from "antd";
 import { apiGetComments } from "src/services/BEApis/PostsAPIs/CommentsApi.tsx";
+import { Link } from "react-router-dom";
 
 const PostDetailsCard = ({
   userPostId,
@@ -66,49 +67,47 @@ PostCardType) => {
 
   return (
     <>
-      <div
-        // onClick={onClick}
-        className="overflow-hidden bg-white text-slate-800 border-y border-slate-200"
-      >
-        <div className="px-6 pt-6 flex justify-between align-middle">
-          <header className="flex gap-2 align-middle items-center">
-            <a
-              href="#"
-              className="relative inline-flex h-12 w-12 items-center justify-center rounded-full text-white"
-            >
-              <img
-                src={userProfileImage}
-                alt="user name"
-                title="user name"
-                width="40"
-                height="40"
-                className="max-w-full rounded-full "
-              />
-            </a>
+      <div className="overflow-hidden cursor-pointer bg-white  text-slate-800 border-b border-slate-200 hover:bg-slate-50">
+        <Link to={`/post/${userPostId}`}>
+          <div className="px-6 pt-6 flex justify-between align-middle">
+            <header className="flex gap-2 align-middle items-center">
+              <Link to={`/profile/${userProfileUsername}`}>
+                <img
+                  src={userProfileImage}
+                  alt="user name"
+                  title="user name"
+                  width="40"
+                  height="40"
+                  className="max-w-full rounded-full "
+                />{" "}
+              </Link>
 
-            <h3 className="text-sm font-medium text-slate-700">
-              {userProfileName}
-            </h3>
-            <p className="text-sm text-slate-400 cursor-pointer">
-              {" "}
-              @{userProfileUsername}
-            </p>
+              <h3 className="text-sm font-medium text-slate-700">
+                {userProfileName}
+              </h3>
+              <Link to={`/profile/${userProfileUsername}`}>
+                <p className="text-sm text-slate-400 cursor-pointer hover:underline">
+                  {" "}
+                  @{userProfileUsername}
+                </p>
+              </Link>
 
-            <div className="text-sm text-slate-600"> 2 hours ago </div>
-          </header>
-        </div>
+              <div className="text-sm text-slate-600"> 2 hours ago </div>
+            </header>
+          </div>
 
-        <div className="p-6 pb-0">
-          <p>{userProfilePostText}</p>
-        </div>
+          <div className="p-6 pb-0">
+            <p>{userProfilePostText}</p>
+          </div>
 
-        <div>
-          <img
-            src={userPostImage}
-            alt="card image"
-            className="aspect-video w-full p-4"
-          />
-        </div>
+          <div>
+            <img
+              src={userPostImage}
+              alt="card image"
+              className="aspect-video w-full p-4"
+            />
+          </div>
+        </Link>
 
         {/* Icons container */}
         <div className="ml-4 mt-2 mb-4 flex flex-row justify-between gap-2 cursor-pointer">

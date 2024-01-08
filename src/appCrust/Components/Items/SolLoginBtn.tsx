@@ -128,16 +128,16 @@ const SolLoginBtnUI: FC = () => {
                 placement="bottom"
                 content={
                   <div className="flex flex-col">
-                    <Button
+                    {/* <Button
                       onClick={() => select}
-                      className="mr-2"
+                      className="mr-2 mb-2"
                       icon={<CgArrowsExchangeV size={16}/>}
                     >
                       Change Wallet
-                    </Button>
+                    </Button> */}
                     <Button
                       onClick={handleCopy}
-                      className="mr-2 mt-2"
+                      className="mr-2"
                       icon={<MdContentCopy  />}
                     >
                       {address?.toString().slice(0, 6) +

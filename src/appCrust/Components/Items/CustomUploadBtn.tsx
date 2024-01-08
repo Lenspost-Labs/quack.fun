@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, message, Upload } from "antd";
-import type { UploadChangeParam } from "antd/es/upload";
+// import type { UploadChangeParam } from "antd/es/upload";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 // @ts-ignore
 import BsUpload from "@meronex/icons/bs/BsUpload";
@@ -14,15 +14,20 @@ const CustomUploadBtn = ({
   className?: string;
 }) => {
   const [loading, setLoading] = useState(false);
+
+  // Image upload state - To Store BE URL
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
+  // Function to get base64 of image
   const getBase64 = (img: RcFile, callback: (url: string) => void) => {
     const reader = new FileReader();
     reader.addEventListener("load", () => callback(reader.result as string));
     reader.readAsDataURL(img);
   };
 
-  const beforeUpload = (file: RcFile) => {
+  // ---- Function to check for image type and size ----
+
+  // const beforeUpload = (file: RcFile) => {
     // Uncomment this - to allow uploading only specific type [JPG/PNG] files
     // const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     // if (!isJpgOrPng) {
@@ -33,23 +38,27 @@ const CustomUploadBtn = ({
     //   message.error("Image must smaller than 2MB!");
     // }
     // return isJpgOrPng && isLt2M;
-  };
-  const handleChange: UploadProps["onChange"] = (
-    info: UploadChangeParam<UploadFile>
-  ) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get the File URL from Backend API
-      getBase64(info.file.originFileObj as RcFile, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
-  };
+  // };
 
+  // ---- Another Way of handling image upload ----
+
+  // const handleChange: UploadProps["onChange"] = (
+  //   info: UploadChangeParam<UploadFile>
+  // ) => {
+  //   if (info.file.status === "uploading") {
+  //     setLoading(true);
+  //     return;
+  //   }
+  //   if (info.file.status === "done") {
+  //     // Get the File URL from Backend API
+  //     getBase64(info.file.originFileObj as RcFile, (url) => {
+  //       setLoading(false);
+  //       setImageUrl(url);
+  //     });
+  //   }
+  // };
+
+  // To display Upload Button once more even after uploading a few images
   const uploadButton = (
     <button style={{ border: 0, background: "none" }} type="button">
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -59,7 +68,9 @@ const CustomUploadBtn = ({
 
   const props: UploadProps = {
     name: "file",
-    action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+    // action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+    // Use BE URL here
+    action: "",
     headers: {
       authorization: "authorization-text",
     },
@@ -77,17 +88,16 @@ const CustomUploadBtn = ({
 
   return (
     <>
-      {!isInFeed && (
+      {isInFeed && (
         <>
           <Upload
             multiple={true}
             name="avatar"
             listType="picture-card"
             className={`avatar-uploader ${className}`}
-            showUploadList={false}
-            action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-            beforeUpload={beforeUpload}
-            onChange={handleChange}
+            showUploadList={true}
+            // beforeUpload={beforeUpload}
+            {...props}
           >
             {imageUrl ? (
               <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
@@ -97,14 +107,14 @@ const CustomUploadBtn = ({
           </Upload>
         </>
       )}
-
+      {/* 
       {isInFeed && (
         <>
           <Upload {...props} multiple={true}>
             <Button icon={<BsUpload />}></Button>
           </Upload>
         </>
-      )}
+      )} */}
     </>
   );
 };

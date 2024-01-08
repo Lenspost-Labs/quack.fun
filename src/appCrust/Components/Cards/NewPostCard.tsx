@@ -6,10 +6,9 @@ import EnEmojiHappy from "@meronex/icons/en/EnEmojiHappy";
 // @ts-ignore
 import MdAccessTime from "@meronex/icons/md/MdAccessTime";
 import TextArea from "antd/es/input/TextArea";
-import { Button, DatePicker, DatePickerProps, Popover } from "antd";
+import { Button, DatePicker, DatePickerProps, Divider, Popover } from "antd";
 import CustomUploadBtn from "../Items/CustomUploadBtn";
 import EmojiPicker from "emoji-picker-react";
-import { Picker } from "emoji-mart";
 import data from "@emoji-mart/data";
 
 const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
@@ -57,14 +56,9 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
             >
               <EnEmojiHappy
                 size={20}
-                className=" ml-4 m-1.5 text-slate-500 cursor-pointer"
+                className=" m-2 text-slate-500 cursor-pointer"
               />
             </Popover>
-            {/* <EmojiPicker
-              style={{ width: "100%" }}
-              onEmojiClick={(e) => console.log(e)}
-            /> */}
-            {/* <Picker data={data} onEmojiSelect={console.log} /> */}
           </div>
 
           <div className="flex">
@@ -78,12 +72,13 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
             </div>
 
             {isInFeed && (
-              <Button type="text" className="m-2">
+              <Button type="link" className="m-2">
                 Post
               </Button>
             )}
           </div>
         </div>
+        <Divider/>
       </div>
     </>
   );

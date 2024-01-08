@@ -43,6 +43,11 @@ const router = createBrowserRouter([
         element: <ProfilePageWrapper />,
         // errorElement: <ErrorPage />,
       },
+      {
+        path: "/profile/:username",
+        element: <ProfilePageWrapper />,
+        // errorElement: <ErrorPage />,
+      },
 
       {
         path: "/post/:postId",
