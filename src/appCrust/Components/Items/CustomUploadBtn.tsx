@@ -6,7 +6,13 @@ import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 // @ts-ignore
 import BsUpload from "@meronex/icons/bs/BsUpload";
 
-const CustomUploadBtn = ({ isInFeed, className }: { isInFeed: boolean, className?: string }) => {
+const CustomUploadBtn = ({
+  isInFeed,
+  className,
+}: {
+  isInFeed: boolean;
+  className?: string;
+}) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
@@ -17,15 +23,16 @@ const CustomUploadBtn = ({ isInFeed, className }: { isInFeed: boolean, className
   };
 
   const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
-    }
-    return isJpgOrPng && isLt2M;
+    // Uncomment this - to allow uploading only specific type [JPG/PNG] files
+    // const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    // if (!isJpgOrPng) {
+    //   message.error("You can only upload JPG/PNG file!");
+    // }
+    // const isLt2M = file.size / 1024 / 1024 < 2;
+    // if (!isLt2M) {
+    //   message.error("Image must smaller than 2MB!");
+    // }
+    // return isJpgOrPng && isLt2M;
   };
   const handleChange: UploadProps["onChange"] = (
     info: UploadChangeParam<UploadFile>
@@ -35,7 +42,7 @@ const CustomUploadBtn = ({ isInFeed, className }: { isInFeed: boolean, className
       return;
     }
     if (info.file.status === "done") {
-      // Get this url from response in real world.
+      // Get the File URL from Backend API
       getBase64(info.file.originFileObj as RcFile, (url) => {
         setLoading(false);
         setImageUrl(url);
@@ -73,6 +80,7 @@ const CustomUploadBtn = ({ isInFeed, className }: { isInFeed: boolean, className
       {!isInFeed && (
         <>
           <Upload
+            multiple={true}
             name="avatar"
             listType="picture-card"
             className={`avatar-uploader ${className}`}
@@ -92,7 +100,7 @@ const CustomUploadBtn = ({ isInFeed, className }: { isInFeed: boolean, className
 
       {isInFeed && (
         <>
-          <Upload {...props}>
+          <Upload {...props} multiple={true}>
             <Button icon={<BsUpload />}></Button>
           </Upload>
         </>

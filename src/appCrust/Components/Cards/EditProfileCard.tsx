@@ -3,52 +3,54 @@ import React from "react";
 import MdEdit from "@meronex/icons/md/MdEdit";
 import { Button } from "antd";
 import TextArea from "antd/es/input/TextArea";
-
-const EditProfileCard = () => {
+const EditProfileCard = ({
+  userPicture,
+  userBannerPicture,
+  userUsername,
+  userProfleName,
+  UserProfileBio,
+}: ProfileType) => {
   return (
     <>
-      <div className="flex flex-col items-center gap-4">
-        <div className="shrink-0">
-          <a
-            href="#"
-            className="relative flex h-12 w-12 items-center justify-center rounded-full text-white"
-          >
-            <img
-              src="https://i.pravatar.cc/40?img=7"
-              alt="user name"
-              title="user name"
-              width="88"
-              height="88"
-              className="max-w-full rounded-full"
-            />
-            {/* <span className="absolute bottom-0 right-0 inline-flex items-center justify-center gap-1 rounded-full border-2 p-1">
-            </span> */}
-            <Button type="default" shape="circle" icon={<MdEdit size={12} />} />
-          </a>
+      <div className="flex flex-col items-start  gap-4">
+        <div className="flex w-full items-end gap-2">
+          <img
+            src={userBannerPicture}
+            alt={userProfleName}
+            title={userProfleName}
+            width="100%"
+            height="48"
+            className="h-32 rounded-md"
+          />
+          <Button type="text" shape="circle" icon={<MdEdit size={12} />} />
         </div>
-        {/* <div className="flex min-h-[2rem] w-full min-w-0 flex-col items-center justify-center gap-0 text-center">
-            <div className="flex ">
 
-          <h4 className="w-full truncate text-base text-slate-700">
-            Luke Skywalker
-          </h4>
-          <Button type="link" shape="circle" icon={<MdEdit size={12} />} />
-            </div>
-          <p className="w-full truncate text-sm text-slate-500">
-            @Jedi_warrior
-          </p>
-        </div> */}
+        <div className="flex items-end gap-2">
+          <img
+            src={userPicture}
+            alt={userProfleName}
+            title={userProfleName}
+            width="56"
+            height="56"
+            className="max-w-full rounded-full"
+          />
+          <Button type="text" shape="circle" icon={<MdEdit size={12} />} />
+        </div>
         <TextArea
-          defaultValue={"Luke Skywalker"}
-          placeholder={"Luke Skywalker"}
+          defaultValue={userProfleName}
+          placeholder={userProfleName}
           autoSize
         />
         <TextArea
-          defaultValue="@Jedi_warrior"
-          placeholder={"@Jedi_warrior"}
+          defaultValue={userUsername}
+          placeholder={userUsername}
           autoSize
         />
-        <TextArea defaultValue="Bio" placeholder={"Bio"} autoSize />
+        <TextArea
+          defaultValue={UserProfileBio}
+          placeholder={UserProfileBio}
+          autoSize
+        />
       </div>
     </>
   );

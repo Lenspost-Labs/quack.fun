@@ -6,25 +6,20 @@ import EnEmojiHappy from "@meronex/icons/en/EnEmojiHappy";
 // @ts-ignore
 import MdAccessTime from "@meronex/icons/md/MdAccessTime";
 import TextArea from "antd/es/input/TextArea";
-import { Button, DatePicker, DatePickerProps } from "antd";
+import { Button, DatePicker, DatePickerProps, Popover } from "antd";
 import CustomUploadBtn from "../Items/CustomUploadBtn";
-// import EmojiPicker from "emoji-picker-react";
-// import { Picker } from "emoji-mart";
-// import data from '@emoji-mart/data'
+import EmojiPicker from "emoji-picker-react";
+import { Picker } from "emoji-mart";
+import data from "@emoji-mart/data";
 
 const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
   const [inputValue, setInputValue] = useState("");
 
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+  console.log(data);
+
+  const onDateChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
   };
-
-  // const items: MenuProps["items"] = [
-  //   {
-  //     label: <EmojiPicker onEmojiClick={(e) => console.log(e)} />,
-  //     key: "0",
-  //   },
-  // ];
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
@@ -48,15 +43,27 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
             {/* <BsImage size={20} className="m-2 text-slate-700 cursor-pointer" /> */}
             {isInFeed && <CustomUploadBtn isInFeed={isInFeed} />}
 
-            {/* Testing Emoji - WIP */}
-            {/* <Dropdown menu={{ items }} trigger={["click"]}>
-              <div onClick={(e) => e.preventDefault()}> */}
-            <EnEmojiHappy
-              size={20}
-              className=" ml-4 m-1.5 text-slate-500 cursor-pointer"
-            />
-            {/* </div>
-            </Dropdown> */}
+            <Popover
+              placement="bottom"
+              content={
+                <EmojiPicker
+                  style={{ width: "100%" }}
+                  onEmojiClick={(e) => {
+                    console.log(e);
+                    setInputValue(inputValue + e.emoji);
+                  }}
+                />
+              }
+            >
+              <EnEmojiHappy
+                size={20}
+                className=" ml-4 m-1.5 text-slate-500 cursor-pointer"
+              />
+            </Popover>
+            {/* <EmojiPicker
+              style={{ width: "100%" }}
+              onEmojiClick={(e) => console.log(e)}
+            /> */}
             {/* <Picker data={data} onEmojiSelect={console.log} /> */}
           </div>
 
@@ -65,7 +72,7 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
               <DatePicker
                 placeholder="Schedule"
                 renderExtraFooter={() => ""}
-                onChange={onChange}
+                onChange={onDateChange}
                 showTime
               />
             </div>

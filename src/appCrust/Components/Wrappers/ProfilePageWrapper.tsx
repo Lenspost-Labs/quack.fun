@@ -45,7 +45,15 @@ const ProfilePageWrapper = () => {
           <div className="m-2">Profile</div>
         </div>
 
-        <ProfileSectionCard />
+        <ProfileSectionCard
+          userUsername={"scriptscrypt"}
+          userProfleName={"Scripts"}
+          userPicture={"https://picsum.photos/id/146/40/40"}
+          userBannerPicture={"https://picsum.photos/id/146/200/200"}
+          UserProfileBio={
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+          }
+        />
         <Tabs
           className="mt-4"
           defaultActiveKey="1"

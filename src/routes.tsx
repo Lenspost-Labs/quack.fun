@@ -1,11 +1,20 @@
 import React from "react";
-import  { createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import PostsWrapper from "./appCrust/Components/Wrappers/PostsWrapper.tsx";
 import NotificationsWrapper from "./appCrust/Components/Wrappers/NotificationsWrapper.tsx";
 import ProfilePageWrapper from "./appCrust/Components/Wrappers/ProfilePageWrapper.tsx";
+import PostDetailsCard from "./appCrust/Components/Cards/PostDetailsCard.tsx";
+import SinglePostWrapper from "./appCrust/Components/Wrappers/SinglePostWrapper.tsx";
+import { apiGetPosts } from "./services/BEApis/PostsAPIs/PostsApi.tsx";
 
-const  router = createBrowserRouter([
+const fnGetAllPosts = async () => {
+  const allPostsRes = await apiGetPosts();
+  console.log(allPostsRes);
+  return allPostsRes?.status === 200 ? { allPostsRes } : [];
+};
+
+const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
@@ -30,16 +39,16 @@ const  router = createBrowserRouter([
       },
 
       {
-        path: "/post",
-        // element: <PostDetailsCard  />,
+        path: "/profile",
+        element: <ProfilePageWrapper />,
         // errorElement: <ErrorPage />,
       },
 
       {
-        path: "/profile",
-        element: <ProfilePageWrapper />,
+        path: "/post/:postId",
+        element: <SinglePostWrapper />,
         // errorElement: <ErrorPage />,
-      }
+      },
     ],
   },
 ]);

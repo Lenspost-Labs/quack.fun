@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import LeftSidebar from "../appMantle/leftMantle/LeftSidebar.tsx";
 import TopicsCard from "../Components/Cards/TopicsCard.tsx";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import BottomNavbar from "../Components/Navbars/BottomNavbar.tsx";
 import CustomSearchIp from "../Components/Items/CustomSearchIp.tsx";
@@ -17,10 +17,6 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = () => {
 
   const { pathname } = useLocation();
   console.log(pathname);
-
-  useEffect(() => {
-    navigate("/feed");
-  }, []);
 
   const items: TabsProps["items"] = [
     {
@@ -44,10 +40,14 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = () => {
     console.log(key);
   };
 
+  // useEffect(() => {
+  //   navigate("/feed");
+  // }, []);
   return (
     <>
       {/* <Navbar /> */}
       {/* <div className="h-50vh"> */}
+      {/* <Navigate to="/feed" /> */}
       <div className="flex justify-center">
         <div className="my-2 border-r border-slate-200 hidden md:block h-100vh">
           <LeftSidebar />
@@ -57,7 +57,8 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = () => {
           <BottomNavbar />
         </div>{" "}
         <Divider type="vertical" className="h-full" />
-        <div className="w-full h-96vh overflow-scroll my-2 md:w-2/4 lg:w-1/3">
+        {/* id="InfScrolltarget" for Infinite Scroll - tracking the scrollbar of the id element  */}
+        <div id="InfScrolltarget" className="w-full h-96vh overflow-scroll my-2 md:w-2/4 lg:w-1/3">
           <div className="">
             {pathname === "/feed" && (
               <>

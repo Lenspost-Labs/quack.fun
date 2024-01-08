@@ -6,7 +6,6 @@ const App : React.FC<any> = () => {
   return (
     <>
       <MainAppLayout />
-      {/* <SolLogin/> */}
     </>
   );
 }

@@ -12,6 +12,7 @@
  * instantiate its legacy wallet adapter here. Common legacy adapters can be found
  * in the npm package `@solana/wallet-adapter-wallets`.
  */
+
 import React from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
@@ -30,18 +31,27 @@ import { useMemo } from "react";
 // Default styles that can be overridden by your app
 import "@solana/wallet-adapter-react-ui/styles.css";
 import SidebarItem from "./SidebarItem";
-import { Button, Tooltip } from "antd";
-import MdPower from "@meronex/icons/ios/MdPower";
 
-export const SolLogin: FC = () => {
+// Using notification as `alert` in this component
+import { Button, Popover, Tooltip, notification as alert } from "antd";
+import MdPower from "@meronex/icons/ios/MdPower";
+import { Link } from "react-router-dom";
+// @ts-ignore
+import MdMore from "@meronex/icons/ios/MdMore";
+// @ts-ignore
+import CgArrowsExchangeV from "@meronex/icons/cg/CgArrowsExchangeV";
+// ts-ignore
+import MdContentCopy from "@meronex/icons/md/MdContentCopy";
+
+export const SolLoginBtn: FC = () => {
   return (
-    <Context>
-      <Content />
-    </Context>
+    <SolLoginBtnContext>
+      <SolLoginBtnUI />
+    </SolLoginBtnContext>
   );
 };
 
-const Context: FC<{ children: ReactNode }> = ({ children }) => {
+const SolLoginBtnContext: FC<{ children: ReactNode }> = ({ children }) => {
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
   const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
@@ -61,12 +71,39 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-const Content: FC = () => {
+const SolLoginBtnUI: FC = () => {
   const { publicKey: address } = useWallet();
-  const { connected, disconnect } = useWallet();
+  const { connected, disconnect, publicKey, select } = useWallet();
+  const [api, contextHolder] = alert.useNotification();
 
   console.log(connected);
   console.log(address);
+
+  const handleCopy = () => {
+    if (publicKey) {
+      navigator.clipboard.writeText(publicKey.toString());
+    }
+    openAlert({
+      alertTitle: "Copied address to clipboard",
+      alertDesc: "",
+    });
+  };
+
+  const openAlert = ({
+    alertTitle,
+    alertDesc,
+  }: {
+    alertTitle: string;
+    alertDesc: string;
+  }) => {
+    api.success({
+      message: alertTitle,
+      description: alertDesc,
+      duration: 1,
+      className: "colorBgBlur",
+    });
+  };
+
   return (
     <>
       {!connected && (
@@ -79,20 +116,58 @@ const Content: FC = () => {
       {connected && (
         <>
           <div className="flex justify-between items-center align-middle ">
-            <SidebarItem
-              onClickFn={disconnect}
-              itemName="@Username"
-              userPicture={"https://i.pravatar.cc/24?img=3"}
-            />
+            <Link to="/profile">
+              <SidebarItem
+                itemName="@Username"
+                userPicture={"https://i.pravatar.cc/24?img=3"}
+              />
+            </Link>
 
-            <Tooltip title="Disconnect">
-              <Button
-                className="mr-2"
-                onClick={disconnect}
-                icon={<MdPower />}
-              ></Button>
-            </Tooltip>
+            <div className="">
+              <Popover
+                placement="bottom"
+                content={
+                  <div className="flex flex-col">
+                    <Button
+                      onClick={() => select}
+                      className="mr-2"
+                      icon={<CgArrowsExchangeV size={16}/>}
+                    >
+                      Change Wallet
+                    </Button>
+                    <Button
+                      onClick={handleCopy}
+                      className="mr-2 mt-2"
+                      icon={<MdContentCopy  />}
+                    >
+                      {address?.toString().slice(0, 6) +
+                        "..." +
+                        address?.toString().slice(-4)}
+                    </Button>
+                  </div>
+                }
+              >
+                {" "}
+                {/* <Tooltip  open={ true} title="Wallet Options"> */}
+                <Button
+                  className="mr-2"
+                  // onClick={() => select}
+                  icon={<MdMore />}
+                ></Button>
+                {/* </Tooltip> */}
+              </Popover>
+
+              <Tooltip title="Disconnect">
+                <Button
+                  className="mr-2"
+                  onClick={disconnect}
+                  icon={<MdPower />}
+                ></Button>
+              </Tooltip>
+            </div>
           </div>
+
+          {contextHolder}
         </>
       )}
     </>
