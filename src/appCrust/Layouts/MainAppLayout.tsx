@@ -1,18 +1,14 @@
 import React from "react";
 import LeftSidebar from "../appMantle/leftMantle/LeftSidebar.tsx";
 import TopicsCard from "../Components/Cards/TopicsCard.tsx";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import BottomNavbar from "../Components/Navbars/BottomNavbar.tsx";
 import CustomSearchIp from "../Components/Items/CustomSearchIp.tsx";
 import { Divider, Tabs, TabsProps } from "antd";
 import NewPostCard from "../Components/Cards/NewPostCard.tsx";
 
-interface MainAppLayoutProps {
-  // define props here if needed
-}
-
-const MainAppLayout: React.FC<MainAppLayoutProps> = () => {
+const MainAppLayout: React.FC<any> = () => {
   const { pathname } = useLocation();
   console.log(pathname);
 
@@ -45,7 +41,7 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = () => {
     <>
       {/* <Navbar /> */}
       {/* <div className="h-50vh"> */}
-      {/* <Navigate to="/feed" /> */}
+      <Navigate to="/feed" />
       <div className="flex justify-center">
         <div className="my-2 border-r border-slate-200 hidden md:block h-100vh">
           <LeftSidebar />
