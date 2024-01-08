@@ -2,11 +2,11 @@ import { Tabs, TabsProps } from "antd";
 import React, { useEffect } from "react";
 import PostsWrapper from "./PostsWrapper";
 import ProfileSectionCard from "../Cards/ProfileSectionCard";
-import CommentsWrapper from "./CommentsWrapper";
 import { Link, useParams } from "react-router-dom";
 
 // @ts-ignore
 import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
+import NestedPostsWrapper from "./NestedPostsWrapper";
 
 const ProfilePageWrapper = () => {
   const { username } = useParams();
@@ -24,7 +24,7 @@ const ProfilePageWrapper = () => {
     {
       key: "2",
       label: "Replies",
-      children: <CommentsWrapper />,
+      children: <NestedPostsWrapper />,
     },
     {
       key: "3",
@@ -60,7 +60,7 @@ const ProfilePageWrapper = () => {
         {/* Sample - Using Username */}
         <ProfileSectionCard
           userUsername={username ? username : "No Username"}
-          userProfleName={"Scripts"}
+          userProfileName={"Scripts"}
           userPicture={"https://picsum.photos/id/146/40/40"}
           userBannerPicture={"https://picsum.photos/id/146/200/200"}
           UserProfileBio={

@@ -21,12 +21,19 @@ html, body {
   /* border: 1px solid rgb(243, 241, 248); */
 }
 
+a {
+  all:unset !important;
+}
 @layer utilities {
   .h-96vh {
     height: 96vh;
   }
 }
 
+.ant-btn-primary{
+  background-color: #f0df2b !important;
+  color: #090909 !important;
+}
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

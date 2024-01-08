@@ -20,6 +20,7 @@
     "@solana/wallet-adapter-wallets": "^0.19.25",
     "@types/axios": "^0.14.0",
     "antd": "^5.12.7",
+    "antd-img-crop": "^4.21.0",
     "axios": "^1.6.4",
     "emoji-mart": "^5.5.2",
     "emoji-picker-react": "^4.6.5",

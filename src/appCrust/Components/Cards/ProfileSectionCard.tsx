@@ -6,7 +6,7 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
   userPicture,
   userBannerPicture,
   userUsername,
-  userProfleName,
+  userProfileName,
   UserProfileBio,
 }: ProfileType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,8 +16,8 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
       <div className="flex flex-col gap-4 p-6 bg-white shadow-sm">
         <img
           src={userBannerPicture}
-          alt={userProfleName}
-          title={userProfleName}
+          alt={userProfileName}
+          title={userProfileName}
           width="100%"
           height="48"
           className="h-32 rounded-sm"
@@ -27,14 +27,14 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
           <div className="flex min-h-[2rem] flex-col gap-0 w-full">
             <img
               src={userPicture}
-              alt={userProfleName}
-              title={userProfleName}
+              alt={userProfileName}
+              title={userProfileName}
               width="48"
               height="48"
               className="rounded-full"
             />
             <h4 className="mt-2 truncate text-base text-slate-700">
-              {userProfleName}
+              {userProfileName}
             </h4>
             <p className="mt-1 truncate text-sm text-slate-500">
               {userUsername}
@@ -63,13 +63,13 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
           open={isModalOpen}
           onOk={() => setIsModalOpen(false)}
           onCancel={() => setIsModalOpen(false)}
-          okButtonProps={{ color: "yellow", type: "default" }}
+          okButtonProps={{ color: "yellow", type: "primary" }}
         >
           <EditProfileCard
             userPicture={userPicture}
             userBannerPicture={userBannerPicture}
             userUsername={userUsername}
-            userProfleName={userProfleName}
+            userProfileName={userProfileName}
             UserProfileBio={UserProfileBio}
           />
         </Modal>

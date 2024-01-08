@@ -47,11 +47,11 @@ const SinglePostWrapper = () => {
         <PostDetailsCard
           userPostId={postId}
           postLikes={"10"}
-          userProfileImage={`https://picsum.photos/${postId + 300}/400/40/40`}
+          userProfileImage={`https://picsum.photos/seed/picsum/40/40`}
           userProfileName={"Scripts"}
           userProfileUsername={`userid${postId}`}
-          userPostImage={`https://picsum.photos/${postId + 300}600/800/600`}
-          userProfilePostText={"test"}
+          userPostImage={`https://picsum.photos/seed/picsum/200/300`}
+          userProfilePostText={"test lorem ipsum lorem ipsum lorem ipsum lorem ipsum dolor sit amet consectetur adipiscing elit"} 
         />
       )}
       <Outlet />

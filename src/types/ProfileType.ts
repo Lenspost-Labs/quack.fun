@@ -2,6 +2,6 @@ interface ProfileType {
   userPicture: string;
   userBannerPicture: string;
   userUsername: string;
-  userProfleName: string;
+  userProfileName: string;
   UserProfileBio: string;
 }

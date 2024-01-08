@@ -6,13 +6,7 @@ import type { UploadProps } from "antd/es/upload/interface";
 // @ts-ignore
 import BsUpload from "@meronex/icons/bs/BsUpload";
 
-const CustomUploadBtn = ({
-  isInFeed,
-  className,
-}: {
-  isInFeed: boolean;
-  className?: string;
-}) => {
+const CustomUploadBtn = ({ className }: { className?: string }) => {
   const [loading, setLoading] = useState(false);
 
   // Image upload state - To Store BE URL
@@ -29,16 +23,16 @@ const CustomUploadBtn = ({
   // ---- Function to check for image type and size ----
 
   // const beforeUpload = (file: RcFile) => {
-    // Uncomment this - to allow uploading only specific type [JPG/PNG] files
-    // const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    // if (!isJpgOrPng) {
-    //   message.error("You can only upload JPG/PNG file!");
-    // }
-    // const isLt2M = file.size / 1024 / 1024 < 2;
-    // if (!isLt2M) {
-    //   message.error("Image must smaller than 2MB!");
-    // }
-    // return isJpgOrPng && isLt2M;
+  // Uncomment this - to allow uploading only specific type [JPG/PNG] files
+  // const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  // if (!isJpgOrPng) {
+  //   message.error("You can only upload JPG/PNG file!");
+  // }
+  // const isLt2M = file.size / 1024 / 1024 < 2;
+  // if (!isLt2M) {
+  //   message.error("Image must smaller than 2MB!");
+  // }
+  // return isJpgOrPng && isLt2M;
   // };
 
   // ---- Another Way of handling image upload ----
@@ -92,33 +86,23 @@ const CustomUploadBtn = ({
 
   return (
     <>
-      {isInFeed && (
-        <>
-          <Upload
-            multiple={true}
-            name="avatar"
-            listType="picture-card"
-            className={`avatar-uploader ${className}`}
-            showUploadList={true}
-            // beforeUpload={beforeUpload}
-            {...props}
-          >
-            {imageUrl ? (
-              <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
-            ) : (
-              uploadButton
-            )}
-          </Upload>
-        </>
-      )}
-      {/* 
-      {isInFeed && (
-        <>
-          <Upload {...props} multiple={true}>
-            <Button icon={<BsUpload />}></Button>
-          </Upload>
-        </>
-      )} */}
+     {/* <ImgCrop aspectSlider aspect={2/ 1} rotationSlider showReset resetText="Reset"> */}
+      <Upload
+        multiple={true}
+        name="avatar"
+        listType="picture-card"
+        className={`avatar-uploader ${className}`}
+        showUploadList={true}
+        // beforeUpload={beforeUpload}
+        {...props}
+      >
+        {imageUrl ? (
+          <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+        ) : (
+          uploadButton
+        )}
+      </Upload>
+      {/* </ImgCrop> */}
     </>
   );
 };
