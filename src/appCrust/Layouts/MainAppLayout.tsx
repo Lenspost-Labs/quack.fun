@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import LeftSidebar from "../appMantle/leftMantle/LeftSidebar.tsx";
 import TopicsCard from "../Components/Cards/TopicsCard.tsx";
-import { Navigate, Outlet } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import BottomNavbar from "../Components/Navbars/BottomNavbar.tsx";
 import CustomSearchIp from "../Components/Items/CustomSearchIp.tsx";
 import { Divider, Tabs, TabsProps } from "antd";
@@ -13,8 +13,6 @@ interface MainAppLayoutProps {
 }
 
 const MainAppLayout: React.FC<MainAppLayoutProps> = () => {
-  const navigate = useNavigate();
-
   const { pathname } = useLocation();
   console.log(pathname);
 

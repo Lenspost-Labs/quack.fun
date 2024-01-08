@@ -73,7 +73,7 @@ const SolLoginBtnContext: FC<{ children: ReactNode }> = ({ children }) => {
 
 const SolLoginBtnUI: FC = () => {
   const { publicKey: address } = useWallet();
-  const { connected, disconnect, publicKey, select } = useWallet();
+  const { connected, disconnect, publicKey, } = useWallet();
   const [api, contextHolder] = alert.useNotification();
 
   console.log(connected);

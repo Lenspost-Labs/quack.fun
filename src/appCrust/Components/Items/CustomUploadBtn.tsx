@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, message, Upload } from "antd";
+import { message, Upload } from "antd";
 // import type { UploadChangeParam } from "antd/es/upload";
-import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
+import type { UploadProps } from "antd/es/upload/interface";
 // @ts-ignore
 import BsUpload from "@meronex/icons/bs/BsUpload";
 
@@ -19,11 +19,12 @@ const CustomUploadBtn = ({
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
   // Function to get base64 of image
-  const getBase64 = (img: RcFile, callback: (url: string) => void) => {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => callback(reader.result as string));
-    reader.readAsDataURL(img);
-  };
+  // const getBase64 = (img: RcFile, callback: (url: string) => void) => {
+
+  //   const reader = new FileReader();
+  //   reader.addEventListener("load", () => callback(reader.result as string));
+  //   reader.readAsDataURL(img);
+  // };
 
   // ---- Function to check for image type and size ----
 
@@ -77,8 +78,11 @@ const CustomUploadBtn = ({
     onChange(info) {
       if (info.file.status !== "uploading") {
         console.log(info.file, info.fileList);
+        setLoading(true);
       }
       if (info.file.status === "done") {
+        setLoading(false);
+        setImageUrl(info.file.response.url);
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (info.file.status === "error") {
         message.error(`${info.file.name} file upload failed.`);

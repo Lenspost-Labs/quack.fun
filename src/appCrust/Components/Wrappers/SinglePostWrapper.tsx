@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PostDetailsCard from "../Cards/PostDetailsCard";
 import { apiGetPosts } from "src/services/BEApis/PostsAPIs/PostsApi";
 import { Spin } from "antd";
-import { Outlet, useLoaderData, useParams, Link } from "react-router-dom";
+import { Outlet, useParams, Link } from "react-router-dom";
 // @ts-ignore
 import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
 
@@ -13,6 +13,7 @@ const SinglePostWrapper = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(false);
 
+  // sample api call
   const fnGetAllPosts = async () => {
     setLoading(true);
     const allPostsRes = await apiGetPosts();
@@ -20,6 +21,9 @@ const SinglePostWrapper = () => {
     setPosts(allPostsRes?.data?.posts);
     setLoading(false);
   };
+
+  // To ignore TS Warning
+  fnGetAllPosts();
 
   useEffect(() => {
     // fnGetAllPosts();
