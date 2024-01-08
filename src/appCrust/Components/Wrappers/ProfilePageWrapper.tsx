@@ -1,14 +1,15 @@
 import { Tabs, TabsProps } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import PostsWrapper from "./PostsWrapper";
 import ProfileSectionCard from "../Cards/ProfileSectionCard";
 import CommentsWrapper from "./CommentsWrapper";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 // @ts-ignore
 import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
 
 const ProfilePageWrapper = () => {
+  const { username } = useParams();
   const onChange = (key: string) => {
     console.log(key);
   };
@@ -31,6 +32,17 @@ const ProfilePageWrapper = () => {
       children: <PostsWrapper />,
     },
   ];
+
+  // Fetch data from API - Profile
+  // Fetch using username or userId from params
+  const fnGetProfileInfo = async () => {
+    console.log("username", username);
+  };
+
+  useEffect(() => {
+    fnGetProfileInfo();
+  }, []);
+
   return (
     <>
       <div className="m-4 md:m-0">
@@ -42,10 +54,19 @@ const ProfilePageWrapper = () => {
               <BsArrowLeft size={24} />{" "}
             </Link>{" "}
           </div>
-          <div className="m-2">Profile</div>
+          <div className="m-2">{username ? username : "Profile"}</div>
         </div>
 
-        <ProfileSectionCard />
+        {/* Sample - Using Username */}
+        <ProfileSectionCard
+          userUsername={username ? username : "No Username"}
+          userProfleName={"Scripts"}
+          userPicture={"https://picsum.photos/id/146/40/40"}
+          userBannerPicture={"https://picsum.photos/id/146/200/200"}
+          UserProfileBio={
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore . "
+          }
+        />
         <Tabs
           className="mt-4"
           defaultActiveKey="1"

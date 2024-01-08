@@ -1,11 +1,12 @@
 import React from "react";
-import  { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import PostsWrapper from "./appCrust/Components/Wrappers/PostsWrapper.tsx";
 import NotificationsWrapper from "./appCrust/Components/Wrappers/NotificationsWrapper.tsx";
 import ProfilePageWrapper from "./appCrust/Components/Wrappers/ProfilePageWrapper.tsx";
+import SinglePostWrapper from "./appCrust/Components/Wrappers/SinglePostWrapper.tsx";
 
-const  router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
@@ -30,16 +31,21 @@ const  router = createBrowserRouter([
       },
 
       {
-        path: "/post",
-        // element: <PostDetailsCard  />,
+        path: "/profile",
+        element: <ProfilePageWrapper />,
+        // errorElement: <ErrorPage />,
+      },
+      {
+        path: "/profile/:username",
+        element: <ProfilePageWrapper />,
         // errorElement: <ErrorPage />,
       },
 
       {
-        path: "/profile",
-        element: <ProfilePageWrapper />,
+        path: "/post/:postId",
+        element: <SinglePostWrapper />,
         // errorElement: <ErrorPage />,
-      }
+      },
     ],
   },
 ]);

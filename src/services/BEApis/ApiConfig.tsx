@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { useAuth } from "src/context/AppContext";
 
 export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -12,16 +11,15 @@ export const apiInstance = axios.create({
     (config) => {
       const jwtToken = localStorage.getItem("jwt");
   
-      // Exclude the login API from adding the default header
-  
       // Add your default header here
       config.headers["Authorization"] = `Bearer ${jwtToken}`;
       config.headers["Content-Type"] = "application/json" || "multipart/form-data";
       config.headers["Access-Control-Allow-Origin"] = "*";
       config.headers["Access-Control-Allow-Methods"] = "*";
   
-      // Modify Content-Type for specific routes
-      // if (config.url && config.url in ['/fileToS3']) {
+      // Modify Content-Type for specific routes - for multipart/form-data
+      // Useful for Forms Data
+
         const routesForMultipartType = [''];
   
       if (routesForMultipartType.includes(config.url || "")){

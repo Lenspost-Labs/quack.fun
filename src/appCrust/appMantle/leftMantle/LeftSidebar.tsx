@@ -15,13 +15,13 @@ import NewPostCard from "../../Components/Cards/NewPostCard.tsx";
 import SidebarItem from "../../Components/Items/SidebarItem.tsx";
 import { Divider, Modal } from "antd";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { SolLogin } from "src/appCrust/Components/Items/SolLoginBtn.tsx";
+import { SolLoginBtn } from "src/appCrust/Components/Items/SolLoginBtn.tsx";
 
 const LeftSidebar: React.FC<any> = () => {
   const [isSideNavOpen] = useState(true);
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
 
-  const { publicKey, connected} = useWallet();
+  const { publicKey, connected } = useWallet();
   console.log(publicKey, connected);
 
   const showModal = () => {
@@ -83,10 +83,8 @@ const LeftSidebar: React.FC<any> = () => {
             </ul>
           </div>
         </nav>
-        <SolLogin/>
+        <SolLoginBtn />
       </aside>
-
-
 
       <Modal
         centered
@@ -104,5 +102,4 @@ const LeftSidebar: React.FC<any> = () => {
   );
 };
 
-export const bisNeera = 12;
 export default LeftSidebar;

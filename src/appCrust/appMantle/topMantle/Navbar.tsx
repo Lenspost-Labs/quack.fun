@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // @ts-ignore
 import MdNotificationsOutline from "@meronex/icons/ios/MdNotificationsOutline";
 // import solLogo from "src/assets/Logos/logoSolana.png";
-import { SolLogin } from "src/appCrust/Components/Items/SolLoginBtn";
+import { SolLoginBtn } from "src/appCrust/Components/Items/SolLoginBtn";
 import { useWallet } from "@solana/wallet-adapter-react";
 // import solLogo from "../../../assets/Logos/logoSolana.png";
 
@@ -91,7 +91,7 @@ const Navbar: React.FC = () => {
                   ""
                 )}
               </div>
-              <SolLogin />
+              <SolLoginBtn />
               {/* <div className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white">
                 <img
                   src={solLogo}
