@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import CommentsCard from "../Cards/CommentsCard.tsx";
 // @ts-ignore
 import BsHeart from "@meronex/icons/bs/BsHeart";
 // @ts-ignore
@@ -12,11 +11,12 @@ import BsHeartFill from "@meronex/icons/bs/BsHeartFill";
 // @ts-ignore
 import BsCollection from "@meronex/icons/bs/BsCollection";
 // @ts-ignore
-import ZoRepost from "@meronex/icons/zo/ZoRepost";
+import SuShuffle from "@meronex/icons/su/SuShuffle";
 
 import { Modal, Spin } from "antd";
-import { apiGetComments } from "src/services/BEApis/PostsAPIs/CommentsApi.tsx";
 import { Link } from "react-router-dom";
+import { apiGetPosts } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
+import NestedPostCard from "./NestedPostCard.tsx";
 
 const PostDetailsCard = ({
   userPostId,
@@ -33,6 +33,7 @@ PostCardType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
+  // const navigate = useNavigate();
 
   const handleLikeBtn = () => {
     setIsLike(!isLike);
@@ -42,7 +43,7 @@ PostCardType) => {
     setIsCommentsOpen(!isCommentsOpen);
 
     // userPostId - Fetched from Post Card
-    fnLoadComments(userPostId);
+    fnLoadNestedPosts(userPostId);
     setLoading(false);
   };
 
@@ -57,45 +58,45 @@ PostCardType) => {
     setIsModalOpen(false);
   };
 
-  const fnLoadComments = async (userPostId: any) => {
+  // Function to Load Nested Posts from Post Card based on userId / username and PostId
+  const fnLoadNestedPosts = async (userPostId: any) => {
     console.log("userPostId", userPostId);
 
-    const res = await apiGetComments();
+    const res = await apiGetPosts();
     console.log(res);
-    setComments(res?.data?.comments.slice(0, 5));
+    setComments(res?.data?.posts.slice(0, 5));
   };
 
   return (
     <>
       <div className="overflow-hidden cursor-pointer bg-white  text-slate-800 border-b border-slate-200 hover:bg-slate-50">
-        <Link to={`/post/${userPostId}`}>
-          <div className="px-6 pt-6 flex justify-between align-middle">
-            <header className="flex gap-2 align-middle items-center">
-              <Link to={`/profile/${userProfileUsername}`}>
-                <img
-                  src={userProfileImage}
-                  alt="user name"
-                  title="user name"
-                  width="40"
-                  height="40"
-                  className="max-w-full rounded-full "
-                />{" "}
-              </Link>
+        <div className="px-6 pt-6 flex justify-between align-middle hover:cursor-pointer">
+          <header className="flex gap-2 align-middle items-center">
+            <Link to={`/profile/${userProfileUsername}`}>
+              <img
+                src={userProfileImage}
+                alt="user name"
+                title="user name"
+                width="40"
+                height="40"
+                className="max-w-full rounded-full "
+              />{" "}
+            </Link>
 
-              <h3 className="text-sm font-medium text-slate-700">
-                {userProfileName}
-              </h3>
-              <Link to={`/profile/${userProfileUsername}`}>
-                <p className="text-sm text-slate-400 cursor-pointer hover:underline">
-                  {" "}
-                  @{userProfileUsername}
-                </p>
-              </Link>
+            <h3 className="text-sm font-medium text-slate-700">
+              {userProfileName}
+            </h3>
+            <Link to={`/profile/${userProfileUsername}`}>
+              <p className="text-sm text-slate-400 cursor-pointer hover:underline">
+                {" "}
+                @{userProfileUsername}
+              </p>
+            </Link>
 
-              <div className="text-sm text-slate-600"> 2 hours ago </div>
-            </header>
-          </div>
-
+            <div className="text-sm text-slate-600"> 2 hours ago </div>
+          </header>
+        </div>
+        <Link to={`/post/${userPostId}`} color="#000">
           <div className="p-6 pb-0">
             <p>{userProfilePostText}</p>
           </div>
@@ -111,7 +112,7 @@ PostCardType) => {
 
         {/* Icons container */}
         <div className="ml-4 mt-2 mb-4 flex flex-row justify-between gap-2 cursor-pointer">
-          <div className="flex align-middle justify-between">
+          <div className="flex align-middle justify-between items-center">
             <div className="flex">
               {!isLike ? (
                 <div
@@ -138,8 +139,8 @@ PostCardType) => {
               <BsChat size={20} />
             </div>
 
-            <div className=" m-2 p-2   rounded-full  hover:bg-yellow-50 selection: text-yellow-500">
-              <ZoRepost size={24} className="" />
+            <div className="mt-2.5 m-2 p-2 rounded-full   hover:bg-yellow-50 selection:text-yellow-500">
+              <SuShuffle size={24} className="" />
             </div>
           </div>
           <div className="m-2 mr-5 p-2   rounded-full  hover:bg-yellow-50 selection: text-yellow-500">
@@ -155,6 +156,7 @@ PostCardType) => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        okButtonProps={{ type: "primary" }}
       >
         {userProfilePostText}
       </Modal>
@@ -166,13 +168,28 @@ PostCardType) => {
           {comments?.length > 0 && (
             <div className="">
               {comments?.map((comment: any) => (
-                <CommentsCard
-                  commentUserImage={`https://picsum.photos/id/${comment?.id}/40/40`}
-                  commentAction={"Replied"}
-                  commentUser={comment?.user?.username}
-                  commentTimeStamp={"2 hours ago"}
-                  commentText={comment?.body}
-                  commentUsername={comment?.userProfileUsername}
+                // <CommentsCard
+                //   commentUserImage={`https://picsum.photos/id/${comment?.id}/40/40`}
+                //   commentAction={"Replied"}
+                //   commentUser={comment?.user?.username}
+                //   commentTimeStamp={"2 hours ago"}
+                //   commentText={comment?.body}
+                //   commentUsername={comment?.userProfileUsername}
+                // />
+
+                <NestedPostCard
+                  key={comment.id}
+                  userPostId={comment.id}
+                  postLikes={comment.reactions}
+                  userProfileImage={`https://picsum.photos/id/${
+                    comment.id + 300
+                  }/40/40`}
+                  userProfileName={"Scripts"}
+                  userProfileUsername={`userid${comment.userId}`}
+                  userPostImage={`https://picsum.photos/id/${
+                    comment.id + 300
+                  }/800/600`}
+                  userProfilePostText={comment.body}
                 />
               ))}
             </div>

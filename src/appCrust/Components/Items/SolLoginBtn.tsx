@@ -73,7 +73,7 @@ const SolLoginBtnContext: FC<{ children: ReactNode }> = ({ children }) => {
 
 const SolLoginBtnUI: FC = () => {
   const { publicKey: address } = useWallet();
-  const { connected, disconnect, publicKey, } = useWallet();
+  const { connected, disconnect, publicKey } = useWallet();
   const [api, contextHolder] = alert.useNotification();
 
   console.log(connected);
@@ -108,9 +108,7 @@ const SolLoginBtnUI: FC = () => {
     <>
       {!connected && (
         <>
-          <div className="mr-2 w-full">
-            <WalletMultiButton />
-          </div>
+          <WalletMultiButton />
         </>
       )}
       {connected && (
@@ -138,7 +136,7 @@ const SolLoginBtnUI: FC = () => {
                     <Button
                       onClick={handleCopy}
                       className="mr-2"
-                      icon={<MdContentCopy  />}
+                      icon={<MdContentCopy />}
                     >
                       {address?.toString().slice(0, 6) +
                         "..." +

@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from "react";
-import PostDetailsCard from "../Cards/PostDetailsCard.tsx";
 import { apiGetPosts } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
 import { Spin } from "antd";
-import { useNavigate } from "react-router-dom";
-
 import InfiniteScroll from "react-infinite-scroll-component";
+import NestedPostCard from "../Cards/NestedPostCard.tsx";
 
-// https://ahooks.js.org/hooks/use-infinite-scroll
-const PostsWrapper: React.FC<any> = () => {
+const NestedPostsWrapper: React.FC<any> = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(false);
   const [noOfPosts, setNoOfPosts] = useState(10);
-  const navigate = useNavigate();
 
-  const fnGetAllPosts = async () => {
+  const fnGetAllNestedPosts = async () => {
     setLoading(true);
 
     const res = await apiGetPosts();
-    console.log("res in fnGetAllPosts", res);
+    console.log("res in fnGetAllNestedPosts", res);
 
     setPosts(res?.data?.posts.slice(0, noOfPosts));
 
@@ -25,8 +21,10 @@ const PostsWrapper: React.FC<any> = () => {
   };
 
   useEffect(() => {
-    fnGetAllPosts();
+    fnGetAllNestedPosts();
   }, [noOfPosts]);
+
+
 
   return (
     <>
@@ -47,7 +45,7 @@ const PostsWrapper: React.FC<any> = () => {
                   noOfPosts
                 );
                 setNoOfPosts(noOfPosts + 10);
-                fnGetAllPosts;
+                fnGetAllNestedPosts();
               }}
               hasMore={true}
               loader={
@@ -66,7 +64,7 @@ const PostsWrapper: React.FC<any> = () => {
               {posts?.map((item) => {
                 return (
                   <>
-                    <PostDetailsCard
+                    <NestedPostCard
                       key={item.id}
                       userPostId={item.id}
                       postLikes={item.reactions}
@@ -91,4 +89,4 @@ const PostsWrapper: React.FC<any> = () => {
   );
 };
 
-export default PostsWrapper;
+export default NestedPostsWrapper;

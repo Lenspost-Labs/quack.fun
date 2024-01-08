@@ -6,7 +6,7 @@ import EnEmojiHappy from "@meronex/icons/en/EnEmojiHappy";
 // @ts-ignore
 import MdAccessTime from "@meronex/icons/md/MdAccessTime";
 import TextArea from "antd/es/input/TextArea";
-import { Button, DatePicker, DatePickerProps, Divider, Popover } from "antd";
+import { DatePicker, DatePickerProps, Divider, Popover } from "antd";
 import CustomUploadBtn from "../Items/CustomUploadBtn";
 import EmojiPicker from "emoji-picker-react";
 import data from "@emoji-mart/data";
@@ -15,6 +15,7 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
   const [inputValue, setInputValue] = useState("");
 
   console.log(data);
+  console.log(isInFeed);
 
   const onDateChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
@@ -27,7 +28,6 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
   return (
     <>
       <div className="relative bg-white p-2 flex flex-col items-left justify-center rounded-lg">
-        {!isInFeed && <CustomUploadBtn isInFeed={isInFeed} />}
         <TextArea
           color="yellow"
           placeholder="What's on your mind today?"
@@ -39,9 +39,8 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
 
         <div className="flex justify-between align-middle m-1 ">
           <div className="flex ">
-            {/* <BsImage size={20} className="m-2 text-slate-700 cursor-pointer" /> */}
-            {isInFeed && <CustomUploadBtn isInFeed={isInFeed} />}
-
+            {/* <BsImage size={20} className="m-2 text-slate-700 cursor-pointer" /> */}{" "}
+            <CustomUploadBtn />
             <Popover
               placement="bottom"
               content={
@@ -64,21 +63,16 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
           <div className="flex">
             <div className="m-1.5">
               <DatePicker
+                size="small"
                 placeholder="Schedule"
                 renderExtraFooter={() => ""}
                 onChange={onDateChange}
                 showTime
               />
             </div>
-
-            {isInFeed && (
-              <Button type="text" className="m-2">
-                Post
-              </Button>
-            )}
           </div>
         </div>
-        <Divider/>
+        <Divider />
       </div>
     </>
   );

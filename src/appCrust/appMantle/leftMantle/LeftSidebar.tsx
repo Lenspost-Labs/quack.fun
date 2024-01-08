@@ -21,8 +21,8 @@ const LeftSidebar: React.FC<any> = () => {
   const [isSideNavOpen] = useState(true);
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
 
-  const { publicKey, connected } = useWallet();
-  console.log(publicKey, connected);
+  const { connected } = useWallet();
+  console.log(connected);
 
   const showModal = () => {
     setIsBasicModalOpen(true);

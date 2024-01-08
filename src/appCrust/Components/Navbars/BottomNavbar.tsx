@@ -20,19 +20,12 @@ const BottomNavbar = () => {
   return (
     <>
       {/* Mobile View Bottom Bar */}
-      <div className="fixed bottom-0 w-full flex justify-between bg-white p-2 px-4 md:hidden overflow-x-scroll">
+      <div className="fixed bottom-0 z-50 w-full flex justify-between bg-white p-2 px-4 md:hidden overflow-x-scroll">
         <Link to="/feed">
           <SidebarItem
             itemName="Home"
             onClick
             dashIcon={<BsHouse color="#000" />}
-          />
-        </Link>
-
-        <Link to="/notifications">
-          <SidebarItem
-            itemName="Notifications"
-            dashIcon={<MdNotificationsOutline color="#000" />}
           />
         </Link>
 
@@ -45,6 +38,13 @@ const BottomNavbar = () => {
         />
         {/* </Link> */}
 
+        <Link to="/notifications">
+          <SidebarItem
+            itemName="Notifications"
+            dashIcon={<MdNotificationsOutline color="#000" />}
+          />
+        </Link>
+
         <Modal
           centered
           okText={"Post"}
@@ -52,6 +52,7 @@ const BottomNavbar = () => {
           open={isBasicModalOpen}
           onOk={closeModal}
           onCancel={closeModal}
+          footer={null}
         >
           <NewPostCard isInFeed={false} />
         </Modal>
