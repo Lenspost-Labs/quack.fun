@@ -23,11 +23,11 @@ const SinglePostWrapper = () => {
   };
 
   // To ignore TS Warning
-  fnGetAllPosts();
+  // fnGetAllPosts();
 
   useEffect(() => {
-    // fnGetAllPosts();
-  });
+    fnGetAllPosts();
+  }, []);
   return (
     <>
       {loading && (
