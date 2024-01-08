@@ -72,7 +72,7 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
             </div>
 
             {isInFeed && (
-              <Button type="link" className="m-2">
+              <Button type="text" className="m-2">
                 Post
               </Button>
             )}
