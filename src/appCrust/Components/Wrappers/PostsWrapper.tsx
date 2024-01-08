@@ -12,6 +12,7 @@ const PostsWrapper: React.FC<any> = () => {
   const [loading, setLoading] = useState(false);
   const [noOfPosts, setNoOfPosts] = useState(10);
   const navigate = useNavigate();
+  console.log(navigate);
 
   const fnGetAllPosts = async () => {
     setLoading(true);
