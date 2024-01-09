@@ -2,11 +2,12 @@ import { Tabs, TabsProps } from "antd";
 import React, { useEffect } from "react";
 import PostsWrapper from "./PostsWrapper";
 import ProfileSectionCard from "../Cards/ProfileSectionCard";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // @ts-ignore
 import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
 import NestedPostsWrapper from "./NestedPostsWrapper";
+import HeaderWithBackBtn from "../Items/HeaderWithBackBtn";
 
 const ProfilePageWrapper = () => {
   const { username } = useParams();
@@ -45,34 +46,22 @@ const ProfilePageWrapper = () => {
 
   return (
     <>
-      <div className="m-4 md:m-0">
-        <div className="flex m-2">
-          <div className="mt-2">
-            {" "}
-            <Link to="/feed">
-              {" "}
-              <BsArrowLeft size={24} />{" "}
-            </Link>{" "}
-          </div>
-          <div className="m-2">{username ? username : "Profile"}</div>
-        </div>
-
-        {/* Sample - Using Username */}
-        <ProfileSectionCard
-          userUsername={username ? username : "No Username"}
-          userProfileName={"Scripts"}
-          userPicture={"https://picsum.photos/id/146/40/40"}
-          userBannerPicture={"https://picsum.photos/id/146/200/200"}
-          UserProfileBio={
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore . "
-          }
-        />
-        <Tabs
-          className="mt-4"
-          defaultActiveKey="1"
-          items={items}
-          onChange={onChange}
-        />
+      <HeaderWithBackBtn
+        headerName={username ? username : "Profile"}
+        backToPath="/feed"
+      />
+      {/* Sample - Using Username */}
+      <ProfileSectionCard
+        userUsername={username ? username : "No Username"}
+        userProfileName={"Scripts"}
+        userPicture={"https://picsum.photos/id/146/40/40"}
+        userBannerPicture={"https://picsum.photos/id/146/200/200"}
+        UserProfileBio={
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore . "
+        }
+      />
+      <div className="bg-white mx-4">
+        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
       </div>
     </>
   );

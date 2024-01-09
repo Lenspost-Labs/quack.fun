@@ -1,16 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 /* Tailwind CSS Config */
 
 html,
 body {
   margin: 0;
-  background-color: #fff;
+  /* background-color: #b22424; */
   height: 100vh;
   width: 100vw;
-  /* overflow: hidden; */
+  font-family: 'PT Sans', sans-serif !important;
+  overflow: hidden;
 }
 .wallet-adapter-button-trigger {
   /* all:unset !important; */
@@ -36,7 +40,14 @@ a {
   /* background-color: #f0df2b !important; */
   background-color: #fef08a !important;
   color: #090909 !important;
+
 }
+.ant-btn-primary:hover {
+  /* background-color: #f0df2b !important; */
+  background-color: #faf0a4 !important;
+  color: #090909 !important;
+}
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

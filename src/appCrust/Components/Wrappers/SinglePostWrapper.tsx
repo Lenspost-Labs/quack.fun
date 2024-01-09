@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import PostDetailsCard from "../Cards/PostDetailsCard";
 // import { apiGetPosts } from "src/services/BEApis/PostsAPIs/PostsApi";
 // import { Spin } from "antd";
-import { Outlet, useParams, Link } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 // @ts-ignore
 import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
+import HeaderWithBackBtn from "../Items/HeaderWithBackBtn";
 
 const SinglePostWrapper = () => {
   const { postId } = useParams();
@@ -30,18 +31,10 @@ const SinglePostWrapper = () => {
   }, []);
   return (
     <>
-      <div className="m-4 md:m-0">
-        <div className="flex m-2">
-          <div className="mt-2">
-            {" "}
-            <Link to="/feed">
-              {" "}
-              <BsArrowLeft size={24} />{" "}
-            </Link>{" "}
-          </div>
-          <div className="m-2">Post</div>
-        </div>
-      </div>
+      <HeaderWithBackBtn
+        headerName={"Post"} 
+        backToPath="/feed"
+      />
 
       {postId && (
         <PostDetailsCard
@@ -51,7 +44,9 @@ const SinglePostWrapper = () => {
           userProfileName={"Scripts"}
           userProfileUsername={`userid${postId}`}
           userPostImage={`https://picsum.photos/seed/picsum/200/300`}
-          userProfilePostText={"test lorem ipsum lorem ipsum lorem ipsum lorem ipsum dolor sit amet consectetur adipiscing elit"} 
+          userProfilePostText={
+            "test lorem ipsum lorem ipsum lorem ipsum lorem ipsum dolor sit amet consectetur adipiscing elit"
+          }
         />
       )}
       <Outlet />

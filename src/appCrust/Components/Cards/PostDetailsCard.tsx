@@ -12,11 +12,14 @@ import BsHeartFill from "@meronex/icons/bs/BsHeartFill";
 import BsCollection from "@meronex/icons/bs/BsCollection";
 // @ts-ignore
 import SuShuffle from "@meronex/icons/su/SuShuffle";
+// ts-ignore
+import BsBookmark from "@meronex/icons/bs/BsBookmark";
 
-import { Modal, Spin } from "antd";
+import { Modal, Spin, message } from "antd";
 import { Link } from "react-router-dom";
 import { apiGetPosts } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
 import NestedPostCard from "./NestedPostCard.tsx";
+import SharePostCard from "./SharePostCard.tsx";
 
 const PostDetailsCard = ({
   userPostId,
@@ -38,6 +41,7 @@ PostCardType) => {
   const handleLikeBtn = () => {
     setIsLike(!isLike);
   };
+
   const handleCommentBtn = () => {
     setLoading(true);
     setIsCommentsOpen(!isCommentsOpen);
@@ -49,13 +53,6 @@ PostCardType) => {
 
   const showModal = () => {
     setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
   };
 
   // Function to Load Nested Posts from Post Card based on userId / username and PostId
@@ -69,7 +66,7 @@ PostCardType) => {
 
   return (
     <>
-      <div className="overflow-hidden cursor-pointer bg-white  text-slate-800 border-b border-slate-200 hover:bg-slate-50">
+      <div className="z-10 overflow-hidden cursor-pointer bg-white  text-slate-800 border-b border-slate-200 hover:bg-slate-50">
         <div className="px-6 pt-6 flex justify-between align-middle hover:cursor-pointer">
           <header className="flex gap-2 align-middle items-center">
             <Link to={`/profile/${userProfileUsername}`}>
@@ -79,7 +76,7 @@ PostCardType) => {
                 title="user name"
                 width="40"
                 height="40"
-                className="max-w-full rounded-full "
+                className="max-w-full rounded-full z-10"
               />{" "}
             </Link>
 
@@ -117,34 +114,54 @@ PostCardType) => {
               {!isLike ? (
                 <div
                   onClick={handleLikeBtn}
-                  className="  mt-2.5 m-2 p-2  rounded-full hover:bg-red-50 selection: text-red-400 "
+                  className="cursor-pointer  mt-2.5 m-2 p-2  rounded-full hover:bg-red-50 selection: text-red-400 "
                 >
                   <BsHeart size={20} />
                 </div>
               ) : (
                 <div
                   onClick={handleLikeBtn}
-                  className="  mt-2.5 m-2 p-2  rounded-full hover:bg-red-50 selection:bg-red-100 text-red-400"
+                  className="cursor-pointer  mt-2.5 m-2 p-2  rounded-full hover:bg-red-50 selection:bg-red-100 text-red-400"
                 >
                   <BsHeartFill size={20} />
                 </div>
               )}
-              <div className="ml-0 m-2 p-2 text-sm">{postLikes} </div>
+              <div className="cursor-pointer ml-0 m-2 p-2 text-sm">
+                {postLikes}{" "}
+              </div>
             </div>
 
             <div
               onClick={handleCommentBtn}
-              className="m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500"
+              className=" cursor-pointer m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500"
             >
               <BsChat size={20} />
             </div>
 
-            <div className="mt-2.5 m-2 p-2 rounded-full   hover:bg-yellow-50 selection:text-yellow-500">
-              <SuShuffle size={24} className="" />
+            <div className=" cursor-pointer m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500">
+              <BsCollection size={20} />
+            </div>
+
+            {/* <div className="cursor-pointer mt-2.5 m-2 p-2 rounded-full hover:bg-yellow-50 selection:text-yellow-500"> */}
+            <div className="cursor-pointer m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500">
+              <SuShuffle
+                style={{ color: "#CC9999" }}
+                size={24}
+                className="text-yellow-500!important "
+              />
             </div>
           </div>
-          <div className="m-2 mr-5 p-2   rounded-full  hover:bg-yellow-50 selection: text-yellow-500">
-            <BsCursor size={20} onClick={showModal} />
+          <div className="flex">
+            <div className="cursor-pointer m-2 p-2 rounded-full hover:bg-yellow-50 selection: text-yellow-500">
+              <BsBookmark
+                size={20}
+                onClick={() => message.success("Added to bookmarks")}
+              />
+            </div>
+
+            <div className="cursor-pointer pl-0 m-2 mr-5 p-2 rounded-full hover:bg-yellow-50 selection: text-yellow-500">
+              <BsCursor size={20} onClick={showModal} />
+            </div>
           </div>
         </div>
       </div>
@@ -154,17 +171,19 @@ PostCardType) => {
         okText="Share"
         title="Share this Post"
         open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        okButtonProps={{ type: "primary" }}
+        footer={null}
+        onCancel={ () => setIsModalOpen(false)}
       >
-        {userProfilePostText}
+        <SharePostCard
+          userPostId={userPostId}
+          userProfilePostText={userProfilePostText}
+          userPostImage={userPostImage}
+        />
       </Modal>
-
+      {loading && <Spin />}
       {isCommentsOpen ? (
         <>
           {" "}
-          {loading && <Spin />}
           {comments?.length > 0 && (
             <div className="">
               {comments?.map((comment: any) => (

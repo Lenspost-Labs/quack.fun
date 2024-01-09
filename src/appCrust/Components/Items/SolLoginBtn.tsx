@@ -1,16 +1,7 @@
 // Documentation for Solana wallet providers:
 // https://github.com/solana-labs/wallet-adapter
-/**
- * Wallets that implement either of these standards will be available automatically.
- *
- *   - Solana Mobile Stack Mobile Wallet Adapter Protocol
- *     (https://github.com/solana-mobile/mobile-wallet-adapter)
- *   - Solana Wallet Standard
- *     (https://github.com/solana-labs/wallet-standard)
- *
- * If you wish to support a wallet that supports neither of those standards,
- * instantiate its legacy wallet adapter here. Common legacy adapters can be found
- * in the npm package `@solana/wallet-adapter-wallets`.
+/*
+ * Npm package `@solana/wallet-adapter-wallets`.
  */
 
 import React from "react";
@@ -32,8 +23,7 @@ import { useMemo } from "react";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import SidebarItem from "./SidebarItem";
 
-// Using notification as `alert` in this component
-import { Button, Popover, Tooltip, notification as alert } from "antd";
+import { Button, Popover, Tooltip, message } from "antd";
 import MdPower from "@meronex/icons/ios/MdPower";
 import { Link } from "react-router-dom";
 // @ts-ignore
@@ -42,6 +32,7 @@ import MdMore from "@meronex/icons/ios/MdMore";
 import CgArrowsExchangeV from "@meronex/icons/cg/CgArrowsExchangeV";
 // ts-ignore
 import MdContentCopy from "@meronex/icons/md/MdContentCopy";
+import { utilCopyToClip } from "../Utils/utilCopyToClip";
 
 export const SolLoginBtn: FC = () => {
   return (
@@ -72,36 +63,14 @@ const SolLoginBtnContext: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 const SolLoginBtnUI: FC = () => {
-  const { publicKey: address } = useWallet();
-  const { connected, disconnect, publicKey } = useWallet();
-  const [api, contextHolder] = alert.useNotification();
+  const { connected, disconnect, publicKey: address } = useWallet();
 
   console.log(connected);
   console.log(address);
 
-  const handleCopy = () => {
-    if (publicKey) {
-      navigator.clipboard.writeText(publicKey.toString());
-    }
-    openAlert({
-      alertTitle: "Copied address to clipboard",
-      alertDesc: "",
-    });
-  };
-
-  const openAlert = ({
-    alertTitle,
-    alertDesc,
-  }: {
-    alertTitle: string;
-    alertDesc: string;
-  }) => {
-    api.success({
-      message: alertTitle,
-      description: alertDesc,
-      duration: 1,
-      className: "colorBgBlur",
-    });
+  const handleDisconnect = () => {
+    message.success("Disconnected");
+    disconnect();
   };
 
   return (
@@ -118,11 +87,20 @@ const SolLoginBtnUI: FC = () => {
           <div className="flex justify-between items-center align-middle ">
             <Link to="/profile">
               <SidebarItem
+                className="hidden md:inline-block"
                 itemName="@Username"
                 userPicture={"https://i.pravatar.cc/24?img=3"}
               />
+
+              {/* Hide Username for Mobile */}
+              <img
+                src="https://i.pravatar.cc/24?img=3"
+                className="inline-block md:hidden rounded-full mx-4 w-8 h-8"
+                alt=""
+              />
             </Link>
 
+            {/* More Options Button */}
             <div className="">
               <Popover
                 placement="bottom"
@@ -136,7 +114,9 @@ const SolLoginBtnUI: FC = () => {
                       Change Wallet
                     </Button> */}
                     <Button
-                      onClick={handleCopy}
+                      onClick={() =>
+                        utilCopyToClip(address ? address.toString() : "")
+                      }
                       className="mr-2"
                       icon={<MdContentCopy />}
                     >
@@ -144,6 +124,16 @@ const SolLoginBtnUI: FC = () => {
                         "..." +
                         address?.toString().slice(-4)}
                     </Button>
+
+                    <Tooltip title="Disconnect">
+                      <Button
+                        className="md:hidden mr-2 mt-2"
+                        onClick={handleDisconnect}
+                        icon={<MdPower />}
+                      >
+                        Disconnect
+                      </Button>
+                    </Tooltip>
                   </div>
                 }
               >
@@ -159,15 +149,13 @@ const SolLoginBtnUI: FC = () => {
 
               <Tooltip title="Disconnect">
                 <Button
-                  className="mr-2"
-                  onClick={disconnect}
+                  className="hidden md:inline-block mr-2"
+                  onClick={handleDisconnect}
                   icon={<MdPower />}
                 ></Button>
               </Tooltip>
             </div>
           </div>
-
-          {contextHolder}
         </>
       )}
     </>
