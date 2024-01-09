@@ -44,7 +44,7 @@ const LeftSidebar: React.FC<any> = () => {
           <div>
             <ul className="flex flex-1 flex-col gap-0 py-3">
               <Link to="/feed">
-                <div className="m-4">Logo</div>
+                <div className="cursor-pointerm-4 flex">Logo</div>
               </Link>
 
               <Link to="/feed">
