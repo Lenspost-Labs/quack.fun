@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PostDetailsCard from "../Cards/PostDetailsCard";
 // import { apiGetPosts } from "src/services/BEApis/PostsAPIs/PostsApi";
 // import { Spin } from "antd";
-import { Outlet, useParams, Link } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 // @ts-ignore
 import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
 import HeaderWithBackBtn from "../Items/HeaderWithBackBtn";
