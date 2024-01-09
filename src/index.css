@@ -4,9 +4,10 @@
 
 /* Tailwind CSS Config */
 
-html, body {
+html,
+body {
   margin: 0;
-  background-color: #fff;  
+  background-color: #fff;
   height: 100vh;
   width: 100vw;
   /* overflow: hidden; */
@@ -17,12 +18,13 @@ html, body {
   background-color: #fef08a !important;
   color: #334155 !important;
   width: 100% !important;
-  padding : 0.5rem 1rem !important;
+  padding: 0.5rem 1rem !important;
+  justify-content: center !important;
   /* border: 1px solid rgb(243, 241, 248); */
 }
 
 a {
-  all:unset !important;
+  all: unset !important;
 }
 @layer utilities {
   .h-96vh {
@@ -30,8 +32,9 @@ a {
   }
 }
 
-.ant-btn-primary{
-  background-color: #f0df2b !important;
+.ant-btn-primary {
+  /* background-color: #f0df2b !important; */
+  background-color: #fef08a !important;
   color: #090909 !important;
 }
 /* :root {

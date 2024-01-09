@@ -22,7 +22,7 @@ const CustomSearchIp = () => {
         style={{ width: 280 }}
         options={options}
         onChange={handleSearch}
-        className="mb-4"
+        className="my-4"
         placeholder="Search for Trending, Topics, more"
         filterOption={(inputValue, option) =>
           option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1

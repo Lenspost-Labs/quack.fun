@@ -108,7 +108,9 @@ const SolLoginBtnUI: FC = () => {
     <>
       {!connected && (
         <>
-          <WalletMultiButton />
+          <WalletMultiButton>
+            <div className="flex justify-center ">Select Wallet</div>
+          </WalletMultiButton>
         </>
       )}
       {connected && (

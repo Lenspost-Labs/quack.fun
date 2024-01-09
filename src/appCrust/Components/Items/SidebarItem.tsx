@@ -1,6 +1,13 @@
 import React from "react";
 
-const SidebarItem : React.FC<any> = ({ className, userPicture, itemName, dashIcon, statusIcon, onClickFn}: any) => {
+const SidebarItem: React.FC<any> = ({
+  className,
+  userPicture,
+  itemName,
+  dashIcon,
+  statusIcon,
+  onClickFn,
+}: any) => {
   return (
     <div className={`${className} px-2`} onClick={onClickFn}>
       <div className="cursor-pointer flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-yellow-50  focus:bg-yellow-50 aria-[current=page]:bg-yellow-50 aria-[current=page]:text-yellow-500 ">

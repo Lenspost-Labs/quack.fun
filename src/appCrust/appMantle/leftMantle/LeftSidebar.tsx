@@ -35,7 +35,7 @@ const LeftSidebar: React.FC<any> = () => {
     <>
       <aside
         aria-label="Side navigation"
-        className={`relative top-0 bottom-0 left-0 z-40 flex h-96vh w-72 flex-col border-r-slate-200 bg-white transition-transform lg:translate-x-0 ${
+        className={`relative top-0 bottom-0 left-0 z-40 flex pr-2 h-96vh w-72 flex-col border-r-slate-200 bg-white transition-transform lg:translate-x-0 ${
           isSideNavOpen ? "translate-x-0" : " -translate-x-full"
         }`}
       >
@@ -44,7 +44,7 @@ const LeftSidebar: React.FC<any> = () => {
           <div>
             <ul className="flex flex-1 flex-col gap-0 py-3">
               <Link to="/feed">
-                <div className="m-4">Logo</div>
+                <div className="cursor-pointerm-4 flex">Logo</div>
               </Link>
 
               <Link to="/feed">
@@ -73,7 +73,7 @@ const LeftSidebar: React.FC<any> = () => {
               <div>
                 <Divider className="m-2" />
                 <SidebarItem
-                  className="cursor-pointer m-2 mt-0  bg-yellow-200 text-slate-700 transition-colors hover:bg-yellow-50 hover:text-yellow-500 focus:bg-yellow-50 aria-[current=page]:bg-yellow-50 aria-[current=page]:text-yellow-500"
+                  className="cursor-pointer mt-0 rounded-sm  bg-yellow-200 text-slate-700 transition-colors hover:bg-yellow-50 hover:text-yellow-300 focus:bg-yellow-50 aria-[current=page]:bg-yellow-50 aria-[current=page]:text-yellow-500"
                   onClickFn={showModal}
                   itemName="Post"
                   dashIcon={<MdCreate color="#000" />}
