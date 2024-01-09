@@ -7,6 +7,7 @@ import BottomNavbar from "../Components/Navbars/BottomNavbar.tsx";
 import CustomSearchIp from "../Components/Items/CustomSearchIp.tsx";
 import { Divider, Tabs, TabsProps } from "antd";
 import NewPostCard from "../Components/Cards/NewPostCard.tsx";
+import TopNavbar from "../Components/Navbars/TopNavbar.tsx";
 
 const MainAppLayout: React.FC<any> = () => {
   const { pathname } = useLocation();
@@ -34,36 +35,36 @@ const MainAppLayout: React.FC<any> = () => {
     console.log(key);
   };
 
-  // useEffect(() => {
-  //   navigate("/feed");
-  // }, []);
+
   return (
     <>
-      {/* <Navbar /> */}
-      {/* <div className="h-50vh"> */}
+    {/* Enabled only for mobile */}
+      <TopNavbar />
       <Navigate to="/feed" />
       <div className="flex justify-center">
         <div className="my-2 border-r border-slate-200 hidden md:block h-100vh">
           <LeftSidebar />
         </div>
         <div className="">
-          {/* <div className="p-4 pl-0 text-md">Solgram Logo</div> */}
+          {/* Enabled only for Mobile */}
           <BottomNavbar />
         </div>{" "}
         <Divider type="vertical" className="h-full" />
-        {/* id="InfScrolltarget" for Infinite Scroll - tracking the scrollbar of the id element  */}
-        <div id="InfScrolltarget" className="w-full h-96vh overflow-scroll my-2 md:w-2/4 lg:w-1/3">
+        <div
+          id="InfScrolltarget"
+          className="w-full h-96vh overflow-scroll my-2 md:w-2/4 lg:w-1/3"
+        >
           <div className="">
             {pathname === "/feed" && (
               <>
+               <div className="sticky top-0 z-20 bg-white mx-4">
                 <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+                </div>
                 <NewPostCard isInFeed={true} />
               </>
             )}
             <Outlet />
           </div>
-
-          {/* <FeedWrapper /> */}
         </div>
         <Divider type="vertical" className="h-full" />
         <div className="pl-2 hidden my-2  border-l border-slate-200 lg:block w-1/6">
@@ -71,7 +72,6 @@ const MainAppLayout: React.FC<any> = () => {
           <TopicsCard />
         </div>
       </div>
-      {/* </div> */}
     </>
   );
 };

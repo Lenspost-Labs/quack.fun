@@ -29,12 +29,12 @@ PostCardType) => {
   return (
     <>
       {" "}
-      <ul
+      <div
         aria-label="Nested user feed"
         role="feed"
-        className="mt-0.5 bg-white relative flex flex-col cursor-pointer gap-16 py-6  hover:bg-slate-50 before:absolute before:top-0 before:left-6 before:h-full before:-translate-x-1/2 before:border before:border-dashed before:border-slate-200 after:absolute after:top-6 after:left-6 after:bottom-6 after:-translate-x-1/2 after:border after:border-slate-200 "
+        className=" mt-0.5 bg-white relative flex flex-col cursor-pointer gap-16 py-6  hover:bg-slate-50 before:absolute before:top-0 before:left-6 before:h-full before:-translate-x-1/2 before:border before:border-dashed before:border-slate-200 after:absolute after:top-6 after:left-6 after:bottom-6 after:-translate-x-1/2 after:border after:border-slate-200 "
       >
-        <li role="article" className="relative pl-2 z-50 ">
+        <div role="article" className="relative pl-2 z-10 ">
           <div className="overflow-hidden cursor-pointer">
             <header className="flex gap-2 align-middle items-center">
               <Link to={`/profile/${userProfileUsername}`}>
@@ -44,7 +44,7 @@ PostCardType) => {
                   title="user name"
                   width="40"
                   height="40"
-                  className="max-w-full rounded-full "
+                  className="max-w-full rounded-full z -z-20 0!important"
                 />{" "}
               </Link>
 
@@ -66,8 +66,8 @@ PostCardType) => {
               <p>{userProfilePostText}</p>
             </div>
           </Link>
-        </li>
-      </ul>
+        </div>
+      </div>
     </>
   );
 };

@@ -13,12 +13,15 @@ import data from "@emoji-mart/data";
 
 const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
   const [inputValue, setInputValue] = useState("");
-
+  const [scheduleUtcDate, setScheduleUtcDate] = useState(new Date());
   console.log(data);
   console.log(isInFeed);
 
   const onDateChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
+    setScheduleUtcDate(new Date(dateString));
+
+    console.log(scheduleUtcDate);
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -27,7 +30,7 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
 
   return (
     <>
-      <div className="relative bg-white p-2 flex flex-col items-left justify-center rounded-lg">
+      <div className="relative bg-white p-2 flex flex-col items-left justify-center">
         <TextArea
           color="yellow"
           placeholder="What's on your mind today?"
@@ -71,10 +74,20 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
               />
             </div>
           </div>
-      {isInFeed && <Button className="m-1" type="primary">Post</Button>}
+          {/* {isInFeed && <Button className="m-1" type="primary">Post</Button>} */}
         </div>
-        <Divider />
+        <div className="flex gap-2 align-middle items-center justify-end">
+          {scheduleUtcDate.toDateString() !== "Invalid Date" && (
+            <div className="text-xs text-slate-500">
+              {scheduleUtcDate.toLocaleString()}
+            </div>
+          )}
+          <Button className="m-1" type="primary">
+            Post
+          </Button>
+        </div>
       </div>
+      {isInFeed && <Divider />}
     </>
   );
 };
