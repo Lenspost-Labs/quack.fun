@@ -11,8 +11,8 @@ const HeaderWithBackBtn = ({
   return (
     <>
       {" "}
-      <div className="flex flex-col sticky top-0 z-40">
-        <div className="flex bg-green-500 z-40">
+      <div className="flex flex-col sticky top-0 z-40 mb-1">
+        <div className="flex bg-white z-40">
           {/* remove the / in the backToPath */}
           <Tooltip title={backToPath.replace("/", "")} placement="top">
             <div className="mt-2 cursor-pointer">
