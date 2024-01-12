@@ -26,7 +26,6 @@ Here's a quick guide while using imports :
     
     - Always start imports with `src` (since it is already configured for this project in `tsconfig.json` and `vite.config.ts)` -->
 
-
 ## Deployment
 
 - [Live](https://solgram.vercel.app)
