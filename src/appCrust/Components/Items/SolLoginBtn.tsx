@@ -33,6 +33,7 @@ import CgArrowsExchangeV from "@meronex/icons/cg/CgArrowsExchangeV";
 // ts-ignore
 import MdContentCopy from "@meronex/icons/md/MdContentCopy";
 import { utilCopyToClip } from "../Utils/utilCopyToClip";
+import { UtilLoginToApp } from "../Utils/utilLoginToApp";
 
 export const SolLoginBtn: FC = () => {
   return (
@@ -75,10 +76,12 @@ const SolLoginBtnUI: FC = () => {
 
   return (
     <>
+      <UtilLoginToApp />
       {!connected && (
         <>
           <WalletMultiButton>
-            <div className="flex justify-center ">Select Wallet</div>
+            <div className="hidden md:flex justify-center ">Select Wallet</div>
+            <div className="md:hidden"> Wallet</div>
           </WalletMultiButton>
         </>
       )}
