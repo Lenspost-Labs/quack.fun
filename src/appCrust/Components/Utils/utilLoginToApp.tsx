@@ -1,5 +1,5 @@
 import React from "react";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import {
   apiGetPaymentPrice,
   apiLogin,
@@ -8,10 +8,7 @@ import {
 
 import { Button, message } from "antd";
 import base58 from "bs58";
-import {
-  Transaction,
-  VersionedTransaction,
-} from "@solana/web3.js";
+import { Transaction, VersionedTransaction , Connection } from "@solana/web3.js";
 
 export const UtilLoginToApp = () => {
   const {
@@ -19,7 +16,9 @@ export const UtilLoginToApp = () => {
     signMessage,
     connected,
     signTransaction,
+    sendTransaction,
   } = useWallet();
+  // const { connection } = useConnection();
   const [signatureMessage, setSignatureMessage] = React.useState<string>(
     "Clicking Sign or Approve only means you have proved this wallet is owned by you. This request will not trigger any blockchain transaction or cost any gas fee."
   );
@@ -69,11 +68,11 @@ export const UtilLoginToApp = () => {
     return recoveredTx;
   };
 
- 
   const fnSignTx = async (txBase64: string) => {
     const recoveredTx = fnGetRawTransaction(txBase64);
+    const connection = new Connection("")
     if (signTransaction) {
-      const signedTxOutput = await signTransaction(recoveredTx);
+      const signedTxOutput = await sendTransaction(recoveredTx, connection);
       return signedTxOutput;
     } else {
       console.log("signTransaction is not available");
@@ -116,19 +115,13 @@ export const UtilLoginToApp = () => {
 
     // Trigger Step 3
     if (txSig) {
-      fnTriggerRegister(txSig.signatures[0]);
+      fnTriggerRegister(txSig);
     }
   };
 
   // Step 3 : Register User and Update Status
-  const fnTriggerRegister = async (txSig : any) => {
-    console.log("txSig is", txSig.signature);
-
-    // convert uint8 to base58
-    const signatureBase58 = base58.encode(txSig.signature as Uint8Array);
-    console.log("signatureBase58 is", signatureBase58);
-
-    const res = await apiRegisterNewUser(signatureBase58);
+  const fnTriggerRegister = async (txSig: any) => {
+    const res = await apiRegisterNewUser(txSig);
     console.log("apiRegisterNewUser is", res);
   };
 
