@@ -13,7 +13,7 @@ export const apiInstance = axios.create({
   
       // Add your default header here
       config.headers["Authorization"] = `Bearer ${jwtToken}`;
-      config.headers["Content-Type"] = "application/json" || "multipart/form-data";
+      config.headers["Content-Type"] = "application/json";
       config.headers["Access-Control-Allow-Origin"] = "*";
       config.headers["Access-Control-Allow-Methods"] = "*";
   
