@@ -1,49 +1,78 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import SidebarItem from "../Items/SidebarItem";
 // @ts-ignore
 import BsHouse from "@meronex/icons/bs/BsHouse";
 // @ts-ignore
+import BsHouseFill from "@meronex/icons/bs/BsHouseFill";
+// @ts-ignore
 import MdNotificationsOutline from "@meronex/icons/ios/MdNotificationsOutline";
 // @ts-ignore
+import MdNotifications from "@meronex/icons/ios/MdNotifications";
+// @ts-ignore
 import MdCreate from "@meronex/icons/ios/MdCreate";
-import { Modal } from "antd";
+import { Modal, Tooltip } from "antd";
 import NewPostCard from "../Cards/NewPostCard";
 
 const BottomNavbar = () => {
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  console.log(pathname);
+  const [stIsActive, setStIsActive] = useState(1);
 
   const closeModal = () => {
     setIsBasicModalOpen(false);
   };
 
+  const sidebarItems = [
+    {
+      to: "/feed",
+      // itemName: "Home",
+      // dashIcon: <BsHouse color={stIsActive === 1 ? "#fef08a" : "#000"} />,
+      dashIcon:
+        stIsActive === 1 ? (
+          <BsHouseFill color="#ffe000" />
+        ) : (
+          <BsHouse color="#000" />
+        ),
+    },
+    {
+      to: pathname, // To avoid re-routing on modal open
+      onClickFn: () => {
+        setIsBasicModalOpen(true);
+      },
+      // itemName: "New Post",
+      dashIcon: <MdCreate color={stIsActive === 2 ? "#ffe000" : "#000"} />,
+    },
+    {
+      to: "/notifications",
+      // itemName: "Notifications",
+      // dashIcon: (
+      //   <MdNotificationsOutline color={stIsActive === 3 ? "#fef08a" : "#000"} />
+      // ),
+      dashIcon:
+        stIsActive === 3 ? (
+          <MdNotifications color="#ffe000" />
+        ) : (
+          <MdNotificationsOutline color="#000" />
+        ),
+    },
+  ];
+
   return (
     <>
       {/* Mobile View Bottom Bar */}
-      <div className="fixed bottom-0 z-50 w-full flex justify-between bg-white p-2 px-4 md:hidden overflow-x-scroll">
-        <Link to="/feed">
-          <SidebarItem
-            itemName="Home"
-            onClick
-            dashIcon={<BsHouse color="#000" />}
-          />
-        </Link>
-
-        {/* <Link to="/new"> */}
-
-        <SidebarItem
-          onClickFn={() => setIsBasicModalOpen(true)}
-          itemName="New Post"
-          dashIcon={<MdCreate color="#000" />}
-        />
-        {/* </Link> */}
-
-        <Link to="/notifications">
-          <SidebarItem
-            itemName="Notifications"
-            dashIcon={<MdNotificationsOutline color="#000" />}
-          />
-        </Link>
+      <div className="fixed bottom-0 z-50 w-full flex justify-between border-t bg-white p-2 px-4 md:hidden overflow-x-scroll">
+        {sidebarItems.map((item, index) => (
+          <div onClick={() => setStIsActive(index + 1)} key={index}>
+            {/* <Tooltip title={item.to.split("/")[1].toUpperCase()} placement="top"> */}
+              <Link to={item.to || "/"}>
+                <SidebarItem {...item} />
+              </Link>
+            {/* </Tooltip> */}
+          </div>
+        ))}
 
         <Modal
           centered

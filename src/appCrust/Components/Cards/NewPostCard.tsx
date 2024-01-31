@@ -6,10 +6,20 @@ import EnEmojiHappy from "@meronex/icons/en/EnEmojiHappy";
 // @ts-ignore
 import MdAccessTime from "@meronex/icons/md/MdAccessTime";
 import TextArea from "antd/es/input/TextArea";
-import { Button, DatePicker, DatePickerProps, Divider, Popover } from "antd";
-import CustomUploadBtn from "../Items/CustomUploadBtn";
+import {
+  Button,
+  DatePicker,
+  DatePickerProps,
+  Divider,
+  Popover,
+  message,
+} from "antd";
+// import CustomUploadBtn from "../Items/CustomUploadBtn";
 import EmojiPicker from "emoji-picker-react";
 import data from "@emoji-mart/data";
+import CustomUploadBtn2 from "../Items/CustomUploadBtn2";
+import { apiNewPost } from "src/services/BEApis/PostsAPIs/PostsApi";
+import UtilUploadIK from "../Utils/utilUploadIK";
 
 const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
   const [inputValue, setInputValue] = useState("");
@@ -28,6 +38,25 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
     setInputValue(e.target.value);
   };
 
+  const fnNewPost = async () => {
+    message.loading("Creating a cast");
+    try {
+      console.log(inputValue);
+      console.log(scheduleUtcDate);
+      const res = await apiNewPost({
+        postTextData: inputValue,
+        postImageData: [],
+      });
+
+      console.log(res);
+      message.destroy();
+      message.success("Cast created successfully");
+    } catch (err) {
+      console.log(err);
+      message.error(`${err}`);
+    }
+  };
+
   return (
     <>
       <div className="relative bg-white p-2 flex flex-col items-left justify-center">
@@ -43,7 +72,8 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
         <div className="flex justify-between align-middle m-1 ">
           <div className="flex ">
             {/* <BsImage size={20} className="m-2 text-slate-700 cursor-pointer" /> */}{" "}
-            <CustomUploadBtn />
+            {/* <CustomUploadBtn2 /> */}
+            <UtilUploadIK/>
             <Popover
               placement="bottom"
               content={
@@ -82,7 +112,7 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
               {scheduleUtcDate.toLocaleString()}
             </div>
           )}
-          <Button className="m-1" type="primary">
+          <Button onClick={fnNewPost} className="m-1" type="primary">
             Post
           </Button>
         </div>

@@ -31,6 +31,37 @@ const LeftSidebar: React.FC<any> = () => {
     setIsBasicModalOpen(false);
   };
 
+  const sidebarItems = [
+    {
+      to: "/feed",
+      content: <div className="cursor-pointerm-4 flex">Logo</div>,
+    },
+    {
+      to: "/feed",
+      content: (
+        <SidebarItem itemName="Home" dashIcon={<BsHouse color="#000" />} />
+      ),
+    },
+    {
+      to: "/notifications",
+      content: (
+        <SidebarItem
+          itemName="Notifications"
+          dashIcon={<MdNotificationsOutline color="#000" />}
+        />
+      ),
+    },
+    {
+      to: "/profile",
+      content: (
+        <SidebarItem
+          itemName="Profile"
+          dashIcon={<AiOutlineUser color="#000" />}
+        />
+      ),
+    },
+  ];
+
   return (
     <>
       <aside
@@ -43,37 +74,15 @@ const LeftSidebar: React.FC<any> = () => {
           {/* <ProfileCard /> */}
           <div>
             <ul className="flex flex-1 flex-col gap-0 py-3">
-              <Link to="/feed">
-                <div className="cursor-pointerm-4 flex">Logo</div>
-              </Link>
-
-              <Link to="/feed">
-                <SidebarItem
-                  itemName="Home"
-                  onClick
-                  dashIcon={<BsHouse color="#000" />}
-                />
-              </Link>
-
-              <Link to="/notifications">
-                <SidebarItem
-                  itemName="Notifications"
-                  dashIcon={<MdNotificationsOutline color="#000" />}
-                />
-              </Link>
-
-              <Link to="/profile">
-                <SidebarItem
-                  itemName="Profile"
-                  dashIcon={<AiOutlineUser color="#000" />}
-                />
-              </Link>
-
-              {/* <Link to="/new"> */}
+              {sidebarItems.map((item, index) => (
+                <Link key={index} to={item.to}>
+                  {item.content}
+                </Link>
+              ))}
               <div>
-                <Divider className="m-2" />
+                <Divider className="m-4" />
                 <SidebarItem
-                  className="cursor-pointer mt-0 rounded-sm  bg-yellow-200 text-slate-700 transition-colors hover:bg-yellow-50 hover:text-yellow-300 focus:bg-yellow-50 aria-[current=page]:bg-yellow-50 aria-[current=page]:text-yellow-500"
+                  className="cursor-pointer mt-0 rounded-sm bg-yellow-200 text-slate-700 transition-colors hover:bg-yellow-50 hover:text-yellow-300 focus:bg-yellow-50 aria-[current=page]:bg-yellow-50 aria-[current=page]:text-yellow-500"
                   onClickFn={showModal}
                   itemName="Post"
                   dashIcon={<MdCreate color="#000" />}
@@ -95,6 +104,7 @@ const LeftSidebar: React.FC<any> = () => {
         onCancel={closeModal}
         cancelButtonProps={{ type: "text" }}
         okButtonProps={{ color: "yellow", type: "default" }}
+        footer={null}
       >
         <NewPostCard isInFeed={false} />
       </Modal>

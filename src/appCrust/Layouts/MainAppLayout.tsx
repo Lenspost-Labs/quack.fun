@@ -35,10 +35,9 @@ const MainAppLayout: React.FC<any> = () => {
     console.log(key);
   };
 
-
   return (
     <>
-    {/* Enabled only for mobile */}
+      {/* Enabled only for mobile */}
       <TopNavbar />
       <Navigate to="/feed" />
       <div className="flex justify-center">
@@ -52,13 +51,17 @@ const MainAppLayout: React.FC<any> = () => {
         <Divider type="vertical" className="h-full" />
         <div
           id="InfScrolltarget"
-          className="w-full h-96vh overflow-scroll my-2 md:w-2/4 lg:w-1/3"
+          className="w-full h-96vh overflow-scroll my-2 md:w-2/4 lg:w-1/3 no-scrollbar"
         >
-          <div className="">
+          <div className="mx-2">
             {pathname === "/feed" && (
               <>
-               <div className="sticky top-0 z-20 bg-white mx-4">
-                <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+                <div className="sticky top-0 z-20 bg-white">
+                  <Tabs
+                    defaultActiveKey="1"
+                    items={items}
+                    onChange={onChange}
+                  />
                 </div>
                 <NewPostCard isInFeed={true} />
               </>

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import PostDetailsCard from "../Cards/PostDetailsCard.tsx";
-import { apiGetPosts } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
+import {
+  apiGetFeed,
+  apiGetPosts,
+} from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
 import { Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 
 // https://ahooks.js.org/hooks/use-infinite-scroll
-const PostsWrapper: React.FC<any> = () => {
+const PostsWrapper: React.FC<any> = (isInFeed) => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(false);
   const [noOfPosts, setNoOfPosts] = useState(10);
@@ -27,6 +30,21 @@ const PostsWrapper: React.FC<any> = () => {
 
   useEffect(() => {
     fnGetAllPosts();
+  }, [noOfPosts]);
+
+  const fnGetFeed = async () => {
+    setLoading(true);
+
+    const res = await apiGetFeed();
+    console.log("res in fnGetAllPosts", res);
+
+    setPosts(res?.data?.posts.slice(0, noOfPosts));
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fnGetFeed();
   }, [noOfPosts]);
 
   return (

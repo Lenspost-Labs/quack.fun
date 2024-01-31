@@ -34,6 +34,7 @@ import CgArrowsExchangeV from "@meronex/icons/cg/CgArrowsExchangeV";
 import MdContentCopy from "@meronex/icons/md/MdContentCopy";
 import { utilCopyToClip } from "../Utils/utilCopyToClip";
 import { UtilLoginToApp } from "../Utils/utilLoginToApp";
+import useUser from "src/hooks/userHooks/useUser";
 
 export const SolLoginBtn: FC = () => {
   return (
@@ -65,6 +66,7 @@ const SolLoginBtnContext: FC<{ children: ReactNode }> = ({ children }) => {
 
 const SolLoginBtnUI: FC = () => {
   const { connected, disconnect, publicKey: address } = useWallet();
+  const { setHasUserLoggedIn } = useUser();
 
   console.log(connected);
   console.log(address);
@@ -72,6 +74,7 @@ const SolLoginBtnUI: FC = () => {
   const handleDisconnect = () => {
     message.success("Disconnected");
     disconnect();
+    setHasUserLoggedIn(false);
   };
 
   return (
