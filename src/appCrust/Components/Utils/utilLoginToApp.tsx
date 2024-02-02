@@ -1,5 +1,5 @@
 import React from "react";
-import { useWallet, useConnection } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import {
   apiGetPaymentPrice,
   apiLogin,
@@ -19,7 +19,7 @@ export const UtilLoginToApp = () => {
     sendTransaction,
   } = useWallet();
   // const { connection } = useConnection();
-  const [signatureMessage, setSignatureMessage] = React.useState<string>(
+  const [signatureMessage] = React.useState<string>(
     "Clicking Sign or Approve only means you have proved this wallet is owned by you. This request will not trigger any blockchain transaction or cost any gas fee."
   );
   const [paymentDetails, setPaymentDetails] = React.useState<any>({
