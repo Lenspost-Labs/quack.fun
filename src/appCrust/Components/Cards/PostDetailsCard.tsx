@@ -36,6 +36,7 @@ PostCardType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [profileTeaser, setProfileTeaser] = useState(false);
   // const navigate = useNavigate();
 
   const handleLikeBtn = () => {
@@ -84,7 +85,11 @@ PostCardType) => {
               {userProfileName}
             </h3>
             <Link to={`/profile/${userProfileUsername}`}>
-              <p className="text-sm text-slate-400 cursor-pointer hover:underline">
+              <p
+                onMouseEnter={() => setProfileTeaser(true)}
+                // onMouseLeave={() => setProfileTeaser(false)}
+                className="text-sm text-slate-400 cursor-pointer hover:underline"
+              >
                 {" "}
                 @{userProfileUsername}
               </p>
@@ -114,14 +119,14 @@ PostCardType) => {
               {!isLike ? (
                 <div
                   onClick={handleLikeBtn}
-                  className="cursor-pointer  mt-2.5 m-2 p-2  rounded-full hover:bg-red-50 selection: text-red-400 "
+                  className="cursor-pointer mr-0 pr-1  mt-2.5 m-2 p-2  rounded-full hover:bg-red-50 selection: text-red-400 "
                 >
                   <BsHeart size={20} />
                 </div>
               ) : (
                 <div
                   onClick={handleLikeBtn}
-                  className="cursor-pointer  mt-2.5 m-2 p-2  rounded-full hover:bg-red-50 selection:bg-red-100 text-red-400"
+                  className="cursor-pointer mr-0 pr-1   mt-2.5 m-2 p-2  rounded-full hover:bg-red-50 selection:bg-red-100 text-red-400"
                 >
                   <BsHeartFill size={20} />
                 </div>
@@ -165,14 +170,13 @@ PostCardType) => {
           </div>
         </div>
       </div>
-
       <Modal
         centered
         okText="Share"
         title="Share this Post"
         open={isModalOpen}
         footer={null}
-        onCancel={ () => setIsModalOpen(false)}
+        onCancel={() => setIsModalOpen(false)}
       >
         <SharePostCard
           userPostId={userPostId}

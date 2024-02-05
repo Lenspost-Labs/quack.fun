@@ -1,9 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
 
 /* Tailwind CSS Config */
 
@@ -13,7 +25,7 @@ body {
   /* background-color: #b22424; */
   height: 100vh;
   width: 100vw;
-  font-family: 'PT Sans', sans-serif !important;
+  font-family: "PT Sans", sans-serif !important;
   overflow: hidden;
 }
 .wallet-adapter-button-trigger {
@@ -40,7 +52,6 @@ a {
   /* background-color: #f0df2b !important; */
   background-color: #fef08a !important;
   color: #090909 !important;
-
 }
 .ant-btn-primary:hover {
   /* background-color: #f0df2b !important; */
