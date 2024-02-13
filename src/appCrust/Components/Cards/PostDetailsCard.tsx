@@ -20,15 +20,19 @@ import BsArrowRepeat from "@meronex/icons/bs/BsArrowRepeat";
 
 import { Modal, Spin } from "antd";
 import { Link } from "react-router-dom";
-import { apiGetPosts } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
+import {
+  apiGetPosts,
+  apiReactForAPost,
+} from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
 import NestedPostCard from "./NestedPostCard.tsx";
 import SharePostCard from "./SharePostCard.tsx";
 import Iframe from "react-iframe";
 import { SandboxAttributeValue } from "react-iframe/types";
 import { utilFormatPostText } from "src/appCrust/Components/Utils/functions/utilFormatPostText.tsx";
+import { getAllMetaTags } from "../Utils/functions/utilGetMetaTagsData.tsx";
 const PostDetailsCard = ({
   postAuthorFid,
-  userPostId,
+  userPostId, //Hash
   userProfileName,
   userProfileUsername,
   userPostImage,
@@ -50,6 +54,14 @@ PostCardType) => {
 
   const handleLikeBtn = () => {
     setIsLike(!isLike);
+    const likesRes = apiReactForAPost({
+      // fid: ,
+      hash: userPostId,
+      reaction: 1,
+      type: isLike ? 1 : -1,
+    });
+
+    console.log(likesRes);
   };
 
   const handleCommentBtn = () => {
@@ -61,9 +73,21 @@ PostCardType) => {
     setLoading(false);
   };
 
+  const handleRecastBtn = () => {
+    const recastRes = apiReactForAPost({
+      // fid: ,
+      hash: userPostId,
+      reaction: 2,
+      type: isLike ? 1 : -1,
+    });
+
+    console.log(recastRes);
+  };
   const showModal = () => {
     setIsModalOpen(true);
   };
+
+  console.log("getAllMetaTags", getAllMetaTags());
 
   // Function to Load Nested Posts from Post Card based on userId / username and PostId
   const fnLoadNestedPosts = async (userPostId: any) => {
@@ -171,19 +195,22 @@ PostCardType) => {
               </div>
             </div>
 
-            <div
+            {/* <div
               onClick={handleCommentBtn}
               className=" cursor-pointer m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500"
             >
               <BsChat size={20} />
-            </div>
+            </div> */}
 
             {/* <div className=" cursor-pointer m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500">
               <BsCollection size={20} />
             </div> */}
 
             {/* <div className="cursor-pointer mt-2.5 m-2 p-2 rounded-full hover:bg-yellow-50 selection:text-yellow-500"> */}
-            <div className="cursor-pointer m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500">
+            <div
+              onClick={handleRecastBtn}
+              className="cursor-pointer m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500"
+            >
               <BsArrowRepeat
                 // style={{ color: "#CC9999" }}
                 size={20}
@@ -217,6 +244,7 @@ PostCardType) => {
           userPostId={userPostId}
           userProfilePostText={userProfilePostText}
           userPostImage={userPostImage}
+          postAuthorFid={postAuthorFid}
         />
       </Modal>
       {loading && <Spin />}

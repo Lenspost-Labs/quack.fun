@@ -12,6 +12,7 @@ const useUser = (): useUserType => {
     name: "",
     profileImgUrl: "",
     coverImgUrl: "",
+    fid: "",
   });
   
   const [jwt, setJwt] = useState(localStorage.getItem("jwt"));
