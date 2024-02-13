@@ -1,5 +1,5 @@
 import { Tabs, TabsProps } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PostsWrapper from "./PostsWrapper";
 import ProfileSectionCard from "../Cards/ProfileSectionCard";
 import { useParams } from "react-router-dom";
@@ -8,9 +8,21 @@ import { useParams } from "react-router-dom";
 import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
 import NestedPostsWrapper from "./NestedPostsWrapper";
 import HeaderWithBackBtn from "../Items/HeaderWithBackBtn";
+import { apiUserDetailsforFID } from "src/services/BEApis/auth/AuthAPIs";
 
 const ProfilePageWrapper = () => {
-  const { username } = useParams();
+  const { userFid } = useParams();
+
+  const [profileInfo, setProfileInfo] = useState({
+    bio: { mentionedProfiles: [], text: "" },
+    displayName: "",
+    username: "",
+    fid: "",
+    pfp: "",
+    follower: [],
+    following: [],
+  });
+
   const onChange = (key: string) => {
     console.log(key);
   };
@@ -37,7 +49,10 @@ const ProfilePageWrapper = () => {
   // Fetch data from API - Profile
   // Fetch using username or userId from params
   const fnGetProfileInfo = async () => {
-    console.log("username", username);
+    const profileInfoRes = await apiUserDetailsforFID(userFid ? userFid : "");
+
+    console.log("profileInfo", profileInfoRes);
+    setProfileInfo(profileInfoRes as any);
   };
 
   useEffect(() => {
@@ -47,18 +62,20 @@ const ProfilePageWrapper = () => {
   return (
     <>
       <HeaderWithBackBtn
-        headerName={username ? username : "Profile"}
+        headerName={userFid ? userFid : "Profile"}
         backToPath="/feed"
       />
       {/* Sample - Using Username */}
       <ProfileSectionCard
-        userUsername={username ? username : "No Username"}
-        userProfileName={"Scripts"}
-        userPicture={"https://picsum.photos/id/146/40/40"}
+        userUsername={profileInfo?.username}
+        userProfileName={profileInfo?.displayName}
+        userPicture={profileInfo?.pfp}
         userBannerPicture={"https://picsum.photos/id/146/200/200"}
-        UserProfileBio={
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore . "
-        }
+        userProfileBio={profileInfo?.bio?.text}
+        userBioMentionedProfiles={profileInfo?.bio?.mentionedProfiles[0]}
+        userFollowers={profileInfo?.follower}
+        userFollowing={profileInfo?.following}
+        userIsBeingFollowed={false}
       />
       <div className="bg-white mx-4">
         <Tabs defaultActiveKey="1" items={items} onChange={onChange} />

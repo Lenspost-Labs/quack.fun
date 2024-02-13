@@ -4,16 +4,22 @@ import EditProfileCard from "../Cards/EditProfileCard.tsx";
 // @ts-ignore
 import MdEdit from "@meronex/icons/md/MdEdit";
 import { utilCopyToClip } from "../Utils/functions/utilCopyToClip.tsx";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 const ProfileSectionCard: React.FC<ProfileType> = ({
   userPicture,
   userBannerPicture,
   userUsername,
   userProfileName,
-  UserProfileBio,
+  userProfileBio,
+  userBioMentionedProfiles,
+  userFollowers,
+  userFollowing,
+  userIsFollowing,
 }: ProfileType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserfollowed, setIsUserfollowed] = useState(false);
+  const { publicKey: address } = useWallet();
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -44,9 +50,7 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
               src={userPicture}
               alt={userProfileName}
               title={userProfileName}
-              width="48"
-              height="48"
-              className="rounded-full"
+              className="rounded-full w-12 h-12"
             />
             <h4 className="mt-2 truncate text-base text-slate-700">
               {userProfileName}
@@ -54,11 +58,16 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
             <div className="mt-1 truncate text-sm text-slate-500">
               @{userUsername}
             </div>
-            <Tooltip placement="bottomLeft"  title="Click to Copy">
-              <div onClick={()=>utilCopyToClip("TestAddress")} className="cursor-pointer mt-1 truncate text-sm text-slate-500">
-                0xE3811....D6
-              </div>
-            </Tooltip>
+            {address && (
+              <Tooltip placement="bottomLeft" title="Click to Copy">
+                <div
+                  onClick={() => utilCopyToClip(address?.toString() || "")}
+                  className="cursor-pointer mt-1 truncate text-sm text-slate-500"
+                >
+                  {address?.toString()}
+                </div>
+              </Tooltip>
+            )}
           </div>
 
           <div className="flex gap-2 mx-2">
@@ -88,9 +97,34 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
             )}
           </div>
         </div>
+        <div className="flex flex-row gap-4">
+          <div className="">
+            <p className="truncate text-lg text-slate-700 text-wrap">
+              {userFollowers}
+            </p>
+            <p className="truncate text-sm text-slate-500 text-wrap">
+              Followers
+            </p>
+          </div>
+
+          <div className="">
+            <p className="truncate text-lg text-slate-700 text-wrap">
+              {userFollowing}
+            </p>
+            <p className="truncate text-sm text-slate-500 text-wrap">
+              Following
+            </p>
+          </div>
+        </div>
         <p className="truncate text-sm text-slate-500 text-wrap">
-          {UserProfileBio}
+          {userProfileBio}
         </p>
+
+        {userBioMentionedProfiles && (
+          <p className="truncate text-sm text-slate-500 text-wrap">
+            @{userBioMentionedProfiles}
+          </p>
+        )}
 
         <Modal
           title="Edit Profile"
@@ -107,7 +141,8 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
             userBannerPicture={userBannerPicture}
             userUsername={userUsername}
             userProfileName={userProfileName}
-            UserProfileBio={UserProfileBio}
+            userProfileBio={userProfileBio}
+            userBioMentionedProfiles={userBioMentionedProfiles}
           />
         </Modal>
       </div>

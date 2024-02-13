@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Input, Modal, message } from "antd";
+import React, { useRef, useState } from "react";
+import { Button, Input, InputRef, Modal, message } from "antd";
 import useUser from "src/hooks/userHooks/useUser";
 import Lottie from "react-lottie";
 import animationData1 from "../../../../assets/Animations/Lottie/Loaders/LoadingWeb3.json";
@@ -7,6 +7,7 @@ import animationData2 from "../../../../assets/Animations/Lottie/onboarding/onbo
 
 import useUserAuth from "src/hooks/apisHooks/userAuth/useUserAuth";
 import { utilDecodeJWT } from "../functions/utilDecodeJWT";
+import { apiUpdateUser } from "src/services/BEApis/auth/AuthAPIs";
 
 export const UtilLoginToApp = () => {
   const { hasUserLoggedIn, setHasUserLoggedIn, userData, setUserData } =
@@ -19,6 +20,9 @@ export const UtilLoginToApp = () => {
 
   const { fnTriggerLogin, fnGetPriceAndSign, fnTriggerRegister } =
     useUserAuth();
+
+  const onboardUsernameRef = useRef<InputRef>(null);
+  const onboardEmailRef = useRef<InputRef>(null);
 
   const fnUserAuth = async () => {
     setIsOnboardingModalOpen(true);
@@ -76,6 +80,16 @@ export const UtilLoginToApp = () => {
 
   const fnHandleOnboarding = () => {
     // setIsOnboardingModalOpen(true);
+    console.log("onboardUsernameRef", onboardUsernameRef.current?.input?.value);
+    console.log("onboardEmailRef", onboardEmailRef.current?.input?.value);
+
+    const onboardingStatus = apiUpdateUser({
+      username: onboardUsernameRef.current?.input?.value,
+      email: onboardEmailRef.current?.input?.value,
+    });
+    setIsOnboardingModalOpen(false);
+    message.success("Account Created Successfully! 🎉");
+    console.log("onboardingStatus", onboardingStatus);
   };
   return (
     <>
@@ -117,7 +131,7 @@ export const UtilLoginToApp = () => {
                   Sail into Quack with a personality-packed username!
                 </div>
                 <div className="mt-4">
-                  <Input placeholder="Username" />
+                  <Input ref={onboardUsernameRef} placeholder="Username" />
                 </div>
               </div>
 
@@ -128,7 +142,7 @@ export const UtilLoginToApp = () => {
                   Join Quack and stay updated. Enter your email.
                 </div>
                 <div className="mt-4">
-                  <Input placeholder="Email" />
+                  <Input ref={onboardEmailRef} placeholder="Email" />
                 </div>
               </div>
               <div className="mt-4 w-full">

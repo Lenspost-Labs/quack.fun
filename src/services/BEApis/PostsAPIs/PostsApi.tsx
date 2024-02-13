@@ -55,3 +55,13 @@ export const apiDeletePost = async (data: any) => {
     console.log(error);
   }
 };
+
+export const apiViewSinglePost = async (data: any) => {
+  try {
+    const response = await apiInstance.get(`/user/post/cast`, { data });
+    return response;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+};

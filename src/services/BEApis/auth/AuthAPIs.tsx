@@ -56,3 +56,15 @@ export const apiUpdateUser = async (data: any) => {
     console.log(error);
   }
 };
+
+export const apiUserDetailsforFID = async (data: string) => {
+  try {
+    const response = await apiInstance.get(`/user/about?target_fid=${data}`);
+    console.log("response", response);
+
+    return response?.data;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+};

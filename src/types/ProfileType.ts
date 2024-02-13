@@ -3,5 +3,7 @@ interface ProfileType {
   userBannerPicture: string;
   userUsername: string;
   userProfileName: string;
-  UserProfileBio: string;
+  userProfileBio: string;
+  userBioMentionedProfiles: string[];
+  [key: string]: any;
 }

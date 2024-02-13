@@ -24,18 +24,22 @@ const router = createBrowserRouter([
         // errorElement: <ErrorPage />,
       },
       {
-        path: "/profile",
+        path: "/:userFid",
         element: <ProfilePageWrapper />,
         // errorElement: <ErrorPage />,
       },
+      // {
+      //   path: "/profile/:username",
+      //   element: <ProfilePageWrapper />,
+      //   // errorElement: <ErrorPage />,
+      // },
+      // {
+      //   path: "/post/:postId",
+      //   element: <SinglePostWrapper />,
+      //   // errorElement: <ErrorPage />,
+      // },
       {
-        path: "/profile/:username",
-        element: <ProfilePageWrapper />,
-        // errorElement: <ErrorPage />,
-      },
-
-      {
-        path: "/post/:postId",
+        path: "/:postFid/:postHash",
         element: <SinglePostWrapper />,
         // errorElement: <ErrorPage />,
       },

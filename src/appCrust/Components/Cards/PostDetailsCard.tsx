@@ -12,22 +12,29 @@ import BsHeartFill from "@meronex/icons/bs/BsHeartFill";
 import BsCollection from "@meronex/icons/bs/BsCollection";
 // @ts-ignore
 import SuShuffle from "@meronex/icons/su/SuShuffle";
-// ts-ignore
-import BsBookmark from "@meronex/icons/bs/BsBookmark";
+// // ts-ignore
+// import BsBookmark from "@meronex/icons/bs/BsBookmark";
 
-import { Modal, Spin, message } from "antd";
+// ts-ignore
+import BsArrowRepeat from "@meronex/icons/bs/BsArrowRepeat";
+
+import { Modal, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { apiGetPosts } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
 import NestedPostCard from "./NestedPostCard.tsx";
 import SharePostCard from "./SharePostCard.tsx";
-
+import Iframe from "react-iframe";
+import { SandboxAttributeValue } from "react-iframe/types";
+import { utilFormatPostText } from "src/appCrust/Components/Utils/functions/utilFormatPostText.tsx";
 const PostDetailsCard = ({
+  postAuthorFid,
   userPostId,
   userProfileName,
   userProfileUsername,
   userPostImage,
   userProfileImage,
   userProfilePostText,
+  userPostTimestamp,
   postLikes,
   frameLink,
   frameTitle,
@@ -64,7 +71,7 @@ PostCardType) => {
 
     const res = await apiGetPosts();
     console.log(res);
-    setComments(res?.data?.posts.slice(0, 5));
+    // setComments(res?.data?.posts.slice(0, 5));
   };
 
   return (
@@ -72,21 +79,22 @@ PostCardType) => {
       <div className="z-10 overflow-hidden cursor-pointer bg-white  text-slate-800 border-b border-slate-200 hover:bg-slate-50">
         <div className="px-6 pt-6 flex justify-between align-middle hover:cursor-pointer">
           <header className="flex gap-2 align-middle items-center">
-            <Link to={`/profile/${userProfileUsername}`}>
+            {/* <Link to={`/profile/${userProfileUsername}`}> */}
+            <Link to={`/${postAuthorFid}`}>
               <img
                 src={userProfileImage}
                 alt="user name"
                 title="user name"
                 width="40"
                 height="40"
-                className="max-w-full rounded-full z-10"
+                className="max-w-full rounded-full z-10 h-8 w-8 object-cover"
               />{" "}
             </Link>
 
             <h3 className="text-sm font-medium text-slate-700">
               {userProfileName}
             </h3>
-            <Link to={`/profile/${userProfileUsername}`}>
+            <Link to={`/${postAuthorFid}`}>
               <p
                 onMouseEnter={() => setProfileTeaser(true)}
                 // onMouseLeave={() => setProfileTeaser(false)}
@@ -97,25 +105,39 @@ PostCardType) => {
               </p>
             </Link>
 
-            <div className="text-sm text-slate-600"> 2 hours ago </div>
+            {/* <div className="text-sm text-slate-600"> 2 hours ago </div> */}
+            <div className="text-sm text-slate-600"> {userPostTimestamp} </div>
           </header>
         </div>
-        <Link to={`/post/${userPostId}`} color="#000">
+        <Link to={`/${postAuthorFid}/${userPostId}`} color="#000">
           <div className="p-6 pb-0">
-            {userProfilePostText && <p>{userProfilePostText}</p>}
+            {userProfilePostText && (
+              <p>{utilFormatPostText(userProfilePostText)}</p>
+            )}
 
-            {/* <p>{frameLink}</p> */}
-            <iframe
-              width="100%"
-              height="100%"
-              // className="h-96"
-              src={frameLink}
-              title={frameTitle}
-            ></iframe>
+            {frameLink && (
+              <div className="w-full h-[400px] border rounded-md mt-2">
+                <Iframe
+                  allow="autoplay"
+                  sandbox={
+                    "allow-same-origin allow-scripts allow-scripts" as SandboxAttributeValue
+                  }
+                  url={frameLink}
+                  // width={"100%"}
+                  // height="320px"
+                  className="w-full h-auto md:h-80"
+                  frameBorder={0}
+                  scrolling="no"
+                  loading="lazy"
+                  // display="block"
+                  // position="relative"
+                />
+              </div>
+            )}
           </div>
 
           {userPostImage && (
-            <div>
+            <div className="mt-2">
               <img
                 src={userPostImage}
                 alt="card image"
@@ -156,26 +178,26 @@ PostCardType) => {
               <BsChat size={20} />
             </div>
 
-            <div className=" cursor-pointer m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500">
+            {/* <div className=" cursor-pointer m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500">
               <BsCollection size={20} />
-            </div>
+            </div> */}
 
             {/* <div className="cursor-pointer mt-2.5 m-2 p-2 rounded-full hover:bg-yellow-50 selection:text-yellow-500"> */}
             <div className="cursor-pointer m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500">
-              <SuShuffle
-                style={{ color: "#CC9999" }}
-                size={24}
-                className="text-yellow-500!important "
+              <BsArrowRepeat
+                // style={{ color: "#CC9999" }}
+                size={20}
+                // className="text-yellow-500!important "
               />
             </div>
           </div>
           <div className="flex">
-            <div className="cursor-pointer m-2 p-2 rounded-full hover:bg-yellow-50 selection: text-yellow-500">
+            {/* <div className="cursor-pointer m-2 p-2 rounded-full hover:bg-yellow-50 selection: text-yellow-500">
               <BsBookmark
                 size={20}
                 onClick={() => message.success("Added to bookmarks")}
               />
-            </div>
+            </div> */}
 
             <div className="cursor-pointer pl-0 m-2 mr-5 p-2 rounded-full hover:bg-yellow-50 selection: text-yellow-500">
               <BsCursor size={20} onClick={showModal} />

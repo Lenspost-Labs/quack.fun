@@ -7,6 +7,7 @@ import {
 import { Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { utilXtimeAgo } from "../Utils/functions/utilXtimeAgo.tsx";
 
 const PostsWrapper: React.FC<{ isInFeed: boolean }> = ({ isInFeed }) => {
   const [posts, setPosts] = useState<PostType[]>([]);
@@ -32,30 +33,35 @@ const PostsWrapper: React.FC<{ isInFeed: boolean }> = ({ isInFeed }) => {
     const res = await apiGetFeed();
     console.log("res in fnGetFeed", res);
     // --- Working code : Frames ---
-    const unsplitPosts = res?.data?.feed.slice(0, noOfPosts);
+    // const unsplitPosts = res?.data?.feed.slice(0, noOfPosts);
 
-    const splitStrings = unsplitPosts.map((str: string, index: any) => {
-      const indexOfHttps = str.indexOf("https://");
+    // const splitStrings = unsplitPosts.map((str: string, index: any) => {
+    //   const indexOfHttps = str.indexOf("https://");
 
-      if (indexOfHttps !== -1) {
-        const firstPart = str.substring(0, indexOfHttps);
-        const secondPart = str.substring(indexOfHttps);
-        return { firstPart, secondPart };
-      } else {
-        return { firstPart: str, secondPart: "" };
-      }
-    });
+    //   if (indexOfHttps !== -1) {
+    //     const firstPart = str.substring(0, indexOfHttps);
+    //     const secondPart = str.substring(indexOfHttps);
+    //     return { firstPart, secondPart };
+    //   } else {
+    //     return { firstPart: str, secondPart: "" };
+    //   }
+    // });
 
-    setPosts(splitStrings);
+    // setPosts(splitStrings);
+    setPosts(res?.data);
+
     setLoading(false);
   };
 
-  useEffect(() => {
+  const fnLoadPosts = async () => {
     if (isInFeed) {
       fnGetFeed();
     } else {
       fnGetAllPosts();
     }
+  };
+  useEffect(() => {
+    fnLoadPosts();
   }, [isInFeed, noOfPosts]);
 
   return (
@@ -77,7 +83,8 @@ const PostsWrapper: React.FC<{ isInFeed: boolean }> = ({ isInFeed }) => {
                   noOfPosts
                 );
                 setNoOfPosts(noOfPosts + 10);
-                fnGetAllPosts();
+                // fnGetAllPosts();
+                fnLoadPosts();
               }}
               hasMore={true}
               loader={
@@ -97,17 +104,21 @@ const PostsWrapper: React.FC<{ isInFeed: boolean }> = ({ isInFeed }) => {
                 return (
                   <PostDetailsCard
                     key={index}
-                    userPostId={item.index}
-                    postLikes={item.reactions}
-                    userProfileImage={`https://picsum.photos/id/${
-                      item.id + 300
-                    }/40/40`}
-                    userProfileName={"Scripts"}
-                    userProfileUsername={`userid${item.index}`}
-                    userPostImage={""}
-                    // userProfilePostText={item.firstPart + item.secondPart}
+                    userPostId={item.hash}
+                    postLikes={item?.reaction?.LIKE}
+                    userProfileImage={item?.author?.pfp}
+                    userProfileName={item?.author?.name}
+                    userProfileUsername={item?.author?.username}
+                    userPostImage={
+                      item?.embeds?.[0] ? item?.embeds?.[0]?.image : null
+                    }
+                    postAuthorFid={item?.author?.fid}
+                    userPostTimestamp={utilXtimeAgo(item.timestamp)}
+                    userProfilePostText={item.body}
                     frameTitle={item.firstPart}
-                    frameLink={item.secondPart}
+                    frameLink={
+                      item?.embeds?.[0] ? item?.embeds?.[0]?.url : null
+                    }
                   />
                 );
               })}
