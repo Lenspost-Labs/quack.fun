@@ -18,12 +18,6 @@ const CustomUploadBtn2: React.FC = () => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: "-1",
-      name: "",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
   ]);
 
   const handleCancel = () => setPreviewOpen(false);
@@ -54,13 +48,13 @@ const CustomUploadBtn2: React.FC = () => {
   return (
     <>
       <Upload
-        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+        action=""
         listType="picture-card"
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
       >
-        {fileList.length >= 3 ? null : uploadButton}
+        {fileList.length >= 4 ? null : uploadButton}
       </Upload>
       <Modal
         open={previewOpen}

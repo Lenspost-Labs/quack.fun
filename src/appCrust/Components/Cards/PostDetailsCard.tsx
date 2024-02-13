@@ -29,6 +29,8 @@ const PostDetailsCard = ({
   userProfileImage,
   userProfilePostText,
   postLikes,
+  frameLink,
+  frameTitle,
 }: // onClick,
 PostCardType) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
@@ -100,16 +102,27 @@ PostCardType) => {
         </div>
         <Link to={`/post/${userPostId}`} color="#000">
           <div className="p-6 pb-0">
-            <p>{userProfilePostText}</p>
+            {userProfilePostText && <p>{userProfilePostText}</p>}
+
+            {/* <p>{frameLink}</p> */}
+            <iframe
+              width="100%"
+              height="100%"
+              // className="h-96"
+              src={frameLink}
+              title={frameTitle}
+            ></iframe>
           </div>
 
-          <div>
-            <img
-              src={userPostImage}
-              alt="card image"
-              className="aspect-video w-full p-4"
-            />
-          </div>
+          {userPostImage && (
+            <div>
+              <img
+                src={userPostImage}
+                alt="card image"
+                className="aspect-video w-full p-4"
+              />
+            </div>
+          )}
         </Link>
 
         {/* Icons container */}

@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/feed",
-        element: <PostsWrapper />,
+        element: <PostsWrapper isInFeed={true} />,
         // errorElement: <ErrorPage />,
       },
 
@@ -23,13 +23,6 @@ const router = createBrowserRouter([
         element: <NotificationsWrapper />,
         // errorElement: <ErrorPage />,
       },
-
-      {
-        path: "/feed",
-        element: <PostsWrapper />,
-        // errorElement: <ErrorPage />,
-      },
-
       {
         path: "/profile",
         element: <ProfilePageWrapper />,

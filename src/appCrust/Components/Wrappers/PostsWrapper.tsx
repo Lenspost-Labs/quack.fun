@@ -6,11 +6,9 @@ import {
 } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
 import { Spin } from "antd";
 import { useNavigate } from "react-router-dom";
-
 import InfiniteScroll from "react-infinite-scroll-component";
 
-// https://ahooks.js.org/hooks/use-infinite-scroll
-const PostsWrapper: React.FC<any> = (isInFeed) => {
+const PostsWrapper: React.FC<{ isInFeed: boolean }> = ({ isInFeed }) => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(false);
   const [noOfPosts, setNoOfPosts] = useState(10);
@@ -23,29 +21,42 @@ const PostsWrapper: React.FC<any> = (isInFeed) => {
     const res = await apiGetPosts();
     console.log("res in fnGetAllPosts", res);
 
-    setPosts(res?.data?.posts.slice(0, noOfPosts));
+    setPosts(res?.data?.casts);
 
     setLoading(false);
   };
-
-  useEffect(() => {
-    fnGetAllPosts();
-  }, [noOfPosts]);
 
   const fnGetFeed = async () => {
     setLoading(true);
 
     const res = await apiGetFeed();
-    console.log("res in fnGetAllPosts", res);
+    console.log("res in fnGetFeed", res);
+    // --- Working code : Frames ---
+    const unsplitPosts = res?.data?.feed.slice(0, noOfPosts);
 
-    setPosts(res?.data?.posts.slice(0, noOfPosts));
+    const splitStrings = unsplitPosts.map((str: string, index: any) => {
+      const indexOfHttps = str.indexOf("https://");
 
+      if (indexOfHttps !== -1) {
+        const firstPart = str.substring(0, indexOfHttps);
+        const secondPart = str.substring(indexOfHttps);
+        return { firstPart, secondPart };
+      } else {
+        return { firstPart: str, secondPart: "" };
+      }
+    });
+
+    setPosts(splitStrings);
     setLoading(false);
   };
 
   useEffect(() => {
-    fnGetFeed();
-  }, [noOfPosts]);
+    if (isInFeed) {
+      fnGetFeed();
+    } else {
+      fnGetAllPosts();
+    }
+  }, [isInFeed, noOfPosts]);
 
   return (
     <>
@@ -66,7 +77,7 @@ const PostsWrapper: React.FC<any> = (isInFeed) => {
                   noOfPosts
                 );
                 setNoOfPosts(noOfPosts + 10);
-                fnGetAllPosts;
+                fnGetAllPosts();
               }}
               hasMore={true}
               loader={
@@ -82,24 +93,22 @@ const PostsWrapper: React.FC<any> = (isInFeed) => {
                 </p>
               }
             >
-              {posts?.map((item) => {
+              {posts?.map((item, index) => {
                 return (
-                  <>
-                    <PostDetailsCard
-                      key={item.id}
-                      userPostId={item.id}
-                      postLikes={item.reactions}
-                      userProfileImage={`https://picsum.photos/id/${
-                        item.id + 300
-                      }/40/40`}
-                      userProfileName={"Scripts"}
-                      userProfileUsername={`userid${item.userId}`}
-                      userPostImage={`https://picsum.photos/id/${
-                        item.id + 300
-                      }/800/600`}
-                      userProfilePostText={item.body}
-                    />
-                  </>
+                  <PostDetailsCard
+                    key={index}
+                    userPostId={item.index}
+                    postLikes={item.reactions}
+                    userProfileImage={`https://picsum.photos/id/${
+                      item.id + 300
+                    }/40/40`}
+                    userProfileName={"Scripts"}
+                    userProfileUsername={`userid${item.index}`}
+                    userPostImage={""}
+                    // userProfilePostText={item.firstPart + item.secondPart}
+                    frameTitle={item.firstPart}
+                    frameLink={item.secondPart}
+                  />
                 );
               })}
             </InfiniteScroll>

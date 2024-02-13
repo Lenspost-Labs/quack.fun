@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // @ts-ignore
 import BsImage from "@meronex/icons/bs/BsImage";
 // @ts-ignore
@@ -8,7 +8,7 @@ import MdAccessTime from "@meronex/icons/md/MdAccessTime";
 import TextArea from "antd/es/input/TextArea";
 import {
   Button,
-  DatePicker,
+  // DatePicker,
   DatePickerProps,
   Divider,
   Popover,
@@ -16,16 +16,18 @@ import {
 } from "antd";
 // import CustomUploadBtn from "../Items/CustomUploadBtn";
 import EmojiPicker from "emoji-picker-react";
-import data from "@emoji-mart/data";
-import CustomUploadBtn2 from "../Items/CustomUploadBtn2";
+// import data from "@emoji-mart/data";
 import { apiNewPost } from "src/services/BEApis/PostsAPIs/PostsApi";
-import UtilUploadIK from "../Utils/utilUploadIK";
+import UtilUploadtoIK from "../Utils/functions/utilUploadtoIK";
+// import useCustomImageKit from "src/hooks/imagekitHooks/useCustomImageKit";
+import useUserPosts from "src/hooks/apisHooks/userPosts/useUserPosts";
+// import UtilUploadtoIKJS from "../Utils/functions/utilUploadtoIKJS";
 
 const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
   const [inputValue, setInputValue] = useState("");
   const [scheduleUtcDate, setScheduleUtcDate] = useState(new Date());
-  console.log(data);
-  console.log(isInFeed);
+  const { newPostDetails, setNewPostDetails, setIsLoading, setError } =
+    useUserPosts();
 
   const onDateChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
@@ -36,16 +38,35 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
+    setNewPostDetails(
+      (
+        prevDetails = {
+          postTextData: "",
+          postImageData: [],
+        }
+      ) => ({
+        ...prevDetails,
+        postTextData: e.target.value,
+      })
+    );
   };
 
-  const fnNewPost = async () => {
+  const fnPostNewPost = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    console.log("newPostDetails in fnNewPost", newPostDetails);
     message.loading("Creating a cast");
     try {
-      console.log(inputValue);
-      console.log(scheduleUtcDate);
+      // console.log(inputValue);
+      // console.log(scheduleUtcDate);
       const res = await apiNewPost({
-        postTextData: inputValue,
-        postImageData: [],
+        postTextData: newPostDetails.postTextData,
+        // postImageData: newPostDetails.postImageData, // Fix: Allow array of any length
+
+        // Getting Null here
+        // https://ik.imagekit.io/quackmagic/posts/1707812654872_-YWZrghgU
+        postImageData: [newPostDetails.postImageData.toString()], // Fix: Allow array of any length
       });
 
       console.log(res);
@@ -56,6 +77,10 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
       message.error(`${err}`);
     }
   };
+
+  useEffect(() => {
+    handleInput;
+  }, [inputValue]);
 
   return (
     <>
@@ -73,7 +98,8 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
           <div className="flex ">
             {/* <BsImage size={20} className="m-2 text-slate-700 cursor-pointer" /> */}{" "}
             {/* <CustomUploadBtn2 /> */}
-            <UtilUploadIK/>
+            <UtilUploadtoIK />
+            {/* <UtilUploadtoIKJS /> */}
             <Popover
               placement="bottom"
               content={
@@ -93,7 +119,7 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
             </Popover>
           </div>
 
-          <div className="flex">
+          {/* <div className="flex">
             <div className="m-1.5">
               <DatePicker
                 size="small"
@@ -103,16 +129,16 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
                 showTime
               />
             </div>
-          </div>
+          </div> */}
           {/* {isInFeed && <Button className="m-1" type="primary">Post</Button>} */}
         </div>
         <div className="flex gap-2 align-middle items-center justify-end">
-          {scheduleUtcDate.toDateString() !== "Invalid Date" && (
+          {/* {scheduleUtcDate.toDateString() !== "Invalid Date" && (
             <div className="text-xs text-slate-500">
               {scheduleUtcDate.toLocaleString()}
             </div>
-          )}
-          <Button onClick={fnNewPost} className="m-1" type="primary">
+          )} */}
+          <Button onClick={fnPostNewPost} className="m-1" type="primary">
             Post
           </Button>
         </div>

@@ -30,7 +30,7 @@ const ProfilePageWrapper = () => {
     {
       key: "3",
       label: "Likes",
-      children: <PostsWrapper />,
+      // children: <PostsWrapper />,
     },
   ];
 

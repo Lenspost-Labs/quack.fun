@@ -1,7 +1,7 @@
 import { Button, Divider } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
-import { utilCopyToClip } from "../Utils/utilCopyToClip";
+import { utilCopyToClip } from "../Utils/functions/utilCopyToClip";
 import XLogo from "../../../assets/Logos/logoX.jpeg";
 import TgLogo from "../../../assets/Logos/logoTg.png";
 

@@ -3,7 +3,7 @@ import { Button, Modal, Tooltip, message } from "antd";
 import EditProfileCard from "../Cards/EditProfileCard.tsx";
 // @ts-ignore
 import MdEdit from "@meronex/icons/md/MdEdit";
-import { utilCopyToClip } from "../Utils/utilCopyToClip.tsx";
+import { utilCopyToClip } from "../Utils/functions/utilCopyToClip.tsx";
 
 const ProfileSectionCard: React.FC<ProfileType> = ({
   userPicture,

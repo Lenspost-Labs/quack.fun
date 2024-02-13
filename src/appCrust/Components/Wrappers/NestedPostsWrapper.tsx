@@ -21,7 +21,7 @@ const NestedPostsWrapper: React.FC<any> = () => {
   };
 
   useEffect(() => {
-    fnGetAllNestedPosts();
+    // fnGetAllNestedPosts();
   }, [noOfPosts]);
 
 

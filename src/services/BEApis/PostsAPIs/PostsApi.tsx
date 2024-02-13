@@ -16,8 +16,8 @@ export const apiNewPost = async ({
 }: ApiNewPostsType) => {
   try {
     const response = await apiInstance.post("/user/post", {
-      body: postTextData,
-      images: postImageData,
+      text: postTextData,
+      embeds: postImageData,
     });
     return response;
   } catch (error) {
@@ -34,5 +34,4 @@ export const apiGetFeed = async () => {
     console.log("IN API - ERROR");
     console.log(error);
   }
-}
-
+};

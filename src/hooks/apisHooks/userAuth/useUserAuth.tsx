@@ -26,12 +26,6 @@ const useUserAuth = () => {
     console.log("apiLogin is", res);
     localStorage.setItem("jwt", res?.data?.jwt);
     return res?.data;
-
-    // fnSignAndSendTx(res?.data?.tx || "");
-
-    // // Trigger Step 2
-    // setModalMessage("Please wait while we get the price to pay.");
-    // fnGetPriceToPay();
   };
 
   // Step 2 : Get Price and tx to pay
@@ -41,16 +35,20 @@ const useUserAuth = () => {
       console.log("apiGetPaymentPrice is", res);
       const paymentDetails = await res?.data;
       console.log("paymentDetails is", paymentDetails); // Getting undefined here
-      //   setModalMessage(
-      //     `Please Pay ${paymentDetails?.priceInSol} SOL from your wallet to continue.`
-      //   );
-      const txSig = await fnSignAndSendTx(paymentDetails?.tx || "");
-      console.log("txSig is", txSig);
+        // setModalMessage(
+        //   `Please Pay ${paymentDetails?.priceInSol} SOL from your wallet to continue.`
+        // );
+      if (paymentDetails?.message == "Account already exists") {
+        return null;
+      } else {
+        const txSig = await fnSignAndSendTx(paymentDetails?.tx || "");
+        console.log("txSig is", txSig);
 
-      // Trigger Step 3
-      if (txSig) {
-        // fnTriggerRegister(txSig);
-        return txSig;
+        // Trigger Step 3
+        if (txSig) {
+          // fnTriggerRegister(txSig);
+          return txSig;
+        }
       }
     } catch (err) {
       console.log("Err in fnGetPriceToPay", err);
@@ -61,20 +59,13 @@ const useUserAuth = () => {
   // Step 3 : Register User and Update Status
   const fnTriggerRegister = async (txSig: any) => {
     try {
-      // setModalMessage("Please wait while we register your wallet.");
       const res = await apiRegisterNewUser(txSig);
       console.log("apiRegisterNewUser is", res);
-
-      // setHasUserLoggedIn(true);
-      // setModalMessage("Thank you for joining Quack! 🎉");
-
-      // setIsOnboardingModalOpen(false);
       message.success("Login Successful.");
     } catch (err) {
       console.log("Err in fnTriggerRegister", err);
 
       message.error((err as Error).toString());
-      // setIsOnboardingModalOpen(false);
       return;
     }
   };
