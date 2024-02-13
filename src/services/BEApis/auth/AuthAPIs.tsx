@@ -44,3 +44,15 @@ export const apiRegisterNewUser = async (txSig: string) => {
     console.log(error);
   }
 };
+
+export const apiUpdateUser = async (data: any) => {
+  try {
+    const response = await apiInstance.post("/user/set-username-email", data);
+    console.log("response", response);
+
+    return response;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+};

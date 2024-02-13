@@ -35,3 +35,23 @@ export const apiGetFeed = async () => {
     console.log(error);
   }
 };
+
+export const apiReactForAPost = async (data: any) => {
+  try {
+    const response = await apiInstance.post("/user/post/react", data);
+    return response;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+};
+
+export const apiDeletePost = async (data: any) => {
+  try {
+    const response = await apiInstance.post(`/user/post?hash=${data}`);
+    return response;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+};
