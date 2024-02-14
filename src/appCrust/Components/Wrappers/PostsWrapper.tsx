@@ -65,7 +65,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
     // });
 
     // setPosts(splitStrings);
-    setPosts(res?.data);
+    setPosts(res?.data || []);
 
     setLoading(false);
   };
