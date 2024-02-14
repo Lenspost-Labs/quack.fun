@@ -4,7 +4,7 @@
  * Npm package `@solana/wallet-adapter-wallets`.
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   ConnectionProvider,
@@ -66,7 +66,7 @@ const SolLoginBtnContext: FC<{ children: ReactNode }> = ({ children }) => {
 
 const SolLoginBtnUI: FC = () => {
   const { connected, disconnect, publicKey: address } = useWallet();
-  const { userData, setHasUserLoggedIn } = useUser();
+  const { userData, setHasUserLoggedIn, hasUserLoggedIn } = useUser();
 
   console.log(connected);
   console.log(address);
@@ -79,6 +79,33 @@ const SolLoginBtnUI: FC = () => {
     localStorage.removeItem("fid");
   };
 
+  const fnCheckIfUserHasLoggedIn = () => {
+    if (hasUserLoggedIn) {
+      setHasUserLoggedIn(true);
+    }
+
+    if (!hasUserLoggedIn) {
+      setHasUserLoggedIn(false);
+    }
+  };
+
+  useEffect(() => {
+    fnCheckIfUserHasLoggedIn;
+  }, []);
+
+  useEffect(() => {
+    fnCheckIfUserHasLoggedIn;
+  }, [hasUserLoggedIn]);
+
+  useEffect(() => {
+    fnCheckIfUserHasLoggedIn;
+  }, [userData]);
+
+  useEffect(() => {
+    fnCheckIfUserHasLoggedIn;
+  }, [connected]);
+  
+
   return (
     <>
       <UtilLoginToApp />
@@ -90,13 +117,18 @@ const SolLoginBtnUI: FC = () => {
           </WalletMultiButton>
         </>
       )}
-      {connected && (
+      {connected  && (
         <>
           <div className="flex justify-between items-center align-middle ">
-            <Link to={`/${(userData as { fid?: string, username?: string })?.fid}`}>
+            <Link
+              to={`/${(userData as { fid?: string; username?: string })?.fid}`}
+            >
               <SidebarItem
                 className="hidden md:inline-block"
-                itemName={`${(userData as { username?: string })?.username}` || "quackuser"}
+                itemName={
+                  `${(userData as { username?: string })?.username}` ||
+                  "quackuser"
+                }
                 userPicture={"https://i.pravatar.cc/24?img=3"}
               />
 

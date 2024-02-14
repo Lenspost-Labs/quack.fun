@@ -5,6 +5,7 @@ import PostsWrapper from "./appCrust/Components/Wrappers/PostsWrapper.tsx";
 import NotificationsWrapper from "./appCrust/Components/Wrappers/NotificationsWrapper.tsx";
 import ProfilePageWrapper from "./appCrust/Components/Wrappers/ProfilePageWrapper.tsx";
 import SinglePostWrapper from "./appCrust/Components/Wrappers/SinglePostWrapper.tsx";
+import AuthWrapper from "./appCrust/Components/Wrappers/AuthWrapper.tsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,13 @@ const router = createBrowserRouter([
         element: <SinglePostWrapper />,
         // errorElement: <ErrorPage />,
       },
+      {
+        path: "/auth",
+        element: <AuthWrapper />,
+        // errorElement: <ErrorPage />,
+      },
+
+    
     ],
   },
 ]);

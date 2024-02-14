@@ -8,6 +8,7 @@ import animationData2 from "../../../../assets/Animations/Lottie/onboarding/onbo
 import useUserAuth from "src/hooks/apisHooks/userAuth/useUserAuth";
 import { utilDecodeJWT } from "../functions/utilDecodeJWT";
 import { apiUpdateUser } from "src/services/BEApis/auth/AuthAPIs";
+import { useNavigate } from "react-router-dom";
 
 export const UtilLoginToApp = () => {
   const { hasUserLoggedIn, setHasUserLoggedIn, userData, setUserData } =
@@ -29,6 +30,7 @@ export const UtilLoginToApp = () => {
   });
   const [showOnboardValidation, setShowOnboardValidation] =
     useState<boolean>(false);
+  const navigate = useNavigate();
 
   const fnUserAuth = async () => {
     setIsOnboardingModalOpen(true);
@@ -38,6 +40,18 @@ export const UtilLoginToApp = () => {
     console.log("loginInfo", loginInfo);
     const decodedJWT = utilDecodeJWT(loginInfo?.jwt || "");
     console.log("decodedJWT", decodedJWT);
+
+    // If Username is already present - No need to show Modal
+
+    if (loginInfo?.username !== null) {
+      setHasUserLoggedIn(true);
+      setIsOnboardingModalOpen(false);
+      setModalMessage("Welcome Back! 🎉");
+      message.success("Welcome back to Quack! 🎉 ");
+
+      navigate("/feed");
+      return;
+    }
     if (decodedJWT) {
       setUserData({
         evmAddress: (decodedJWT as { evmAddress?: string })?.evmAddress || "",
@@ -103,6 +117,7 @@ export const UtilLoginToApp = () => {
         });
         message.success("Account Created Successfully! 🎉");
         setIsOnboardingModalOpen(false);
+        navigate("/feed");
       }
 
       if (!onboardingStatus) {
@@ -125,7 +140,11 @@ export const UtilLoginToApp = () => {
   return (
     <>
       {" "}
-      {!hasUserLoggedIn && <Button onClick={fnUserAuth}>Login</Button>}
+      {!hasUserLoggedIn && (
+        <Button className="my-2" onClick={fnUserAuth}>
+          Login
+        </Button>
+      )}
       <Modal
         width={800}
         centered
