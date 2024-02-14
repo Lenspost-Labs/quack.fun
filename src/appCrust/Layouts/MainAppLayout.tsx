@@ -39,7 +39,7 @@ const MainAppLayout: React.FC<any> = () => {
     <>
       {/* Enabled only for mobile */}
       <TopNavbar />
-      <Navigate to="/feed" />
+      {/* <Navigate to="/feed" /> */}
       <div className="flex justify-center">
         <div className="my-2 border-r border-slate-200 hidden md:block h-100vh">
           <LeftSidebar />

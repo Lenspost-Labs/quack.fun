@@ -95,7 +95,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
           <div>Please Login to View Posts</div>
         )}
 
-        {!loading && posts && posts?.length > 0 ? (
+        {!loading && posts !== undefined && posts?.length > 0 ? (
           <>
             <InfiniteScroll
               dataLength={posts?.length}
