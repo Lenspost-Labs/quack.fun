@@ -1,16 +1,23 @@
-export const getAllMetaTags = () => {
-  const metas = document.querySelectorAll("meta");
-  const metaInfos: { property: string; content: string }[] = [];
+import { AxiosResponse } from "axios";
 
-  metas.forEach((meta) => {
-    // Extract the property and content attributes
-    const property = meta.getAttribute("property");
-    const content = meta.getAttribute("content");
+export const utilGetMetaTagsData = (metaData: AxiosResponse<any, any>) => {
+  // Function to add or update a meta tag
+  function setMetaTag(name: string, content: string) {
+    let head = document.getElementsByTagName("head")[0];
+    let tag = document.querySelector(`meta[name="${name}"]`);
 
-    if (property && content) {
-      metaInfos.push({ property, content });
+    if (tag) {
+      tag.setAttribute("content", content);
+    } else {
+      tag = document.createElement("meta");
+      tag.setAttribute("name", name);
+      tag.setAttribute("content", content);
+      head.appendChild(tag);
     }
-  });
+  }
 
-  return metaInfos;
+  // Iterate over the metaData and set each meta tag
+  for (let name in metaData) {
+    setMetaTag(name, metaData[name]);
+  }
 };
