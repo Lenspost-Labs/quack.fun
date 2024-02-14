@@ -17,9 +17,6 @@ const SinglePostWrapper = () => {
   // sample api call
   const fnGetSinglePost = async () => {
     setLoading(true);
-
-    console.log("postFid", postFid);
-    console.log("postHash", postHash);
     const singlePostRes = await apiViewSinglePost({
       fid: Number(postFid),
       hash: postHash,
