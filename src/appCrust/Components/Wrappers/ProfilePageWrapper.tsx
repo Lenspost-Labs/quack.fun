@@ -17,7 +17,7 @@ const ProfilePageWrapper = () => {
     bio: { mentionedProfiles: [], text: "" },
     displayName: "",
     username: "",
-    fid: "",
+    fid: userFid,
     pfp: "",
     follower: [],
     following: [],
@@ -51,8 +51,9 @@ const ProfilePageWrapper = () => {
   const fnGetProfileInfo = async () => {
     const profileInfoRes = await apiUserDetailsforFID(userFid ? userFid : "");
 
-    console.log("profileInfo", profileInfoRes);
+    // console.log("profileInfo", profileInfoRes);
     setProfileInfo(profileInfoRes as any);
+    console.log("profileInfo", profileInfo); 
   };
 
   useEffect(() => {
@@ -70,12 +71,13 @@ const ProfilePageWrapper = () => {
         userUsername={profileInfo?.username}
         userProfileName={profileInfo?.displayName}
         userPicture={profileInfo?.pfp}
-        userBannerPicture={"https://picsum.photos/id/146/200/200"}
+        userBannerPicture={"https://picsum.photos/id/80/200/200"}
         userProfileBio={profileInfo?.bio?.text}
         userBioMentionedProfiles={profileInfo?.bio?.mentionedProfiles[0]}
         userFollowers={profileInfo?.follower}
         userFollowing={profileInfo?.following}
         userIsBeingFollowed={false}
+        userFid={profileInfo?.fid}
       />
       <div className="bg-white mx-4">
         <Tabs defaultActiveKey="1" items={items} onChange={onChange} />

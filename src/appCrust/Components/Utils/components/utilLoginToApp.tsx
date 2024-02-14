@@ -23,6 +23,12 @@ export const UtilLoginToApp = () => {
 
   const onboardUsernameRef = useRef<InputRef>(null);
   const onboardEmailRef = useRef<InputRef>(null);
+  const [onboardValidation, setOnboardValidation] = useState({
+    username: "Username is available",
+    email: "Email is valid",
+  });
+  const [showOnboardValidation, setShowOnboardValidation] =
+    useState<boolean>(false);
 
   const fnUserAuth = async () => {
     setIsOnboardingModalOpen(true);
@@ -78,18 +84,43 @@ export const UtilLoginToApp = () => {
     setHasUserLoggedIn(true);
   };
 
-  const fnHandleOnboarding = () => {
+  const fnHandleOnboarding = async () => {
     // setIsOnboardingModalOpen(true);
     console.log("onboardUsernameRef", onboardUsernameRef.current?.input?.value);
     console.log("onboardEmailRef", onboardEmailRef.current?.input?.value);
 
-    const onboardingStatus = apiUpdateUser({
-      username: onboardUsernameRef.current?.input?.value,
-      email: onboardEmailRef.current?.input?.value,
-    });
-    setIsOnboardingModalOpen(false);
-    message.success("Account Created Successfully! 🎉");
-    console.log("onboardingStatus", onboardingStatus);
+    try {
+      const onboardingStatus = await apiUpdateUser({
+        username: onboardUsernameRef.current?.input?.value,
+        email: onboardEmailRef.current?.input?.value,
+      });
+      console.log("onboardingStatus", onboardingStatus);
+      if (onboardingStatus) {
+        setShowOnboardValidation(true);
+        setOnboardValidation({
+          username: "Username is available",
+          email: "Email is valid",
+        });
+        message.success("Account Created Successfully! 🎉");
+        setIsOnboardingModalOpen(false);
+      }
+
+      if (!onboardingStatus) {
+        setShowOnboardValidation(true);
+        setOnboardValidation({
+          username: "Username is not available",
+          email: "Email is valid",
+        });
+        message.error("Account Creation Failed!");
+      }
+    } catch (err) {
+      console.log("onboardingStatus", err);
+      message.error("Account Creation Failed! ❌ Error :" + err);
+      setIsOnboardingModalOpen(false);
+    }
+    // if (onboardingStatus.message === "User Updated") {
+    // }
+    // setIsOnboardingModalOpen(false);
   };
   return (
     <>
@@ -133,6 +164,12 @@ export const UtilLoginToApp = () => {
                 <div className="mt-4">
                   <Input ref={onboardUsernameRef} placeholder="Username" />
                 </div>
+                {showOnboardValidation && (
+                  <div className="mt-2 text-yellow-600">
+                    {" "}
+                    {onboardValidation.username}
+                  </div>
+                )}
               </div>
 
               <div className="mt-2 w-full">
@@ -144,6 +181,12 @@ export const UtilLoginToApp = () => {
                 <div className="mt-4">
                   <Input ref={onboardEmailRef} placeholder="Email" />
                 </div>
+                {showOnboardValidation && (
+                  <div className="mt-2 text-yellow-600">
+                    {" "}
+                    {onboardValidation.email}
+                  </div>
+                )}
               </div>
               <div className="mt-4 w-full">
                 <Button

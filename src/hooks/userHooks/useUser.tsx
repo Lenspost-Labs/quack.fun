@@ -12,13 +12,11 @@ const useUser = (): useUserType => {
     name: "",
     profileImgUrl: "",
     coverImgUrl: "",
-    fid: localStorage.getItem("fid") || "",
+    fid: "",
   });
 
   const [jwt, setJwt] = useState(localStorage.getItem("jwt"));
   const [hasUserLoggedIn, setHasUserLoggedIn] = useState(false);
-
-  
 
   useEffect(() => {
     if (jwt) {
@@ -34,7 +32,14 @@ const useUser = (): useUserType => {
       setJwt(localStorage.getItem("jwt"));
     }
   }, [userData?.solanaAddress]);
-  
+
+  useEffect(() => {
+    setUserData({
+      ...userData,
+      fid: localStorage.getItem("fid") || "",
+    });
+  }, []);
+
   return {
     userData,
     setUserData,

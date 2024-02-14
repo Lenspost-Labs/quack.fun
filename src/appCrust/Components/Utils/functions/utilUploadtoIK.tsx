@@ -2,9 +2,11 @@ import React, { useRef } from "react";
 import { IKContext, IKUpload } from "imagekitio-react";
 import {
   ENV_IK_PUBLIC_KEY,
+  ENV_IK_RAVESHARE_AUTH_ENDPOINT,
   ENV_IK_RAVESHARE_URL_ENDPOINT,
 } from "src/config/envConfig";
 import useUserPosts from "src/hooks/apisHooks/userPosts/useUserPosts";
+import { apiInstance } from "src/services/BEApis/ApiConfig";
 
 const publicKey = ENV_IK_PUBLIC_KEY;
 const urlEndpoint = ENV_IK_RAVESHARE_URL_ENDPOINT;
@@ -15,17 +17,18 @@ function UtilUploadtoIK() {
 
   const authenticator = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/imagekit-auth");
+      const data = await apiInstance.get(ENV_IK_RAVESHARE_AUTH_ENDPOINT);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(
-          `Request failed with status ${response.status}: ${errorText}`
-        );
-      }
+      // if (!response.ok) {
+      //   const errorText = await response.text();
+      //   throw new Error(
+      //     `Request failed with status ${response.status}: ${errorText}`
+      //   );
+      // }
 
-      const data = await response.json();
-      const { signature, expire, token } = data;
+      // const data = await response.json();
+      const { signature, expire, token } = data?.data;
+      console.log("data in authenticator", data?.data);
       return { signature, expire, token };
     } catch (error) {
       throw new Error(
@@ -41,10 +44,11 @@ function UtilUploadtoIK() {
   const onSuccess = (res: any) => {
     console.log("Success", res);
     console.log("res in OnSuccess - Image Upload", res);
-    setNewPostDetails({
-      ...newPostDetails,
-      postImageData: res.url,
-    });
+
+    setNewPostDetails((prevDetails) => ({
+      ...prevDetails,
+      postImageData: res?.url,
+    }));
   };
 
   const onUploadProgress = (progress: any) => {

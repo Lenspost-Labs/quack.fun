@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal, Tooltip, message } from "antd";
 import EditProfileCard from "../Cards/EditProfileCard.tsx";
 // @ts-ignore
 import MdEdit from "@meronex/icons/md/MdEdit";
 import { utilCopyToClip } from "../Utils/functions/utilCopyToClip.tsx";
 import { useWallet } from "@solana/wallet-adapter-react";
+import {
+  apiDoesUserFollow,
+  apiFollowAUser,
+  apiUnfollowAUser,
+} from "src/services/BEApis/UserInteractionAPIs/InteractionsAps.tsx";
 
 const ProfileSectionCard: React.FC<ProfileType> = ({
   userPicture,
@@ -15,7 +20,7 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
   userBioMentionedProfiles,
   userFollowers,
   userFollowing,
-  userIsFollowing,
+  userFid,
 }: ProfileType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserfollowed, setIsUserfollowed] = useState(false);
@@ -26,11 +31,36 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
     message.success("Profile updated successfully");
   };
 
+  const handleCheckFollow = async () => {
+    console.log("userFid", userFid);
+    const handleFollowRes = await apiDoesUserFollow(userFid);
+    setIsUserfollowed(handleFollowRes?.data?.doesFollowUser);
+    console.log("handleFollowRes", handleFollowRes?.data?.doesFollowUser);
+  };
+
+  const handleFollowAUser = async () => {
+    const handleFollowRes = await apiFollowAUser(userFid);
+    console.log("handleFollowRes", handleFollowRes);
+  };
+  const handleUnfolllowUser = async () => {
+    const handleFollowRes = await apiUnfollowAUser(userFid);
+    console.log("handleFollowRes", handleFollowRes);
+  };
+
   const handleFollowBtn = (notifyText: string) => {
     console.log(notifyText);
     message.success(notifyText);
+    if (!isUserfollowed) {
+      handleFollowAUser();
+    } else if (isUserfollowed) {
+      handleUnfolllowUser();
+    }
     setIsUserfollowed(!isUserfollowed);
   };
+
+  useEffect(() => {
+    handleCheckFollow();
+  }, []);
 
   return (
     <>
@@ -71,26 +101,26 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
           </div>
 
           <div className="flex gap-2 mx-2">
-            <Button
+            {/* <Button
               type="default"
               onClick={() => {
                 setIsModalOpen(true);
               }}
             >
               Edit Profile
-            </Button>
+            </Button> */}
 
-            {isUserfollowed ? (
+            {!isUserfollowed ? (
               <Button
                 type="primary"
-                onClick={() => handleFollowBtn("Followed @testuser")}
+                onClick={() => handleFollowBtn("Followed Quackuser")}
               >
                 Follow
               </Button>
             ) : (
               <Button
                 type="primary"
-                onClick={() => handleFollowBtn("Unfollowed @testuser")}
+                onClick={() => handleFollowBtn("Unfollowed Quackuser")}
               >
                 Unfollow
               </Button>

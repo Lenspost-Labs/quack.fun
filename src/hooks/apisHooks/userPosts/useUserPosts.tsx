@@ -5,7 +5,7 @@ import { apiNewPost } from "src/services/BEApis/PostsAPIs/PostsApi";
 const useUserPosts = () => {
   const [newPostDetails, setNewPostDetails] = useState({
     postTextData: "",
-    postImageData: [""],
+    postImageData: [],
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);

@@ -26,7 +26,9 @@ export const apiUnfollowAUser = async (data: any) => {
 
 export const apiDoesUserFollow = async (data: any) => {
   try {
-    const response = await apiInstance.get(`/user/unfollow?target_fid=${data}`);
+    const response = await apiInstance.get(
+      `/user/does-follow?target_fid=11889=${data}`
+    );
     return response;
   } catch (error) {
     console.log("IN API - ERROR");
