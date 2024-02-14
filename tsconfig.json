@@ -5,7 +5,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "jsx": "react",
+    // "jsx": "react",
     "baseUrl": "./",
     "paths": {
       "src/*": ["./src/*"], // Easing Import Paths
@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    // "jsx": "react-jsx",
+    "jsx": "react-jsx",
 
     /* Linting */
     "strict": true,
