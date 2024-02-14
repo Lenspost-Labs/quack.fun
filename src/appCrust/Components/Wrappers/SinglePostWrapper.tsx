@@ -19,7 +19,7 @@ const SinglePostWrapper = () => {
   const fnGetSinglePost = async () => {
     setLoading(true);
     const singlePostRes = await apiViewSinglePost({
-      fid: postFid,
+      fid: Number(postFid),
       hash: postHash,
     });
     console.log(singlePostRes);

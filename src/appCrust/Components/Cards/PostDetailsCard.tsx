@@ -55,7 +55,7 @@ PostCardType) => {
   const handleLikeBtn = () => {
     setIsLike(!isLike);
     const likesRes = apiReactForAPost({
-      // fid: ,
+      fid: postAuthorFid,
       hash: userPostId,
       reaction: 1,
       type: isLike ? 1 : -1,
@@ -75,7 +75,7 @@ PostCardType) => {
 
   const handleRecastBtn = () => {
     const recastRes = apiReactForAPost({
-      // fid: ,
+      fid: postAuthorFid,
       hash: userPostId,
       reaction: 2,
       type: isLike ? 1 : -1,

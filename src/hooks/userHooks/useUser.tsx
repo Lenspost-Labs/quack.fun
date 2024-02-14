@@ -1,5 +1,5 @@
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const useUser = (): useUserType => {
   const { publicKey: solanaAddress } = useWallet();
@@ -12,12 +12,29 @@ const useUser = (): useUserType => {
     name: "",
     profileImgUrl: "",
     coverImgUrl: "",
-    fid: "",
+    fid: localStorage.getItem("fid") || "",
   });
-  
+
   const [jwt, setJwt] = useState(localStorage.getItem("jwt"));
   const [hasUserLoggedIn, setHasUserLoggedIn] = useState(false);
 
+  
+
+  useEffect(() => {
+    if (jwt) {
+      setHasUserLoggedIn(true);
+    }
+    if (!jwt) {
+      setHasUserLoggedIn(false);
+    }
+  }, [jwt]);
+
+  useEffect(() => {
+    if (userData?.solanaAddress) {
+      setJwt(localStorage.getItem("jwt"));
+    }
+  }, [userData?.solanaAddress]);
+  
   return {
     userData,
     setUserData,

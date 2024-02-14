@@ -91,7 +91,7 @@ const SolLoginBtnUI: FC = () => {
       {connected && (
         <>
           <div className="flex justify-between items-center align-middle ">
-            <Link to="/profile">
+            <Link to={`/${(userData as { fid?: string })?.fid}`}>
               <SidebarItem
                 className="hidden md:inline-block"
                 itemName="@Username"

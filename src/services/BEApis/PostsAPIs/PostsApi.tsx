@@ -58,7 +58,8 @@ export const apiDeletePost = async (data: any) => {
 
 export const apiViewSinglePost = async (data: any) => {
   try {
-    const response = await apiInstance.get(`/user/post/cast`, { data });
+    console.log(data);
+    const response = await apiInstance.get(`/user/post/cast`, data);
     return response;
   } catch (error) {
     console.log("IN API - ERROR");
