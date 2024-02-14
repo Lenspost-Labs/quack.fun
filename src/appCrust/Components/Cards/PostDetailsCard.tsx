@@ -18,7 +18,7 @@ import SuShuffle from "@meronex/icons/su/SuShuffle";
 // ts-ignore
 import BsArrowRepeat from "@meronex/icons/bs/BsArrowRepeat";
 
-import { Modal, Spin } from "antd";
+import { Modal, Spin, message } from "antd";
 import { Link } from "react-router-dom";
 import {
   apiGetPosts,
@@ -40,20 +40,25 @@ const PostDetailsCard = ({
   userProfilePostText,
   userPostTimestamp,
   postLikes,
+  postRecasts,
   frameLink,
   frameTitle,
 }: // onClick,
 PostCardType) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [isLike, setIsLike] = useState(false);
+  const [isRecast, setIsRecast] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [profileTeaser, setProfileTeaser] = useState(false);
+  const [reactions, setReactions] = useState({
+    likes: postLikes,
+    recasts: postRecasts,
+  });
   // const navigate = useNavigate();
 
   const handleLikeBtn = () => {
-    setIsLike(!isLike);
     const likesRes = apiReactForAPost({
       fid: postAuthorFid,
       hash: userPostId,
@@ -62,6 +67,11 @@ PostCardType) => {
     });
 
     console.log(likesRes);
+    setReactions({
+      ...reactions,
+      likes: postLikes + (isLike ? (postLikes === 0 ? -0 : -1) : +1),
+    });
+    setIsLike(!isLike);
   };
 
   const handleCommentBtn = () => {
@@ -82,6 +92,13 @@ PostCardType) => {
     });
 
     console.log(recastRes);
+    setReactions({
+      ...reactions,
+      recasts: postRecasts + (isRecast ? (postRecasts === 0 ? -0 : -1) : +1),
+    });
+    setIsRecast(!isRecast);
+
+    isRecast? message.success("Recasted") : message.success("Removed Recast");
   };
   const showModal = () => {
     setIsModalOpen(true);
@@ -191,7 +208,7 @@ PostCardType) => {
                 </div>
               )}
               <div className="cursor-pointer ml-0 m-2 p-2 text-sm">
-                {postLikes}{" "}
+                {reactions.likes}{" "}
               </div>
             </div>
 
@@ -216,6 +233,9 @@ PostCardType) => {
                 size={20}
                 // className="text-yellow-500!important "
               />
+            </div>
+            <div className="cursor-pointer ml-0 m-2 p-2 text-sm">
+              {reactions.recasts}{" "}
             </div>
           </div>
           <div className="flex">

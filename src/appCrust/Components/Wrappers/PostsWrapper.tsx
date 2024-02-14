@@ -128,6 +128,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
                     key={index}
                     userPostId={item.hash}
                     postLikes={item?.reaction?.LIKE}
+                    postRecasts={item?.reaction?.RECAST}
                     userProfileImage={item?.author?.pfp}
                     userProfileName={item?.author?.name}
                     userProfileUsername={item?.author?.username}
