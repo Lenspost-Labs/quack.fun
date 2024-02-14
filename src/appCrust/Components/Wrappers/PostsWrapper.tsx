@@ -79,7 +79,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
   };
   useEffect(() => {
     fnLoadPosts();
-  }, [isInFeed, noOfPosts]);
+  }, [isInFeed, noOfPosts, posts?.length]);
 
   return (
     <>
@@ -94,7 +94,8 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
         {!posts && !loading && !localStorage.getItem("jwt") && (
           <div>Please Login to View Posts</div>
         )}
-        {!loading && posts && posts?.length > 0 && (
+
+        {!loading && posts && posts?.length > 0 ? (
           <>
             <InfiniteScroll
               dataLength={posts?.length}
@@ -145,6 +146,8 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
               })}
             </InfiniteScroll>
           </>
+        ) : (
+          <div className=""> No Posts Found </div>
         )}
       </div>
     </>
