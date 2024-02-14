@@ -32,7 +32,7 @@ const ProfilePageWrapper = () => {
       key: "1",
       label: "Posts",
       //   className: "bg-blue-100",
-      children: <PostsWrapper isInFeed={false} />,
+      children: <PostsWrapper author={profileInfo} isInFeed={false} />,
     },
     {
       key: "2",

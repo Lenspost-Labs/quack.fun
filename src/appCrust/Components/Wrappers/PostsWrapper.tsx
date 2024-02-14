@@ -9,12 +9,29 @@ import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { utilXtimeAgo } from "../Utils/functions/utilXtimeAgo.tsx";
 
-const PostsWrapper: React.FC<{ isInFeed: boolean }> = ({ isInFeed }) => {
+const PostsWrapper: React.FC<{ isInFeed: boolean; author: any }> = ({
+  isInFeed,
+  author,
+}) => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(false);
   const [noOfPosts, setNoOfPosts] = useState(10);
-  const navigate = useNavigate();
-  console.log(navigate);
+
+  // const author = {
+  //   name: "Wojak",
+  //   pfp: "https://i.imgur.com/2X1YTWt.jpg",
+  //   username: "wojak",
+  //   fid: 237227,
+  // };
+
+  const updatePostsWithAuthor = (newPosts: any[]) => {
+    const updatedPosts = newPosts.map((post) => ({
+      ...post,
+      author: { ...author },
+    }));
+    console.log("updated posts", updatedPosts);
+    setPosts(updatedPosts);
+  };
 
   const fnGetAllPosts = async () => {
     setLoading(true);
@@ -23,7 +40,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean }> = ({ isInFeed }) => {
     console.log("res in fnGetAllPosts", res);
 
     setPosts(res?.data?.casts);
-
+    updatePostsWithAuthor(res?.data?.casts);
     setLoading(false);
   };
 
@@ -107,7 +124,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean }> = ({ isInFeed }) => {
                     userPostId={item.hash}
                     postLikes={item?.reaction?.LIKE}
                     userProfileImage={item?.author?.pfp}
-                    userProfileName={item?.author?.name}
+                    userProfileName={item?.author?.displayName}
                     userProfileUsername={item?.author?.username}
                     userPostImage={
                       item?.embeds?.[0] ? item?.embeds?.[0]?.image : null
