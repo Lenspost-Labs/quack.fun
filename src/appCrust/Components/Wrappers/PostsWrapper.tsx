@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { utilXtimeAgo } from "../Utils/functions/utilXtimeAgo.tsx";
 
-const PostsWrapper: React.FC<{ isInFeed: boolean; author: any }> = ({
+const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
   isInFeed,
   author,
 }) => {
