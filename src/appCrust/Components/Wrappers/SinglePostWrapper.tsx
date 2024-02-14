@@ -10,7 +10,6 @@ import { apiViewSinglePost } from "src/services/BEApis/PostsAPIs/PostsApi";
 
 const SinglePostWrapper = () => {
   const { postFid, postHash } = useParams();
-  console.log(postFid, postHash);
 
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -18,11 +17,14 @@ const SinglePostWrapper = () => {
   // sample api call
   const fnGetSinglePost = async () => {
     setLoading(true);
+
+    console.log("postFid", postFid);
+    console.log("postHash", postHash);
     const singlePostRes = await apiViewSinglePost({
       fid: Number(postFid),
       hash: postHash,
     });
-    console.log(singlePostRes);
+    console.log("singlePostRes", singlePostRes);
     setPosts(singlePostRes?.data?.posts);
     setLoading(false);
   };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // @ts-ignore
 import BsHeart from "@meronex/icons/bs/BsHeart";
@@ -29,7 +29,7 @@ import SharePostCard from "./SharePostCard.tsx";
 import Iframe from "react-iframe";
 import { SandboxAttributeValue } from "react-iframe/types";
 import { utilFormatPostText } from "src/appCrust/Components/Utils/functions/utilFormatPostText.tsx";
-import { getAllMetaTags } from "../Utils/functions/utilGetMetaTagsData.tsx";
+import { apiGetOgs } from "src/services/BEApis/utils/UtilsApis.tsx";
 const PostDetailsCard = ({
   postAuthorFid,
   userPostId, //Hash
@@ -98,13 +98,11 @@ PostCardType) => {
     });
     setIsRecast(!isRecast);
 
-    isRecast? message.success("Recasted") : message.success("Removed Recast");
+    isRecast ? message.success("Recasted") : message.success("Removed Recast");
   };
   const showModal = () => {
     setIsModalOpen(true);
   };
-
-  console.log("getAllMetaTags", getAllMetaTags());
 
   // Function to Load Nested Posts from Post Card based on userId / username and PostId
   const fnLoadNestedPosts = async (userPostId: any) => {
@@ -156,7 +154,7 @@ PostCardType) => {
               <p>{utilFormatPostText(userProfilePostText)}</p>
             )}
 
-            {frameLink && (
+            {/* {frameLink && (
               <div className="w-full h-[400px] border rounded-md mt-2">
                 <Iframe
                   allow="autoplay"
@@ -174,7 +172,7 @@ PostCardType) => {
                   // position="relative"
                 />
               </div>
-            )}
+            )} */}
           </div>
 
           {userPostImage && (

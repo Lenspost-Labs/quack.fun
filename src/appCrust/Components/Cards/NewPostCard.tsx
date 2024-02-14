@@ -135,8 +135,8 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
           onChange={handleInput}
         />
 
-        <div className="flex justify-between align-middle m-1 ">
-          <div className="flex ">
+        {/* <div className="flex justify-between m-1 "> */}
+          <div className="flex justify-between m-1">
             {/* <BsImage size={20} className="m-2 text-slate-700 cursor-pointer" /> */}{" "}
             {/* <UtilUploadtoIK /> */}
             <IKContext
@@ -225,7 +225,7 @@ const NewPostCard = ({ isInFeed }: { isInFeed: boolean }) => {
             Post
           </Button>
         </div>
-      </div>
+      {/* </div> */}
       {isInFeed && <Divider />}
     </>
   );

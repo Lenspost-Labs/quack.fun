@@ -9,6 +9,8 @@ import { Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { utilXtimeAgo } from "../Utils/functions/utilXtimeAgo.tsx";
+import { apiGetOgs } from "src/services/BEApis/utils/UtilsApis.tsx";
+import { utilGetMetaTagsData } from "../Utils/functions/utilGetMetaTagsData.tsx";
 
 const PostsWrapper: React.FC<{
   isInFeed: boolean;
@@ -68,9 +70,17 @@ const PostsWrapper: React.FC<{
     // });
 
     // setPosts(splitStrings);
-    setPosts(res?.data || []);
+    setPosts(res?.data?.feed || []);
 
     setLoading(false);
+  };
+
+  // ---- Testing ----
+  const fnLoadOgImage = async () => {
+    console.log("posts in fnLoadOgImage", posts);
+    const res = await apiGetOgs(posts[0]?.embeds[0]?.url);
+    console.log("res in fnLoadOgImage", res);
+    utilGetMetaTagsData(res?.data);
   };
 
   const fnLoadPosts = async () => {
@@ -79,6 +89,8 @@ const PostsWrapper: React.FC<{
     } else {
       fnGetAllPosts();
     }
+
+    fnLoadOgImage();
   };
   useEffect(() => {
     fnLoadPosts();
