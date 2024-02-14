@@ -8,9 +8,9 @@
     // "jsx": "react",
     "baseUrl": "./",
     "paths": {
-      "src/*": ["./src/*"], // Easing Import Paths
+      "src/*": ["./src/*"] // Easing Import Paths
     },
-    
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -25,6 +25,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  // "include": ["src"],
+  "include": ["src/**/*.tsx", "src/**/*.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
