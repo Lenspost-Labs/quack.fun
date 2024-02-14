@@ -13,7 +13,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
   isInFeed,
   author,
 }) => {
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [noOfPosts, setNoOfPosts] = useState(10);
 
