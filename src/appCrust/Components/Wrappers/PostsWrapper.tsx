@@ -129,7 +129,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
                     userPostId={item.hash}
                     postLikes={item?.reaction?.LIKE}
                     userProfileImage={item?.author?.pfp}
-                    userProfileName={item?.author?.displayName}
+                    userProfileName={item?.author?.name}
                     userProfileUsername={item?.author?.username}
                     userPostImage={
                       item?.embeds?.[0] ? item?.embeds?.[0]?.image : null

@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LeftSidebar from "../appMantle/leftMantle/LeftSidebar.tsx";
 import TopicsCard from "../Components/Cards/TopicsCard.tsx";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import BottomNavbar from "../Components/Navbars/BottomNavbar.tsx";
 import CustomSearchIp from "../Components/Items/CustomSearchIp.tsx";
 import { Divider, Tabs, TabsProps } from "antd";
 import NewPostCard from "../Components/Cards/NewPostCard.tsx";
 import TopNavbar from "../Components/Navbars/TopNavbar.tsx";
+import useUser from "src/hooks/userHooks/useUser.tsx";
 
 const MainAppLayout: React.FC<any> = () => {
   const { pathname } = useLocation();
-  console.log(pathname);
+  const navigate = useNavigate();
+  const { jwt } = useUser();
 
   const items: TabsProps["items"] = [
     {
@@ -34,6 +36,25 @@ const MainAppLayout: React.FC<any> = () => {
   const onChange = (key: string) => {
     console.log(key);
   };
+
+  const fnCheckForJWTAndNavigate = () => {
+    console.log("Checking Session");
+    if (jwt != null) {
+      navigate("/feed");
+      return true;
+    } else if (jwt == null) {
+      navigate("/auth");
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    fnCheckForJWTAndNavigate();
+  }, [jwt]);
+
+  useEffect(() => {
+    fnCheckForJWTAndNavigate();
+  }, []);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 // @ts-ignore
 import BsHouse from "@meronex/icons/bs/BsHouse";
@@ -21,7 +21,7 @@ import useUser from "src/hooks/userHooks/useUser.tsx";
 const LeftSidebar: React.FC<any> = () => {
   const [isSideNavOpen] = useState(true);
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
-  const { userData } = useUser();
+  const { userData, hasUserLoggedIn, setHasUserLoggedIn } = useUser();
 
   const { connected } = useWallet();
   console.log(connected);
@@ -64,6 +64,31 @@ const LeftSidebar: React.FC<any> = () => {
     },
   ];
 
+  const fnCheckIfUserHasLoggedIn = () => {
+    if (hasUserLoggedIn) {
+      setHasUserLoggedIn(true);
+    }
+
+    if (!hasUserLoggedIn) {
+      setHasUserLoggedIn(false);
+    }
+  };
+  useEffect(() => {
+    fnCheckIfUserHasLoggedIn;
+  }, []);
+
+  useEffect(() => {
+    fnCheckIfUserHasLoggedIn;
+  }, [hasUserLoggedIn]);
+
+  useEffect(() => {
+    fnCheckIfUserHasLoggedIn;
+  }, [userData]);
+
+  useEffect(() => {
+    fnCheckIfUserHasLoggedIn;
+  }, [connected]);
+
   return (
     <>
       <aside
@@ -94,6 +119,7 @@ const LeftSidebar: React.FC<any> = () => {
             </ul>
           </div>
         </nav>
+
         <SolLoginBtn />
       </aside>
 
