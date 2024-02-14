@@ -79,7 +79,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
   };
   useEffect(() => {
     fnLoadPosts();
-  }, [isInFeed, noOfPosts, posts?.length]);
+  }, [isInFeed, noOfPosts]);
 
   return (
     <>
