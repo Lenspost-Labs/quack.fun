@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import PostsWrapper from "./appCrust/Components/Wrappers/PostsWrapper.tsx";
 import NotificationsWrapper from "./appCrust/Components/Wrappers/NotificationsWrapper.tsx";
@@ -13,11 +13,14 @@ const router = createBrowserRouter([
     // errorElement: <ErrorPage />,
     children: [
       {
+        index: true, // Indicates this is the default child route
+        element: <Navigate to="/feed" replace />, // Redirects from `/` to `/feed`
+      },
+      {
         path: "/feed",
         element: <PostsWrapper isInFeed={true} />,
         // errorElement: <ErrorPage />,
       },
-
       {
         path: "/notifications",
         element: <NotificationsWrapper />,

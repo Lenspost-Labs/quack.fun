@@ -90,7 +90,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
             <Spin />
           </div>
         )}
-        {posts && posts.length === 0 && <div>No Posts Found</div>}
+        {/* {posts && posts.length === 0 && <div>No Posts Found</div>} */}
         {!posts && !loading && !localStorage.getItem("jwt") && (
           <div>Please Login to View Posts</div>
         )}
