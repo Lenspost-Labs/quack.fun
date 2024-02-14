@@ -90,7 +90,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
             <Spin />
           </div>
         )}
-        {posts?.length > 0 && (
+        {!loading && posts?.length > 0 && (
           <>
             <InfiniteScroll
               dataLength={posts?.length}
