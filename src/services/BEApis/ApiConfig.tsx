@@ -1,16 +1,9 @@
 import axios from "axios";
+import { ENV_BACKEND_URL_PROD } from "src/config/envConfig";
 
-export const BACKEND_URL_DEV = import.meta.env.VITE_BACKEND_URL_DEV;
-export const BACKEND_URL_PROD = import.meta.env.VITE_BACKEND_URL_PROD;
-
-// if (import.meta.env.DEV) {
-//   axios.defaults.baseURL = BACKEND_URL_DEV;
-// } else {
-//   axios.defaults.baseURL = BACKEND_URL_PROD;
-// }
-
+const BEURL = ENV_BACKEND_URL_PROD;
 export const apiInstance = axios.create({
-  baseURL: BACKEND_URL_PROD,
+  baseURL: BEURL,
 });
 
 // Add a request interceptor

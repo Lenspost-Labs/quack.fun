@@ -13,7 +13,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
   isInFeed,
   author,
 }) => {
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [noOfPosts, setNoOfPosts] = useState(10);
 
@@ -65,7 +65,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
     // });
 
     // setPosts(splitStrings);
-    setPosts(res?.data);
+    setPosts(res?.data || []);
 
     setLoading(false);
   };
@@ -90,7 +90,12 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
             <Spin />
           </div>
         )}
-        {!loading && posts?.length > 0 && (
+        {posts && posts.length === 0 && <div>No Posts Found</div>}
+        {!posts && !loading && !localStorage.getItem("jwt") && (
+          <div>Please Login to View Posts</div>
+        )}
+
+        {!loading && posts !== undefined && posts?.length > 0 ? (
           <>
             <InfiniteScroll
               dataLength={posts?.length}
@@ -141,6 +146,8 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
               })}
             </InfiniteScroll>
           </>
+        ) : (
+          <div className=""> No Posts Found </div>
         )}
       </div>
     </>
