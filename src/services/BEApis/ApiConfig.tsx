@@ -1,8 +1,9 @@
 import axios from "axios";
 import { ENV_BACKEND_URL_PROD } from "src/config/envConfig";
 
+const BEURL = ENV_BACKEND_URL_PROD;
 export const apiInstance = axios.create({
-  baseURL: ENV_BACKEND_URL_PROD,
+  baseURL: BEURL,
 });
 
 // Add a request interceptor
