@@ -113,6 +113,58 @@ PostCardType) => {
     // setComments(res?.data?.posts.slice(0, 5));
   };
 
+  // OG ----
+
+  const [ogData, setOgData] = useState({
+    ogImage: "",
+    ogTitle: "",
+    ogDescription: "",
+    frameImage: "",
+    frameButtons: [], // Assuming you want to store button data as well
+  });
+
+  const fetchOgData = async (url) => {
+    try {
+      const response = await apiGetOgs(url); // Fetch page content using your API
+      if (response?.data) {
+        // Directly access properties from the response
+        const {
+          "og:image": image,
+          "og:title": title,
+          "og:description": description,
+          "fc:frame:image": frameImage,
+        } = response.data;
+        let buttons = [];
+
+        // Assuming you want to handle buttons in the response
+        for (const key in response.data) {
+          if (key.startsWith("fc:frame:button:")) {
+            buttons.push(response.data[key]);
+          }
+        }
+
+        setOgData({
+          ogImage: image || "",
+          ogTitle: title || "",
+          ogDescription: description || "",
+          frameImage: frameImage || "",
+          frameButtons: buttons,
+        });
+
+        console.log("OG data:", ogData);
+      }
+    } catch (error) {
+      console.error("Error fetching OG data:", error);
+      // Handle error appropriately
+    }
+  };
+
+  useEffect(() => {
+    if (frameLink) {
+      fetchOgData(frameLink);
+    }
+  }, [frameLink]);
+
   return (
     <>
       <div className="z-10 overflow-hidden cursor-pointer bg-white  text-slate-800 border-b border-slate-200 hover:bg-slate-50">
@@ -179,6 +231,16 @@ PostCardType) => {
             <div className="mt-2">
               <img
                 src={userPostImage}
+                alt="card image"
+                className="aspect-video w-full p-4"
+              />
+            </div>
+          )}
+
+          {ogData?.ogImage && (
+            <div className="mt-2">
+              <img
+                src={ogData?.ogImage}
                 alt="card image"
                 className="aspect-video w-full p-4"
               />
