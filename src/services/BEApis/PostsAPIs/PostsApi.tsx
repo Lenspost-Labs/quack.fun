@@ -59,7 +59,13 @@ export const apiDeletePost = async (data: any) => {
 export const apiViewSinglePost = async (data: any) => {
   try {
     console.log(data);
-    const response = await apiInstance.get(`/user/post/cast`, data);
+    if (!data) {
+      console.log("IN API - data is null");
+      return;
+    }
+    const response = await apiInstance.get(
+      `/user/post/cast?fid=${data.fid}&hash=${data.hash}`
+    );
     return response;
   } catch (error) {
     console.log("IN API - ERROR");
@@ -75,4 +81,4 @@ export const apiGetCastsForFid = async (data: any) => {
     console.log("IN API - ERROR");
     console.log(error);
   }
-}
+};
