@@ -66,3 +66,13 @@ export const apiViewSinglePost = async (data: any) => {
     console.log(error);
   }
 };
+
+export const apiGetCastsForFid = async (data: any) => {
+  try {
+    const response = await apiInstance.get(`/user/post/for-fid?fid=${data}`);
+    return response;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+}

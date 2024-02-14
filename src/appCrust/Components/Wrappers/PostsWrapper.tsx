@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PostDetailsCard from "../Cards/PostDetailsCard.tsx";
 import {
+  apiGetCastsForFid,
   apiGetFeed,
   apiGetPosts,
 } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
@@ -9,10 +10,11 @@ import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { utilXtimeAgo } from "../Utils/functions/utilXtimeAgo.tsx";
 
-const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
-  isInFeed,
-  author,
-}) => {
+const PostsWrapper: React.FC<{
+  isInFeed: boolean;
+  author?: any;
+  authorFid?: any;
+}> = ({ isInFeed, author, authorFid }) => {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [noOfPosts, setNoOfPosts] = useState(10);
@@ -36,11 +38,12 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
   const fnGetAllPosts = async () => {
     setLoading(true);
 
-    const res = await apiGetPosts();
+    // const res = await apiGetPosts();
+    const res = await apiGetCastsForFid(authorFid ? authorFid : "");
     console.log("res in fnGetAllPosts", res);
 
-    setPosts(res?.data?.casts);
-    updatePostsWithAuthor(res?.data?.casts);
+    setPosts(res?.data);
+    updatePostsWithAuthor(res?.data);
     setLoading(false);
   };
 
@@ -148,7 +151,7 @@ const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
             </InfiniteScroll>
           </>
         ) : (
-          <div className=""> No Posts Found </div>
+          !loading && <div className=""> No Posts Found </div>
         )}
       </div>
     </>
