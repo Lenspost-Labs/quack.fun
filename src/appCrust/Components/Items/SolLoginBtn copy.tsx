@@ -66,7 +66,7 @@ const SolLoginBtnContext: FC<{ children: ReactNode }> = ({ children }) => {
 
 const SolLoginBtnUI: FC = () => {
   const { connected, disconnect, publicKey: address } = useWallet();
-  const { setHasUserLoggedIn } = useUser();
+  const { setHasUserLoggedIn , userData } = useUser();
 
   console.log(connected);
   console.log(address);
