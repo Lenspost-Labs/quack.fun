@@ -1,11 +1,11 @@
 {
-  "name": "solgram",
+  "name": "quack-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc --build && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -30,6 +30,7 @@
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-iframe": "^1.8.5",
     "react-infinite-scroll-component": "^6.1.0",
     "react-lottie": "^1.2.4",
     "react-router-dom": "^6.21.1"

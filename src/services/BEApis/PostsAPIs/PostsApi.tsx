@@ -16,8 +16,8 @@ export const apiNewPost = async ({
 }: ApiNewPostsType) => {
   try {
     const response = await apiInstance.post("/user/post", {
-      body: postTextData,
-      images: postImageData,
+      text: postTextData,
+      embeds: postImageData,
     });
     return response;
   } catch (error) {
@@ -34,5 +34,35 @@ export const apiGetFeed = async () => {
     console.log("IN API - ERROR");
     console.log(error);
   }
-}
+};
 
+export const apiReactForAPost = async (data: any) => {
+  try {
+    const response = await apiInstance.post("/user/post/react", data);
+    return response;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+};
+
+export const apiDeletePost = async (data: any) => {
+  try {
+    const response = await apiInstance.post(`/user/post?hash=${data}`);
+    return response;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+};
+
+export const apiViewSinglePost = async (data: any) => {
+  try {
+    console.log(data);
+    const response = await apiInstance.get(`/user/post/cast`, data);
+    return response;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+};

@@ -9,14 +9,15 @@ const EditProfileCard = ({
   userBannerPicture,
   userUsername,
   userProfileName,
-  UserProfileBio,
+  userProfileBio,
+  userBioMentionedProfiles,
 }: ProfileType) => {
   const [userDetails, setUserDetails] = useState({
     userUsername: userUsername,
     userPicture: userPicture,
     userBannerPicture: userBannerPicture,
     userProfileName: userProfileName,
-    UserProfileBio: UserProfileBio,
+    userProfileBio: userProfileBio,
   });
 
   const handleUserDetails = (e: any) => {
@@ -129,9 +130,9 @@ const EditProfileCard = ({
           autoSize
         />
         <TextArea
-          defaultValue={UserProfileBio}
+          defaultValue={userProfileBio}
           placeholder={"Bio"}
-          name="UserProfileBio"
+          name="userProfileBio"
           onChange={handleUserDetails}
           autoSize
         />

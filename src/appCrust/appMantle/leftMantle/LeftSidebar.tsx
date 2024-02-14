@@ -16,10 +16,12 @@ import SidebarItem from "../../Components/Items/SidebarItem.tsx";
 import { Divider, Modal } from "antd";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { SolLoginBtn } from "src/appCrust/Components/Items/SolLoginBtn.tsx";
+import useUser from "src/hooks/userHooks/useUser.tsx";
 
 const LeftSidebar: React.FC<any> = () => {
   const [isSideNavOpen] = useState(true);
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
+  const { userData } = useUser();
 
   const { connected } = useWallet();
   console.log(connected);
@@ -52,7 +54,7 @@ const LeftSidebar: React.FC<any> = () => {
       ),
     },
     {
-      to: "/profile",
+      to: `/${(userData as { fid?: string })?.fid}`,
       content: (
         <SidebarItem
           itemName="Profile"

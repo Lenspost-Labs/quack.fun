@@ -6,16 +6,32 @@ import {
 } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
 import { Spin } from "antd";
 import { useNavigate } from "react-router-dom";
-
 import InfiniteScroll from "react-infinite-scroll-component";
+import { utilXtimeAgo } from "../Utils/functions/utilXtimeAgo.tsx";
 
-// https://ahooks.js.org/hooks/use-infinite-scroll
-const PostsWrapper: React.FC<any> = (isInFeed) => {
+const PostsWrapper: React.FC<{ isInFeed: boolean; author?: any }> = ({
+  isInFeed,
+  author,
+}) => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(false);
   const [noOfPosts, setNoOfPosts] = useState(10);
-  const navigate = useNavigate();
-  console.log(navigate);
+
+  // const author = {
+  //   name: "Wojak",
+  //   pfp: "https://i.imgur.com/2X1YTWt.jpg",
+  //   username: "wojak",
+  //   fid: 237227,
+  // };
+
+  const updatePostsWithAuthor = (newPosts: any[]) => {
+    const updatedPosts = newPosts.map((post) => ({
+      ...post,
+      author: { ...author },
+    }));
+    console.log("updated posts", updatedPosts);
+    setPosts(updatedPosts);
+  };
 
   const fnGetAllPosts = async () => {
     setLoading(true);
@@ -23,29 +39,47 @@ const PostsWrapper: React.FC<any> = (isInFeed) => {
     const res = await apiGetPosts();
     console.log("res in fnGetAllPosts", res);
 
-    setPosts(res?.data?.posts.slice(0, noOfPosts));
-
+    setPosts(res?.data?.casts);
+    updatePostsWithAuthor(res?.data?.casts);
     setLoading(false);
   };
-
-  useEffect(() => {
-    fnGetAllPosts();
-  }, [noOfPosts]);
 
   const fnGetFeed = async () => {
     setLoading(true);
 
     const res = await apiGetFeed();
-    console.log("res in fnGetAllPosts", res);
+    console.log("res in fnGetFeed", res);
+    // --- Working code : Frames ---
+    // const unsplitPosts = res?.data?.feed.slice(0, noOfPosts);
 
-    setPosts(res?.data?.posts.slice(0, noOfPosts));
+    // const splitStrings = unsplitPosts.map((str: string, index: any) => {
+    //   const indexOfHttps = str.indexOf("https://");
+
+    //   if (indexOfHttps !== -1) {
+    //     const firstPart = str.substring(0, indexOfHttps);
+    //     const secondPart = str.substring(indexOfHttps);
+    //     return { firstPart, secondPart };
+    //   } else {
+    //     return { firstPart: str, secondPart: "" };
+    //   }
+    // });
+
+    // setPosts(splitStrings);
+    setPosts(res?.data);
 
     setLoading(false);
   };
 
+  const fnLoadPosts = async () => {
+    if (isInFeed) {
+      fnGetFeed();
+    } else {
+      fnGetAllPosts();
+    }
+  };
   useEffect(() => {
-    fnGetFeed();
-  }, [noOfPosts]);
+    fnLoadPosts();
+  }, [isInFeed, noOfPosts]);
 
   return (
     <>
@@ -66,7 +100,8 @@ const PostsWrapper: React.FC<any> = (isInFeed) => {
                   noOfPosts
                 );
                 setNoOfPosts(noOfPosts + 10);
-                fnGetAllPosts;
+                // fnGetAllPosts();
+                fnLoadPosts();
               }}
               hasMore={true}
               loader={
@@ -82,24 +117,26 @@ const PostsWrapper: React.FC<any> = (isInFeed) => {
                 </p>
               }
             >
-              {posts?.map((item) => {
+              {posts?.map((item, index) => {
                 return (
-                  <>
-                    <PostDetailsCard
-                      key={item.id}
-                      userPostId={item.id}
-                      postLikes={item.reactions}
-                      userProfileImage={`https://picsum.photos/id/${
-                        item.id + 300
-                      }/40/40`}
-                      userProfileName={"Scripts"}
-                      userProfileUsername={`userid${item.userId}`}
-                      userPostImage={`https://picsum.photos/id/${
-                        item.id + 300
-                      }/800/600`}
-                      userProfilePostText={item.body}
-                    />
-                  </>
+                  <PostDetailsCard
+                    key={index}
+                    userPostId={item.hash}
+                    postLikes={item?.reaction?.LIKE}
+                    userProfileImage={item?.author?.pfp}
+                    userProfileName={item?.author?.displayName}
+                    userProfileUsername={item?.author?.username}
+                    userPostImage={
+                      item?.embeds?.[0] ? item?.embeds?.[0]?.image : null
+                    }
+                    postAuthorFid={item?.author?.fid}
+                    userPostTimestamp={utilXtimeAgo(item.timestamp)}
+                    userProfilePostText={item.body}
+                    frameTitle={item.firstPart}
+                    frameLink={
+                      item?.embeds?.[0] ? item?.embeds?.[0]?.url : null
+                    }
+                  />
                 );
               })}
             </InfiniteScroll>

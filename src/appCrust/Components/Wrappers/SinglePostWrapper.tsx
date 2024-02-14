@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PostDetailsCard from "../Cards/PostDetailsCard";
 // import { apiGetPosts } from "src/services/BEApis/PostsAPIs/PostsApi";
 // import { Spin } from "antd";
@@ -6,43 +6,41 @@ import { Outlet, useParams } from "react-router-dom";
 // @ts-ignore
 import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
 import HeaderWithBackBtn from "../Items/HeaderWithBackBtn";
+import { apiViewSinglePost } from "src/services/BEApis/PostsAPIs/PostsApi";
 
 const SinglePostWrapper = () => {
-  const { postId } = useParams();
-  console.log("postId", postId);
+  const { postFid, postHash } = useParams();
+  console.log(postFid, postHash);
 
-  // const [posts, setPosts] = useState<PostType[]>([]);
-  // const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useState<PostType[]>([]);
+  const [loading, setLoading] = useState(false);
 
   // sample api call
-  // const fnGetAllPosts = async () => {
-  //   setLoading(true);
-  //   const allPostsRes = await apiGetPosts();
-  //   console.log(allPostsRes);
-  //   setPosts(allPostsRes?.data?.posts);
-  //   setLoading(false);
-  // };
-
-  // To ignore TS Warning
-  // fnGetAllPosts();
+  const fnGetSinglePost = async () => {
+    setLoading(true);
+    const singlePostRes = await apiViewSinglePost({
+      fid: Number(postFid),
+      hash: postHash,
+    });
+    console.log(singlePostRes);
+    setPosts(singlePostRes?.data?.posts);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    // fnGetAllPosts();
+    fnGetSinglePost();
   }, []);
   return (
     <>
-      <HeaderWithBackBtn
-        headerName={"Post"} 
-        backToPath="/feed"
-      />
+      <HeaderWithBackBtn headerName={"Post"} backToPath="/feed" />
 
-      {postId && (
+      {postFid && (
         <PostDetailsCard
-          userPostId={postId}
+          userpostFid={postFid}
           postLikes={"10"}
           userProfileImage={`https://picsum.photos/seed/picsum/40/40`}
           userProfileName={"Scripts"}
-          userProfileUsername={`userid${postId}`}
+          userProfileUsername={`userid${postFid}`}
           userPostImage={`https://picsum.photos/seed/picsum/200/300`}
           userProfilePostText={
             "test lorem ipsum lorem ipsum lorem ipsum lorem ipsum dolor sit amet consectetur adipiscing elit"

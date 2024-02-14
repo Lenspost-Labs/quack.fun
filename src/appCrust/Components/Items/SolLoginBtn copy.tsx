@@ -66,7 +66,7 @@ const SolLoginBtnContext: FC<{ children: ReactNode }> = ({ children }) => {
 
 const SolLoginBtnUI: FC = () => {
   const { connected, disconnect, publicKey: address } = useWallet();
-  const { userData, setHasUserLoggedIn } = useUser();
+  const { setHasUserLoggedIn , userData } = useUser();
 
   console.log(connected);
   console.log(address);
@@ -75,8 +75,6 @@ const SolLoginBtnUI: FC = () => {
     message.success("Disconnected");
     disconnect();
     setHasUserLoggedIn(false);
-    localStorage.removeItem("jwt");
-    localStorage.removeItem("fid");
   };
 
   return (
@@ -93,10 +91,10 @@ const SolLoginBtnUI: FC = () => {
       {connected && (
         <>
           <div className="flex justify-between items-center align-middle ">
-            <Link to={`/${(userData as { fid?: string, username?: string })?.fid}`}>
+            <Link to={`/${(userData as { fid?: string })?.fid}`}>
               <SidebarItem
                 className="hidden md:inline-block"
-                itemName={`${(userData as { username?: string })?.username}` || "quackuser"}
+                itemName="@Username"
                 userPicture={"https://i.pravatar.cc/24?img=3"}
               />
 

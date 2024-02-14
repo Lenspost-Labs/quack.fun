@@ -27,13 +27,18 @@ const useCustomImageKit = () => {
       signature: res?.data?.signature,
     };
 
-    return res;
+    return IKUploadParams;
   };
   useEffect(() => {
-    fnGetIKCredentials();
+    if (
+      !IKUploadParams.token ||
+      !IKUploadParams.expire ||
+      !IKUploadParams.signature
+    ) {
+      fnGetIKCredentials();
+    }
   }, []);
 
-  
   return { IKUploadParams };
 };
 
