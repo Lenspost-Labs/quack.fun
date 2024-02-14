@@ -13,10 +13,14 @@ import MdNotifications from "@meronex/icons/ios/MdNotifications";
 import MdCreate from "@meronex/icons/ios/MdCreate";
 import { Modal, Tooltip } from "antd";
 import NewPostCard from "../Cards/NewPostCard";
+import BsPerson from "@meronex/icons/bs/BsPerson";
+import BsPersonFill from "@meronex/icons/bs/BsPersonFill";
+import useUser from "src/hooks/userHooks/useUser";
 
 const BottomNavbar = () => {
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
   const { pathname } = useLocation();
+  const { userData } = useUser();
 
   console.log(pathname);
   const [stIsActive, setStIsActive] = useState(1);
@@ -58,6 +62,15 @@ const BottomNavbar = () => {
           <MdNotificationsOutline color="#000" />
         ),
     },
+    {
+      to: `${(userData as { fid?: string })?.fid}`,
+      dashIcon:
+        stIsActive === 4 ? (
+          <BsPersonFill color="#ffe000" />
+        ) : (
+          <BsPerson color="#000" />
+        ),
+    },
   ];
 
   return (
@@ -67,9 +80,9 @@ const BottomNavbar = () => {
         {sidebarItems.map((item, index) => (
           <div onClick={() => setStIsActive(index + 1)} key={index}>
             {/* <Tooltip title={item.to.split("/")[1].toUpperCase()} placement="top"> */}
-              <Link to={item.to || "/"}>
-                <SidebarItem {...item} />
-              </Link>
+            <Link to={item.to || "/"}>
+              <SidebarItem {...item} />
+            </Link>
             {/* </Tooltip> */}
           </div>
         ))}

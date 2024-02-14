@@ -9,6 +9,7 @@ import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
 import NestedPostsWrapper from "./NestedPostsWrapper";
 import HeaderWithBackBtn from "../Items/HeaderWithBackBtn";
 import { apiUserDetailsforFID } from "src/services/BEApis/auth/AuthAPIs";
+import { apiGetCastsForFid } from "src/services/BEApis/PostsAPIs/PostsApi";
 
 const ProfilePageWrapper = () => {
   const { userFid } = useParams();
@@ -32,7 +33,7 @@ const ProfilePageWrapper = () => {
       key: "1",
       label: "Posts",
       //   className: "bg-blue-100",
-      children: <PostsWrapper author={profileInfo} isInFeed={false} />,
+      children: <PostsWrapper authorFid={userFid} author={profileInfo} isInFeed={false} />,
     },
     {
       key: "2",
@@ -53,9 +54,12 @@ const ProfilePageWrapper = () => {
 
     // console.log("profileInfo", profileInfoRes);
     setProfileInfo(profileInfoRes as any);
-    console.log("profileInfo", profileInfo); 
+    console.log("profileInfo", profileInfo);
   };
 
+  const fnGetCastsForFid = async () => {
+    const castsForFid = await apiGetCastsForFid(userFid ? userFid : "");
+  };
   useEffect(() => {
     fnGetProfileInfo();
   }, []);

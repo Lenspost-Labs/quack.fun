@@ -25,10 +25,10 @@ const TopNavbar: React.FC = () => {
               aria-current="page"
               className="flex items-center gap-2 whitespace-nowrap py-3 text-lg focus:outline-none lg:flex-1"
             >
-              Solgram
+              Quack
             </div>
             {/*      <!-- Mobile trigger --> */}
-            <button
+            {/* <button
               className={`relative order-10 block h-10 w-10 self-center lg:hidden
               ${
                 isToggleOpen
@@ -54,9 +54,8 @@ const TopNavbar: React.FC = () => {
                   className="absolute block h-0.5 w-1/2 origin-top-left translate-y-2 transform rounded-full bg-slate-900 transition-all duration-300"
                 ></span>
               </div>
-            </button>
+            </button> */}
 
-            
             <ul
               role="menubar"
               aria-label="Select page"
@@ -79,7 +78,7 @@ const TopNavbar: React.FC = () => {
                 </div>
               </li>
             </ul>
-            <div className="ml-auto flex items-center px-6 lg:ml-0 lg:p-0 cursor-pointer">
+            <div className="ml-auto flex items-center px-0 lg:ml-0 lg:p-0 cursor-pointer">
               <SolLoginBtn />
             </div>
           </nav>
