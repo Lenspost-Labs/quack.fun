@@ -141,7 +141,11 @@ export const UtilLoginToApp = () => {
     <>
       {" "}
       {!hasUserLoggedIn && (
-        <Button className="my-2" onClick={fnUserAuth}>
+        <Button
+          className="w-full m-0 mt-2 sm:mt-2 sm:w-full h-10 "
+          size="middle"
+          onClick={fnUserAuth}
+        >
           Login
         </Button>
       )}

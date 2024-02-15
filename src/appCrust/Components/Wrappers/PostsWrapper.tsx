@@ -5,12 +5,14 @@ import {
   apiGetFeed,
   apiGetPosts,
 } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
-import { Spin } from "antd";
+import { Button, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { utilXtimeAgo } from "../Utils/functions/utilXtimeAgo.tsx";
 import { apiGetOgs } from "src/services/BEApis/utils/UtilsApis.tsx";
 import { utilGetMetaTagsData } from "../Utils/functions/utilGetMetaTagsData.tsx";
+import MdRefresh from "@meronex/icons/ios/MdRefresh";
+import useUser from "src/hooks/userHooks/useUser.tsx";
 
 const PostsWrapper: React.FC<{
   isInFeed: boolean;
@@ -20,13 +22,7 @@ const PostsWrapper: React.FC<{
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [noOfPosts, setNoOfPosts] = useState(10);
-
-  // const author = {
-  //   name: "Wojak",
-  //   pfp: "https://i.imgur.com/2X1YTWt.jpg",
-  //   username: "wojak",
-  //   fid: 237227,
-  // };
+  const { jwt } = useUser();
 
   const updatePostsWithAuthor = (newPosts: any[]) => {
     const updatedPosts = newPosts.map((post) => ({
@@ -54,28 +50,11 @@ const PostsWrapper: React.FC<{
 
     const res = await apiGetFeed();
     console.log("res in fnGetFeed", res);
-    // --- Working code : Frames ---
-    // const unsplitPosts = res?.data?.feed.slice(0, noOfPosts);
-
-    // const splitStrings = unsplitPosts.map((str: string, index: any) => {
-    //   const indexOfHttps = str.indexOf("https://");
-
-    //   if (indexOfHttps !== -1) {
-    //     const firstPart = str.substring(0, indexOfHttps);
-    //     const secondPart = str.substring(indexOfHttps);
-    //     return { firstPart, secondPart };
-    //   } else {
-    //     return { firstPart: str, secondPart: "" };
-    //   }
-    // });
-
-    // setPosts(splitStrings);
     setPosts(res?.data?.feed || []);
 
     setLoading(false);
   };
 
-  // ---- Testing ----
   const fnLoadOgImage = async () => {
     console.log("posts in fnLoadOgImage", posts);
     const res = await apiGetOgs(posts[0]?.embeds[0]?.url);
@@ -92,6 +71,7 @@ const PostsWrapper: React.FC<{
 
     fnLoadOgImage();
   };
+
   useEffect(() => {
     fnLoadPosts();
   }, [isInFeed]);
@@ -114,28 +94,19 @@ const PostsWrapper: React.FC<{
           <>
             <InfiniteScroll
               dataLength={posts?.length}
-              next={async () => {
+              next={() => {
                 console.log(
                   "Next called, Loading Posts from noOfPosts",
                   noOfPosts
                 );
                 setNoOfPosts(noOfPosts + 10);
                 // fnGetAllPosts();
-                await fnLoadPosts();
+                fnLoadPosts();
               }}
               hasMore={true}
-              loader={
-                <h4>
-                  {" "}
-                  <Spin />{" "}
-                </h4>
-              }
+              loader={<Spin />}
               scrollableTarget="InfScrolltarget"
-              endMessage={
-                <p>
-                  <b>Yay! You have seen it all</b>
-                </p>
-              }
+              endMessage={<b>Yay! You have seen it all</b>}
             >
               {posts?.map((item, index) => {
                 return (
@@ -163,7 +134,30 @@ const PostsWrapper: React.FC<{
             </InfiniteScroll>
           </>
         ) : (
-          !loading && <div className=""> No Posts Found </div>
+          !loading && (
+            <>
+              <div className="flex flex-col justify-center align-middle items-center">
+                {jwt && (
+                  <>
+                    <div className=""> No Posts Found </div>
+                    <div className="mt-2">
+                      <Button
+                        type="default"
+                        icon={<MdRefresh size={24} />}
+                        onClick={() => fnLoadPosts()}
+                      ></Button>{" "}
+                    </div>
+                  </>
+                )}
+
+                {!jwt && (
+                  <>
+                    <div className=""> Please Login to View Posts </div>
+                  </>
+                )}
+              </div>
+            </>
+          )
         )}
       </div>
     </>

@@ -87,7 +87,9 @@ const MainAppLayout: React.FC<any> = () => {
                 <NewPostCard isInFeed={true} />
               </>
             )}
-            <Outlet />
+            <div>
+              <Outlet />
+            </div>
           </div>
         </div>
         <Divider type="vertical" className="h-full" />
