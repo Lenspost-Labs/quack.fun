@@ -2,9 +2,9 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
 
 const useUser = (): useUserType => {
-  const { publicKey: solanaAddress } = useWallet();
+  // const { publicKey: solanaAddress } = useWallet();
   const [userData, setUserData] = useState({
-    solanaAddress: solanaAddress?.toString() || "",
+    solanaAddress: "",
     evmAddress: "",
     backendAppId: "",
     username: "",
