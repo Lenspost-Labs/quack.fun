@@ -35,14 +35,15 @@ const SidebarItem: React.FC<any> = ({
             )}
           </div>
         )}
-
-        <div
-          className={`${
-            isActive ? "text-yellow-400" : ""
-          } flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm ml-2`}
-        >
-          {itemName}
-        </div>
+        {itemName && (
+          <div
+            className={`${
+              isActive ? "text-yellow-400" : ""
+            } flex w-full flex-1 flex-col items-start justify-center gap-4 overflow-hidden truncate text-sm`}
+          >
+            <div className="ml-2">{itemName}</div>
+          </div>
+        )}
       </div>
     </div>
   );

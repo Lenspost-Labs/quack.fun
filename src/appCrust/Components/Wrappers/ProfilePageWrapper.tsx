@@ -62,7 +62,7 @@ const ProfilePageWrapper = () => {
   };
   useEffect(() => {
     fnGetProfileInfo();
-  }, []);
+  }, [userFid]);
 
   return (
     <>

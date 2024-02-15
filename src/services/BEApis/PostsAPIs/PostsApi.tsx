@@ -26,9 +26,9 @@ export const apiNewPost = async ({
   }
 };
 
-export const apiGetFeed = async () => {
+export const apiGetFeed = async (data: string) => {
   try {
-    const response = await apiInstance.get("/user/post/feed");
+    const response = await apiInstance.get(`/user/post/feed?cursor=${data}`);
     return response;
   } catch (error) {
     console.log("IN API - ERROR");
