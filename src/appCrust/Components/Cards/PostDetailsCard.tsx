@@ -17,6 +17,8 @@ import SuShuffle from "@meronex/icons/su/SuShuffle";
 
 // ts-ignore
 import BsArrowRepeat from "@meronex/icons/bs/BsArrowRepeat";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import { Modal, Spin, message } from "antd";
 import { Link } from "react-router-dom";
@@ -173,14 +175,23 @@ PostCardType) => {
           <div className="flex gap-2 align-middle items-center">
             {/* <Link to={`/profile/${userProfileUsername}`}> */}
             <Link to={`/${postAuthorFid}`}>
-              <img
+              <LazyLoadImage
                 src={userProfileImage}
                 alt="user name"
                 title="user name"
                 width="40"
                 height="40"
                 className="max-w-full rounded-full z-10 h-8 w-8 object-cover"
-              />{" "}
+                effect="blur"
+              />
+              {/* <img
+                src={userProfileImage}
+                alt="user name"
+                title="user name"
+                width="40"
+                height="40"
+                className="max-w-full rounded-full z-10 h-8 w-8 object-cover"
+              />{" "} */}
             </Link>
 
             <h3 className="text-sm font-medium text-slate-700">
@@ -232,20 +243,37 @@ PostCardType) => {
 
           {userPostImage && (
             <div className="mt-2">
-              <img
+              {/* <img
                 src={userPostImage}
                 alt="card image"
                 className="aspect-video w-full p-4"
+              /> */}
+
+              <LazyLoadImage
+                src={userPostImage}
+                alt={userProfileName}
+                title={userProfileName}
+                // className="max-w-full rounded-full z-10 h-8 w-8 object-cover"
+                className="aspect-video w-full p-4"
+                effect="blur"
               />
             </div>
           )}
 
           {ogData?.ogImage && (
             <div className="my-4 mx-4 border rounded-md">
-              <img
+              {/* <img
                 src={ogData?.ogImage}
                 alt="card image"
                 className="aspect-video w-full p-2 rounded-md"
+              /> */}
+              <LazyLoadImage
+                src={ogData?.ogImage}
+                alt={userProfileName}
+                title={userProfileName}
+                // className="max-w-full rounded-full z-10 h-8 w-8 object-cover"
+                className="aspect-video w-full p-2 rounded-md"
+                effect="blur"
               />
             </div>
           )}
@@ -255,24 +283,26 @@ PostCardType) => {
         <div className="m-2 flex flex-row justify-between gap-2 cursor-pointer hover:cursor-pointer">
           <div className="flex align-middle justify-between items-center">
             {/* <div className=""> */}
-              {!isLike ? (
-                <div
-                  onClick={handleLikeBtn}
-                  // className="cursor-pointer  m-2 rounded-full hover:bg-red-100 selection: text-red-400 "
-                  className="cursor-pointer  m-2 rounded-full hover:bg-yellow-100 selection: text-yellow-500 "
-                >
-                  <BsHeart size={20} />
-                </div>
-              ) : (
-                <div
-                  onClick={handleLikeBtn}
-                  // className="cursor-pointer  m-2 rounded-full hover:bg-red-100 selection:bg-red-100 text-red-400"
-                  className="cursor-pointer  m-2 rounded-full hover:bg-yellow-100 selection:bg-yellow-100 text-yellow-500"
-                >
-                  <BsHeartFill size={20} />
-                </div>
-              )}
-              <div className="cursor-pointer ml-0.5 text-sm">{reactions.likes} </div>
+            {!isLike ? (
+              <div
+                onClick={handleLikeBtn}
+                // className="cursor-pointer  m-2 rounded-full hover:bg-red-100 selection: text-red-400 "
+                className="cursor-pointer  m-2 rounded-full hover:bg-yellow-100 selection: text-yellow-500 "
+              >
+                <BsHeart size={20} />
+              </div>
+            ) : (
+              <div
+                onClick={handleLikeBtn}
+                // className="cursor-pointer  m-2 rounded-full hover:bg-red-100 selection:bg-red-100 text-red-400"
+                className="cursor-pointer  m-2 rounded-full hover:bg-yellow-100 selection:bg-yellow-100 text-yellow-500"
+              >
+                <BsHeartFill size={20} />
+              </div>
+            )}
+            <div className="cursor-pointer ml-0.5 text-sm">
+              {reactions.likes}{" "}
+            </div>
             {/* </div> */}
 
             {/* <div
@@ -297,7 +327,9 @@ PostCardType) => {
                 // className="text-yellow-500!important "
               />
             </div>
-            <div className="cursor-pointer ml-0.5 text-sm">{reactions.recasts} </div>
+            <div className="cursor-pointer ml-0.5 text-sm">
+              {reactions.recasts}{" "}
+            </div>
           </div>
           <div className="flex">
             {/* <div className="cursor-pointer m-2 p-2 rounded-full hover:bg-yellow-50 selection: text-yellow-500">
