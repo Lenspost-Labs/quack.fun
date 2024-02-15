@@ -10,7 +10,7 @@ import { apiViewSinglePost } from "src/services/BEApis/PostsAPIs/PostsApi";
 import { utilXtimeAgo } from "../Utils/functions/utilXtimeAgo";
 import { apiUserDetailsforFID } from "src/services/BEApis/auth/AuthAPIs";
 
-const SinglePostWrapper = ({ author }) => {
+const SinglePostWrapper = () => {
   const { postFid, postHash } = useParams();
 
   const [posts, setPosts] = useState<PostType[]>([]);
