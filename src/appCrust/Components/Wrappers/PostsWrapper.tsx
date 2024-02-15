@@ -30,7 +30,8 @@ const PostsWrapper: React.FC<{
       ...post,
       author: { ...author },
     }));
-    setPosts(updatedPosts);
+    // setPosts(updatedPosts);
+    return updatedPosts;
 
     // setPosts((prevPosts) => {
     //   // const newPosts = updatedPosts || [];
@@ -52,8 +53,9 @@ const PostsWrapper: React.FC<{
     console.log("res in fnGetAllPosts", res);
 
     // setPosts(res?.data);
-    updatePostsWithAuthor(res?.data);
+    const updatedPosts = updatePostsWithAuthor(res?.data);
     setLoading(false);
+    return updatedPosts;
   };
 
   const fnGetFeed = async () => {
@@ -63,32 +65,37 @@ const PostsWrapper: React.FC<{
     console.log("res in fnGetFeed", res);
     // setPosts(res?.data?.feed || []);
 
-    setPosts((prevPosts) => {
-      const newPosts = res?.data?.feed || [];
-      const updatedPosts = newPosts.filter(
-        (newPost) =>
-          !prevPosts.some((prevPost) => prevPost.hash === newPost.hash)
-      );
-      return [...prevPosts, ...updatedPosts];
-    });
+    // setPosts((prevPosts) => {
+    //   const newPosts = res?.data?.feed || [];
+    //   const updatedPosts = newPosts.filter(
+    //     (newPost) =>
+    //       !prevPosts.some((prevPost) => prevPost.hash === newPost.hash)
+    //   );
+    //   return [...prevPosts, ...updatedPosts];
+    // });
 
     setInfCursor(res?.data?.cursor);
     setLoading(false);
+    return res?.data?.feed || [];
   };
 
-  const fnLoadOgImage = async () => {
-    console.log("posts in fnLoadOgImage", posts);
-    const res = await apiGetOgs(posts[0]?.embeds[0]?.url);
-    console.log("res in fnLoadOgImage", res);
-    utilGetMetaTagsData(res?.data);
-  };
+  // const fnLoadOgImage = async () => {
+  //   console.log("posts in fnLoadOgImage", posts);
+  //   const res = await apiGetOgs(posts[0]?.embeds[0]?.url);
+  //   console.log("res in fnLoadOgImage", res);
+  //   utilGetMetaTagsData(res?.data);
+  // };
 
   const fnLoadPosts = async () => {
+    let newPosts;
     if (isInFeed) {
-      fnGetFeed();
+      newPosts = await fnGetFeed();
     } else {
-      fnGetAllPosts();
+      newPosts = await fnGetAllPosts();
     }
+
+    // Append the new posts to the existing ones
+    setPosts((prevPosts) => [...prevPosts, ...newPosts]);
   };
 
   useEffect(() => {
@@ -102,7 +109,6 @@ const PostsWrapper: React.FC<{
   useEffect(() => {
     console.log("posts in useEffect", posts);
   }, [infCursor]);
-
 
   return (
     <>
