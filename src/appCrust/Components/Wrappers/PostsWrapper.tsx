@@ -30,17 +30,18 @@ const PostsWrapper: React.FC<{
       ...post,
       author: { ...author },
     }));
-    console.log("updated posts", updatedPosts);
-    // setPosts(updatedPosts);
+    setPosts(updatedPosts);
 
-    setPosts((prevPosts) => {
-      // const newPosts = updatedPosts || [];
-      const updatedPosts = newPosts.filter(
-        (newPost) =>
-          !prevPosts.some((prevPost) => prevPost.hash === newPost.hash)
-      );
-      return [...prevPosts, ...updatedPosts];
-    });
+    // setPosts((prevPosts) => {
+    //   // const newPosts = updatedPosts || [];
+    //   const updatedPosts = newPosts.filter(
+    //     (newPost) =>
+    //       !prevPosts.some((prevPost) => prevPost.hash === newPost.hash)
+    //   );
+    //   return [...prevPosts, ...updatedPosts];
+    // });
+
+    // console.log("updated posts", updatedPosts);
   };
 
   const fnGetAllPosts = async () => {
@@ -92,7 +93,7 @@ const PostsWrapper: React.FC<{
 
   useEffect(() => {
     fnLoadPosts();
-  }, [isInFeed, noOfPosts, authorFid]);
+  }, [isInFeed, noOfPosts, authorFid, author]);
 
   useEffect(() => {
     fnLoadPosts();
@@ -101,6 +102,7 @@ const PostsWrapper: React.FC<{
   useEffect(() => {
     console.log("posts in useEffect", posts);
   }, [infCursor]);
+
 
   return (
     <>

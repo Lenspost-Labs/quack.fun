@@ -16,7 +16,7 @@ const ProfilePageWrapper = () => {
 
   const [profileInfo, setProfileInfo] = useState({
     bio: { mentionedProfiles: [], text: "" },
-    displayName: "",
+    name: "",
     username: "",
     fid: userFid,
     pfp: "",
@@ -33,7 +33,13 @@ const ProfilePageWrapper = () => {
       key: "1",
       label: "Posts",
       //   className: "bg-blue-100",
-      children: <PostsWrapper authorFid={userFid} author={profileInfo} isInFeed={false} />,
+      children: (
+        <PostsWrapper
+          authorFid={userFid}
+          author={profileInfo}
+          isInFeed={false}
+        />
+      ),
     },
     {
       key: "2",
@@ -53,13 +59,14 @@ const ProfilePageWrapper = () => {
     const profileInfoRes = await apiUserDetailsforFID(userFid ? userFid : "");
 
     // console.log("profileInfo", profileInfoRes);
-    setProfileInfo(profileInfoRes as any);
+    setProfileInfo(profileInfoRes);
     console.log("profileInfo", profileInfo);
   };
 
   const fnGetCastsForFid = async () => {
     const castsForFid = await apiGetCastsForFid(userFid ? userFid : "");
   };
+
   useEffect(() => {
     fnGetProfileInfo();
   }, [userFid]);
@@ -73,7 +80,7 @@ const ProfilePageWrapper = () => {
       {/* Sample - Using Username */}
       <ProfileSectionCard
         userUsername={profileInfo?.username}
-        userProfileName={profileInfo?.displayName}
+        userProfileName={profileInfo?.name}
         userPicture={profileInfo?.pfp}
         userBannerPicture={"https://picsum.photos/id/80/200/200"}
         userProfileBio={profileInfo?.bio?.text}
