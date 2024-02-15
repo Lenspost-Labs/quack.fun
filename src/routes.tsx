@@ -6,7 +6,7 @@ import NotificationsWrapper from "./appCrust/Components/Wrappers/NotificationsWr
 import ProfilePageWrapper from "./appCrust/Components/Wrappers/ProfilePageWrapper.tsx";
 import SinglePostWrapper from "./appCrust/Components/Wrappers/SinglePostWrapper.tsx";
 import AuthWrapper from "./appCrust/Components/Wrappers/AuthWrapper.tsx";
-import Thankyou from "./appCrust/Components/thankyou/thankyou.tsx";
+import Thankyou from "./appCrust/Components/Thankyou/Thankyou.tsx";
 
 const router = createBrowserRouter([
   {
