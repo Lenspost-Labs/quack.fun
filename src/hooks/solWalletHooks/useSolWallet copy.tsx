@@ -1,7 +1,7 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { message } from "antd";
 import base58 from "bs58";
-import { Buffer } from "buffer";
+import { Buffer } from 'buffer';
 import { Transaction, VersionedTransaction } from "@solana/web3.js";
 
 const useSolWallet = () => {
@@ -39,17 +39,17 @@ const useSolWallet = () => {
   const fnGetRawTransaction = (encodedTx: string) => {
     let recoveredTx: Transaction | VersionedTransaction;
     try {
+      // recoveredTx = Transaction.from(Buffer.from(encodedTx, "base64"));
+      // console.log("recoveredTx serialized is", recoveredTx);
+
       let decodedData = Uint8Array.from(atob(encodedTx), (c) =>
         c.charCodeAt(0)
       );
       recoveredTx = Transaction.from(decodedData);
     } catch (e) {
-      // If the first method fails, try deserializing with VersionedTransaction
-      // Also replacing Buffer.from with Uint8Array for browser compatibility
-      let decodedData = Uint8Array.from(atob(encodedTx), (c) =>
-        c.charCodeAt(0)
+      recoveredTx = VersionedTransaction.deserialize(
+        Buffer.from(encodedTx, "base64")
       );
-      recoveredTx = VersionedTransaction.deserialize(decodedData);
       console.log("recoveredTx deserialized is", recoveredTx);
     }
     return recoveredTx;
@@ -63,6 +63,7 @@ const useSolWallet = () => {
         const signedTxOutput = await sendTransaction(recoveredTx, connection);
         return signedTxOutput;
       } else {
+        // setModalMessage(" Sign transaction not available ");
         console.log("sendTransaction is not available");
         return null;
       }

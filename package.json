@@ -24,6 +24,7 @@
     "antd-img-crop": "^4.21.0",
     "axios": "^1.6.4",
     "bs58": "^5.0.0",
+    "buffer": "^6.0.3",
     "emoji-mart": "^5.5.2",
     "emoji-picker-react": "^4.6.5",
     "imagekitio-react": "^3.0.0",

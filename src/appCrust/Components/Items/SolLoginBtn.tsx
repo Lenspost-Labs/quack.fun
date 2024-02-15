@@ -107,7 +107,7 @@ const SolLoginBtnUI: FC = () => {
 
   return (
     <>
-      {!connected && !hasUserLoggedIn && (
+      {!connected && (
         <>
           <WalletMultiButton>
             <div className="hidden md:flex justify-center">Select Wallet</div>
@@ -115,7 +115,7 @@ const SolLoginBtnUI: FC = () => {
           </WalletMultiButton>
         </>
       )}
-      {connected && hasUserLoggedIn && (
+      {connected && (
         <>
           <div className="flex justify-between items-center align-middle ">
             <Link
