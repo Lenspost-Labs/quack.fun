@@ -104,20 +104,18 @@ const SolLoginBtnUI: FC = () => {
   useEffect(() => {
     fnCheckIfUserHasLoggedIn;
   }, [connected]);
-  
 
   return (
     <>
-      <UtilLoginToApp />
       {!connected && (
         <>
           <WalletMultiButton>
-            <div className="hidden md:flex justify-center ">Select Wallet</div>
-            <div className="md:hidden"> Wallet</div>
+            <div className="hidden md:flex justify-center">Select Wallet</div>
+            <div className="md:hidden m-2 w-20"> Connect</div>
           </WalletMultiButton>
         </>
       )}
-      {connected  && (
+      {connected && (
         <>
           <div className="flex justify-between items-center align-middle ">
             <Link
@@ -198,6 +196,7 @@ const SolLoginBtnUI: FC = () => {
           </div>
         </>
       )}
+      <UtilLoginToApp />
     </>
   );
 };

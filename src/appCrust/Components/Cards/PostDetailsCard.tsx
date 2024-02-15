@@ -253,27 +253,27 @@ PostCardType) => {
 
         {/* Icons container */}
         <div className="m-2 flex flex-row justify-between gap-2 cursor-pointer hover:cursor-pointer">
-          <div className="flex align-middle justify-between items-center">
-            <div className="flex">
+          <div className="flex align-middle justify-between items-center align-middle">
+            {/* <div className=""> */}
               {!isLike ? (
                 <div
                   onClick={handleLikeBtn}
-                  className="cursor-pointer  m-2 rounded-full hover:bg-red-100 selection: text-red-400 "
+                  // className="cursor-pointer  m-2 rounded-full hover:bg-red-100 selection: text-red-400 "
+                  className="cursor-pointer  m-2 rounded-full hover:bg-yellow-100 selection: text-yellow-500 "
                 >
                   <BsHeart size={20} />
                 </div>
               ) : (
                 <div
                   onClick={handleLikeBtn}
-                  className="cursor-pointer  m-2 rounded-full hover:bg-red-100 selection:bg-red-100 text-red-400"
+                  // className="cursor-pointer  m-2 rounded-full hover:bg-red-100 selection:bg-red-100 text-red-400"
+                  className="cursor-pointer  m-2 rounded-full hover:bg-yellow-100 selection:bg-yellow-100 text-yellow-500"
                 >
                   <BsHeartFill size={20} />
                 </div>
               )}
-              <div className="cursor-pointer m-2 text-sm">
-                {reactions.likes}{" "}
-              </div>
-            </div>
+              <div className="cursor-pointer ml-0.5 text-sm">{reactions.likes} </div>
+            {/* </div> */}
 
             {/* <div
               onClick={handleCommentBtn}
@@ -289,7 +289,7 @@ PostCardType) => {
             {/* <div className="cursor-pointer mt-2.5 m-2 p-2 rounded-full hover:bg-yellow-50 selection:text-yellow-500"> */}
             <div
               onClick={handleRecastBtn}
-              className="cursor-pointer m-2 rounded-full hover:bg-yellow-100 selection: text-yellow-500"
+              className="cursor-pointer m-2 ml-4 rounded-full hover:bg-yellow-100 selection: text-yellow-500"
             >
               <BsArrowRepeat
                 // style={{ color: "#CC9999" }}
@@ -297,7 +297,7 @@ PostCardType) => {
                 // className="text-yellow-500!important "
               />
             </div>
-            <div className="cursor-pointer text-sm">{reactions.recasts} </div>
+            <div className="cursor-pointer ml-0.5 text-sm">{reactions.recasts} </div>
           </div>
           <div className="flex">
             {/* <div className="cursor-pointer m-2 p-2 rounded-full hover:bg-yellow-50 selection: text-yellow-500">

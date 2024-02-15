@@ -17,6 +17,7 @@ import { Divider, Modal } from "antd";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { SolLoginBtn } from "src/appCrust/Components/Items/SolLoginBtn.tsx";
 import useUser from "src/hooks/userHooks/useUser.tsx";
+import quackLogo from "../../../assets/Logos/quackLogo.jpg";
 
 const LeftSidebar: React.FC<any> = () => {
   const [isSideNavOpen] = useState(true);
@@ -36,7 +37,13 @@ const LeftSidebar: React.FC<any> = () => {
   const sidebarItems = [
     {
       to: "/feed",
-      content: <div className="cursor-pointerm-4 flex">Logo</div>,
+      content: (
+        <div className="cursor-pointer m-4 flex items-center gap-2">
+          {" "}
+          <img className="h-16 w-16 rounded-full" src={quackLogo} alt="Quack" />{" "}
+          <div className="">Quack.fun</div>
+        </div>
+      ),
     },
     {
       to: "/feed",
@@ -100,7 +107,7 @@ const LeftSidebar: React.FC<any> = () => {
         <nav aria-label="side navigation" className="flex-1 overflow-auto">
           {/* <ProfileCard /> */}
           <div>
-            <ul className="flex flex-1 flex-col gap-0 py-3">
+            <ul className="flex flex-1 flex-col gap-0">
               {sidebarItems.map((item, index) => (
                 <Link key={index} to={item.to}>
                   {item.content}

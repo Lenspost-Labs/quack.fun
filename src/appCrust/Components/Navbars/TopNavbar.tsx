@@ -5,6 +5,7 @@ import BsBookmark from "@meronex/icons/bs/BsBookmark";
 // import solLogo from "src/assets/Logos/logoSolana.png";
 import { SolLoginBtn } from "src/appCrust/Components/Items/SolLoginBtn";
 // import solLogo from "../../../assets/Logos/logoSolana.png";
+import quackLogo from "../../../assets/Logos/quackLogo.jpg";
 
 const TopNavbar: React.FC = () => {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
@@ -20,13 +21,11 @@ const TopNavbar: React.FC = () => {
             role="navigation"
           >
             {/*      <!-- Brand logo --> */}
-            <div
-              aria-label="App logo"
-              aria-current="page"
-              className="flex items-center gap-2 whitespace-nowrap py-3 text-lg focus:outline-none lg:flex-1"
-            >
-              Quack
-            </div>
+            <div className="cursor-pointer flex items-center gap-2">
+          {" "}
+          <img className="h-10 w-10 rounded-full" src={quackLogo} alt="Quack" />{" "}
+          <div className="">Quack.fun</div>
+        </div>
             {/*      <!-- Mobile trigger --> */}
             {/* <button
               className={`relative order-10 block h-10 w-10 self-center lg:hidden
