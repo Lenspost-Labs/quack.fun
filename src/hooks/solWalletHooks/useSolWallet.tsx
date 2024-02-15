@@ -36,7 +36,7 @@ const useSolWallet = () => {
   };
 
   const fnGetRawTransaction = (encodedTx: string) => {
-    let recoveredTx;
+    let recoveredTx: Transaction | VersionedTransaction;
     try {
       recoveredTx = Transaction.from(Buffer.from(encodedTx, "base64"));
       console.log("recoveredTx serialized is", recoveredTx);

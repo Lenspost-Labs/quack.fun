@@ -18,14 +18,14 @@ const useUser = (): useUserType => {
   const [jwt, setJwt] = useState(localStorage.getItem("jwt"));
   const [hasUserLoggedIn, setHasUserLoggedIn] = useState(false);
 
-  useEffect(() => {
-    if (jwt) {
-      setHasUserLoggedIn(true);
-    }
-    if (!jwt) {
-      setHasUserLoggedIn(false);
-    }
-  }, [jwt]);
+  // useEffect(() => {
+  //   if (jwt) {
+  //     setHasUserLoggedIn(true);
+  //   }
+  //   if (!jwt) {
+  //     setHasUserLoggedIn(false);
+  //   }
+  // }, [jwt]);
 
   useEffect(() => {
     if (userData?.solanaAddress) {

@@ -73,13 +73,13 @@ export const UtilLoginToApp = () => {
     const txSig = await fnGetPriceAndSign();
 
     // Returning Null if the user has already logged in
-    if (txSig === null) {
-      message.success("Welcome back to Quack! 🎉 ");
-      setHasUserLoggedIn(true);
-      setModalMessage("Let's start Quacking! 🦆");
-      // setIsOnboardingModalOpen(false);
-      return;
-    }
+    // if (txSig === null) {
+    //   message.success("Welcome back to Quack! 🎉 ");
+    //   setHasUserLoggedIn(true);
+    //   setModalMessage("Let's start Quacking! 🦆");
+    //   // setIsOnboardingModalOpen(false);
+    //   return;
+    // }
     if (txSig) {
       message.success("Payment received successfully");
     } else {
