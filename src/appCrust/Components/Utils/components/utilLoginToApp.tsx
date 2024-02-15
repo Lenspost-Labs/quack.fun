@@ -38,12 +38,12 @@ export const UtilLoginToApp = () => {
     setModalMessage("Please Sign the Message to connect to your wallet.");
     const loginInfo = await fnTriggerLogin(); //Only need to set JWT here
     console.log("loginInfo", loginInfo);
-    const decodedJWT = utilDecodeJWT(loginInfo?.jwt || "");
-    console.log("decodedJWT", decodedJWT);
+    // const decodedJWT = utilDecodeJWT(loginInfo?.jwt || "");
+    // console.log("decodedJWT", decodedJWT);
 
     // If Username is already present - No need to show Modal
 
-    if (loginInfo?.username !== null) {
+    if (loginInfo?.username !== "") {
       setHasUserLoggedIn(true);
       setIsOnboardingModalOpen(false);
       setModalMessage("Welcome Back! 🎉");
@@ -52,17 +52,17 @@ export const UtilLoginToApp = () => {
       navigate("/feed");
       return;
     }
-    if (decodedJWT) {
-      setUserData({
-        evmAddress: (decodedJWT as { evmAddress?: string })?.evmAddress || "",
-      });
-    }
-    if ((userData as { evmAddress: string }).evmAddress !== "") {
-      setHasUserLoggedIn(true);
-      // setIsOnboardingModalOpen(false);
-      setModalMessage("Welcome Back! 🎉");
-      return;
-    }
+    // if (decodedJWT) {
+    //   setUserData({
+    //     evmAddress: (decodedJWT as { evmAddress?: string })?.evmAddress || "",
+    //   });
+    // }
+    // if ((userData as { evmAddress: string }).evmAddress !== "") {
+    //   setHasUserLoggedIn(true);
+    //   // setIsOnboardingModalOpen(false);
+    //   setModalMessage("Welcome Back! 🎉");
+    //   return;
+    // }
 
     if (!loginInfo) {
       // setIsOnboardingModalOpen(false);
