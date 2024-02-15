@@ -7,6 +7,8 @@ import { Outlet, useParams } from "react-router-dom";
 import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
 import HeaderWithBackBtn from "../Items/HeaderWithBackBtn";
 import { apiViewSinglePost } from "src/services/BEApis/PostsAPIs/PostsApi";
+import { utilXtimeAgo } from "../Utils/functions/utilXtimeAgo";
+import { apiUserDetailsforFID } from "src/services/BEApis/auth/AuthAPIs";
 
 const SinglePostWrapper = () => {
   const { postFid, postHash } = useParams();
@@ -14,7 +16,16 @@ const SinglePostWrapper = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // sample api call
+  const [profileInfo, setProfileInfo] = useState({
+    bio: { mentionedProfiles: [], text: "" },
+    displayName: "",
+    username: "",
+    fid: postFid,
+    pfp: "",
+    follower: [],
+    following: [],
+  });
+
   const fnGetSinglePost = async () => {
     setLoading(true);
     const singlePostRes = await apiViewSinglePost({
@@ -22,30 +33,51 @@ const SinglePostWrapper = () => {
       hash: postHash,
     });
     console.log("singlePostRes", singlePostRes);
-    setPosts(singlePostRes?.data?.posts);
+    setPosts(singlePostRes?.data);
     setLoading(false);
   };
+
+  // For Getting User Details
+
+  const fnGetProfileInfo = async () => {
+    const profileInfoRes = await apiUserDetailsforFID(postFid ? postFid : "");
+
+    console.log("profileInfo", profileInfoRes);
+    setProfileInfo(profileInfoRes);
+    // console.log("profileInfo", profileInfo);
+  };
+
+  useEffect(() => {
+    fnGetProfileInfo();
+  }, []);
 
   useEffect(() => {
     fnGetSinglePost();
   }, []);
+
   return (
     <>
       <HeaderWithBackBtn headerName={"Post"} backToPath="/feed" />
 
-      {postFid && (
-        <PostDetailsCard
-          userpostFid={postFid}
-          postLikes={"10"}
-          userProfileImage={`https://picsum.photos/seed/picsum/40/40`}
-          userProfileName={"Scripts"}
-          userProfileUsername={`userid${postFid}`}
-          userPostImage={`https://picsum.photos/seed/picsum/200/300`}
-          userProfilePostText={
-            "test lorem ipsum lorem ipsum lorem ipsum lorem ipsum dolor sit amet consectetur adipiscing elit"
-          }
-        />
-      )}
+      {posts?.map((item, index) => {
+        return (
+          <PostDetailsCard
+            key={index}
+            userPostId={item.hash}
+            postLikes={item?.reaction?.LIKE}
+            postRecasts={item?.reaction?.RECAST}
+            userProfileImage={profileInfo?.pfp}
+            userProfileName={profileInfo?.displayName}
+            userProfileUsername={profileInfo?.username}
+            userPostImage={item?.embeds?.[0] ? item?.embeds?.[0]?.image : null}
+            postAuthorFid={profileInfo?.fid}
+            userPostTimestamp={utilXtimeAgo(item.timestamp)}
+            userProfilePostText={item.body}
+            frameTitle={item.firstPart}
+            frameLink={item?.embeds?.[0] ? item?.embeds?.[0]?.url : null}
+          />
+        );
+      })}
       <Outlet />
     </>
   );

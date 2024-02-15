@@ -96,9 +96,9 @@ PostCardType) => {
       ...reactions,
       recasts: postRecasts + (isRecast ? (postRecasts === 0 ? -0 : -1) : +1),
     });
-    setIsRecast(!isRecast);
 
-    isRecast ? message.success("Recasted") : message.success("Removed Recast");
+    !isRecast ? message.success("Recasted") : message.success("Removed Recast");
+    setIsRecast(!isRecast);
   };
   const showModal = () => {
     setIsModalOpen(true);
@@ -238,7 +238,7 @@ PostCardType) => {
           )}
 
           {ogData?.ogImage && (
-            <div className="mt-2">
+            <div className="mt-2 border rounded-md">
               <img
                 src={ogData?.ogImage}
                 alt="card image"
