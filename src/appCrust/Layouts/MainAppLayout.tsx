@@ -71,7 +71,7 @@ const MainAppLayout: React.FC<any> = () => {
         </div>{" "}
         <Divider type="vertical" className="h-full" />
         <div
-          id="InfScrolltarget"
+          id="infScrolltarget"
           className="w-full h-96vh overflow-scroll my-2 md:w-2/4 lg:w-1/3 no-scrollbar"
         >
           <div className="mx-2">

@@ -123,7 +123,7 @@ PostCardType) => {
     frameButtons: [], // Assuming you want to store button data as well
   });
 
-  const fetchOgData = async (url) => {
+  const fetchOgData = async (url: any) => {
     try {
       const response = await apiGetOgs(url); // Fetch page content using your API
       if (response?.data) {
@@ -253,7 +253,7 @@ PostCardType) => {
 
         {/* Icons container */}
         <div className="m-2 flex flex-row justify-between gap-2 cursor-pointer hover:cursor-pointer">
-          <div className="flex align-middle justify-between items-center align-middle">
+          <div className="flex align-middle justify-between items-center">
             {/* <div className=""> */}
               {!isLike ? (
                 <div

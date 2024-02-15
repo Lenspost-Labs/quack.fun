@@ -22,6 +22,7 @@ const PostsWrapper: React.FC<{
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [noOfPosts, setNoOfPosts] = useState(10);
+  const [infCursor, setInfCursor] = useState("");
   const { jwt } = useUser();
 
   const updatePostsWithAuthor = (newPosts: any[]) => {
@@ -30,7 +31,16 @@ const PostsWrapper: React.FC<{
       author: { ...author },
     }));
     console.log("updated posts", updatedPosts);
-    setPosts(updatedPosts);
+    // setPosts(updatedPosts);
+
+    setPosts((prevPosts) => {
+      // const newPosts = updatedPosts || [];
+      const updatedPosts = newPosts.filter(
+        (newPost) =>
+          !prevPosts.some((prevPost) => prevPost.hash === newPost.hash)
+      );
+      return [...prevPosts, ...updatedPosts];
+    });
   };
 
   const fnGetAllPosts = async () => {
@@ -40,7 +50,7 @@ const PostsWrapper: React.FC<{
     const res = await apiGetCastsForFid(authorFid ? authorFid : "");
     console.log("res in fnGetAllPosts", res);
 
-    setPosts(res?.data);
+    // setPosts(res?.data);
     updatePostsWithAuthor(res?.data);
     setLoading(false);
   };
@@ -48,10 +58,20 @@ const PostsWrapper: React.FC<{
   const fnGetFeed = async () => {
     setLoading(true);
 
-    const res = await apiGetFeed();
+    const res = await apiGetFeed(infCursor);
     console.log("res in fnGetFeed", res);
-    setPosts(res?.data?.feed || []);
+    // setPosts(res?.data?.feed || []);
 
+    setPosts((prevPosts) => {
+      const newPosts = res?.data?.feed || [];
+      const updatedPosts = newPosts.filter(
+        (newPost) =>
+          !prevPosts.some((prevPost) => prevPost.hash === newPost.hash)
+      );
+      return [...prevPosts, ...updatedPosts];
+    });
+
+    setInfCursor(res?.data?.cursor);
     setLoading(false);
   };
 
@@ -68,13 +88,19 @@ const PostsWrapper: React.FC<{
     } else {
       fnGetAllPosts();
     }
-
-    fnLoadOgImage();
   };
 
   useEffect(() => {
     fnLoadPosts();
-  }, [isInFeed]);
+  }, [isInFeed, noOfPosts, authorFid]);
+
+  useEffect(() => {
+    fnLoadPosts();
+  }, [noOfPosts]);
+
+  useEffect(() => {
+    console.log("posts in useEffect", posts);
+  }, [infCursor]);
 
   return (
     <>
@@ -92,6 +118,7 @@ const PostsWrapper: React.FC<{
 
         {!loading && posts !== undefined && posts?.length > 0 ? (
           <>
+            {/* <div id="infScrolltarget" style={{ height: 300, overflow: "auto" }}> */}
             <InfiniteScroll
               dataLength={posts?.length}
               next={() => {
@@ -101,11 +128,13 @@ const PostsWrapper: React.FC<{
                 );
                 setNoOfPosts(noOfPosts + 10);
                 // fnGetAllPosts();
-                fnLoadPosts();
+                // fnLoadPosts();
+                // setPosts();
               }}
+              scrollThreshold={0.9}
               hasMore={true}
               loader={<Spin />}
-              scrollableTarget="InfScrolltarget"
+              scrollableTarget="infScrolltarget"
               endMessage={<b>Yay! You have seen it all</b>}
             >
               {posts?.map((item, index) => {
@@ -132,6 +161,7 @@ const PostsWrapper: React.FC<{
                 );
               })}
             </InfiniteScroll>
+            {/* </div> */}
           </>
         ) : (
           !loading && (
