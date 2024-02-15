@@ -8,7 +8,7 @@ import TgLogo from "../../../assets/Logos/logoTg.png";
 const SharePostCard = ({
   userPostId,
   userProfilePostText,
-  userPostImage,
+  frameLink,
   postAuthorFid,
 }: any) => {
   // const BASE_URL = import.meta.env.BASE_URL;
@@ -16,19 +16,24 @@ const SharePostCard = ({
 
   return (
     <>
-      {userProfilePostText}
+      <div className="mt-4">{userProfilePostText}</div>
       <br />
-      {userPostImage && (
+      {frameLink && (
         <img
-          src={userPostImage}
+          src={frameLink}
           alt="card image"
-          className="aspect-video h-32 w-fit p-4 pl-0"
+          className="aspect-video h-32 w-fit p-1 border rounded-md"
         />
       )}
       <div className="flex flex-col">
         <Link to={`/${postAuthorFid}/${userPostId}`}>
           {" "}
-          <div className="truncate">
+          <div
+            className="mt-2 text-blue-400 cursor-pointer"
+            onClick={() =>
+              utilCopyToClip(`${BASE_URL}/${postAuthorFid}/${userPostId}`)
+            }
+          >
             {`${BASE_URL}/${postAuthorFid}/${userPostId}`}{" "}
           </div>
         </Link>
@@ -44,7 +49,7 @@ const SharePostCard = ({
       </div>
       <Divider />
       <div className="flex justify-between align-middle items-center ">
-        <div className=""> Share to Other Socials </div>
+        <div className=""> Share to other socials </div>
         <div className="m-2 flex gap-4">
           <Button
             className="m-2 mb-0"
@@ -55,6 +60,7 @@ const SharePostCard = ({
           >
             Copy Link
           </Button>
+          <div className="border-l"></div>
           {/* Telegram share backlink to post */}
           <a
             href={`https://telegram.me/share/url?url=${BASE_URL}/${postAuthorFid}/${userPostId}`}

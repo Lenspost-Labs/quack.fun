@@ -168,8 +168,9 @@ PostCardType) => {
   return (
     <>
       <div className="z-10 overflow-hidden cursor-pointer bg-white  text-slate-800 border-b border-slate-200 hover:bg-slate-50">
-        <div className="px-6 pt-6 flex justify-between align-middle hover:cursor-pointer">
-          <header className="flex gap-2 align-middle items-center">
+        <div className="flex justify-between items-center align-middle mx-4 mt-4 hover:cursor-pointer">
+          {/* <header className="flex gap-2 align-middle items-center"> */}
+          <div className="flex gap-2 align-middle items-center">
             {/* <Link to={`/profile/${userProfileUsername}`}> */}
             <Link to={`/${postAuthorFid}`}>
               <img
@@ -195,13 +196,15 @@ PostCardType) => {
                 @{userProfileUsername}
               </p>
             </Link>
+          </div>
 
-            {/* <div className="text-sm text-slate-600"> 2 hours ago </div> */}
-            <div className="text-sm text-slate-600"> {userPostTimestamp} </div>
-          </header>
+          {/* <div className="text-sm text-slate-600"> 2 hours ago </div> */}
+          <div className="text-sm text-slate-600"> {userPostTimestamp} </div>
+          {/* </header> */}
         </div>
+
         <Link to={`/${postAuthorFid}/${userPostId}`} color="#000">
-          <div className="p-6 pb-0">
+          <div className="m-4 pb-0">
             {userProfilePostText && (
               <p>{utilFormatPostText(userProfilePostText)}</p>
             )}
@@ -238,36 +241,36 @@ PostCardType) => {
           )}
 
           {ogData?.ogImage && (
-            <div className="mt-2 border rounded-md">
+            <div className="my-4 mx-4 border rounded-md">
               <img
                 src={ogData?.ogImage}
                 alt="card image"
-                className="aspect-video w-full p-4"
+                className="aspect-video w-full p-2 rounded-md"
               />
             </div>
           )}
         </Link>
 
         {/* Icons container */}
-        <div className="ml-4 mt-2 mb-4 flex flex-row justify-between gap-2 cursor-pointer">
+        <div className="m-2 flex flex-row justify-between gap-2 cursor-pointer hover:cursor-pointer">
           <div className="flex align-middle justify-between items-center">
             <div className="flex">
               {!isLike ? (
                 <div
                   onClick={handleLikeBtn}
-                  className="cursor-pointer mr-0 pr-1  mt-2.5 m-2 p-2  rounded-full hover:bg-red-50 selection: text-red-400 "
+                  className="cursor-pointer  m-2 rounded-full hover:bg-red-100 selection: text-red-400 "
                 >
                   <BsHeart size={20} />
                 </div>
               ) : (
                 <div
                   onClick={handleLikeBtn}
-                  className="cursor-pointer mr-0 pr-1   mt-2.5 m-2 p-2  rounded-full hover:bg-red-50 selection:bg-red-100 text-red-400"
+                  className="cursor-pointer  m-2 rounded-full hover:bg-red-100 selection:bg-red-100 text-red-400"
                 >
                   <BsHeartFill size={20} />
                 </div>
               )}
-              <div className="cursor-pointer ml-0 m-2 p-2 text-sm">
+              <div className="cursor-pointer m-2 text-sm">
                 {reactions.likes}{" "}
               </div>
             </div>
@@ -286,17 +289,15 @@ PostCardType) => {
             {/* <div className="cursor-pointer mt-2.5 m-2 p-2 rounded-full hover:bg-yellow-50 selection:text-yellow-500"> */}
             <div
               onClick={handleRecastBtn}
-              className="cursor-pointer m-2 p-2  rounded-full  hover:bg-yellow-50 selection: text-yellow-500"
+              className="cursor-pointer m-2 rounded-full hover:bg-yellow-100 selection: text-yellow-500"
             >
               <BsArrowRepeat
                 // style={{ color: "#CC9999" }}
-                size={20}
+                size={24}
                 // className="text-yellow-500!important "
               />
             </div>
-            <div className="cursor-pointer ml-0 m-2 p-2 text-sm">
-              {reactions.recasts}{" "}
-            </div>
+            <div className="cursor-pointer text-sm">{reactions.recasts} </div>
           </div>
           <div className="flex">
             {/* <div className="cursor-pointer m-2 p-2 rounded-full hover:bg-yellow-50 selection: text-yellow-500">
@@ -306,7 +307,7 @@ PostCardType) => {
               />
             </div> */}
 
-            <div className="cursor-pointer pl-0 m-2 mr-5 p-2 rounded-full hover:bg-yellow-50 selection: text-yellow-500">
+            <div className="cursor-pointer m-2 rounded-full hover:bg-yellow-100 selection: text-yellow-500">
               <BsCursor size={20} onClick={showModal} />
             </div>
           </div>
@@ -325,6 +326,7 @@ PostCardType) => {
           userProfilePostText={userProfilePostText}
           userPostImage={userPostImage}
           postAuthorFid={postAuthorFid}
+          frameLink={ogData?.ogImage}
         />
       </Modal>
       {loading && <Spin />}
