@@ -38,12 +38,43 @@ export const UtilLoginToApp = () => {
     setModalMessage("Please Sign the Message to connect to your wallet.");
     const loginInfo = await fnTriggerLogin(); //Only need to set JWT here
     console.log("loginInfo", loginInfo);
-    // const decodedJWT = utilDecodeJWT(loginInfo?.jwt || "");
-    // console.log("decodedJWT", decodedJWT);
 
-    // If Username is already present - No need to show Modal
+    // If there is JWT and FID - User is already Registered
+    // No need to call Payment API
+    if (
+      localStorage.getItem("jwt") !== "" &&
+      localStorage.getItem("fid") !== ""
+    ) {
+      console.log("Test Logged In");
 
-    if (loginInfo?.username !== "") {
+      setHasUserLoggedIn(true);
+      message.success("Welcome back to Quack! 🎉 ");
+      console.log(localStorage.getItem("jwt"));
+      console.log(localStorage.getItem("fid"));
+      navigate("/feed");
+      return;
+    }
+
+    // If there is FID but no JWT - Login Issue
+    // No need to call Payment API
+    if (
+      localStorage.getItem("jwt") == "" &&
+      localStorage.getItem("fid") !== ""
+    ) {
+      // setHasUserLoggedIn(true);
+      message.error("Login Failed! Please try again - JWT Err");
+      navigate("/auth");
+      return;
+    }
+
+    // If there is username and FID - User is already Registered
+    // No need to call Payment API
+    // No need to trigger the Onboarding Modal
+    if (
+      loginInfo?.username !== "" &&
+      loginInfo?.fid !== "" &&
+      localStorage.getItem("fid") !== ""
+    ) {
       setHasUserLoggedIn(true);
       setIsOnboardingModalOpen(false);
       setModalMessage("Welcome Back! 🎉");
@@ -52,50 +83,60 @@ export const UtilLoginToApp = () => {
       navigate("/feed");
       return;
     }
-    // if (decodedJWT) {
-    //   setUserData({
-    //     evmAddress: (decodedJWT as { evmAddress?: string })?.evmAddress || "",
-    //   });
-    // }
-    // if ((userData as { evmAddress: string }).evmAddress !== "") {
-    //   setHasUserLoggedIn(true);
-    //   // setIsOnboardingModalOpen(false);
-    //   setModalMessage("Welcome Back! 🎉");
-    //   return;
-    // }
 
+    // If there is no response from the API
     if (!loginInfo) {
       // setIsOnboardingModalOpen(false);
+      localStorage.removeItem("jwt");
       return;
     }
 
-    setModalMessage("Please sign and pay to confirm the transaction.");
-    const txSig = await fnGetPriceAndSign();
+    // If there is JWT and no FID - User is not Registered
+    // Call the Payment API
+    if (
+      localStorage.getItem("jwt") !== "" &&
+      localStorage.getItem("fid") == ""
+    ) {
+      setModalMessage("Please sign and pay to confirm the transaction.");
+      const txSig = await fnGetPriceAndSign();
 
-    // Returning Null if the user has already logged in
-    // if (txSig === null) {
-    //   message.success("Welcome back to Quack! 🎉 ");
-    //   setHasUserLoggedIn(true);
-    //   setModalMessage("Let's start Quacking! 🦆");
-    //   // setIsOnboardingModalOpen(false);
-    //   return;
-    // }
-    if (txSig) {
-      message.success("Payment received successfully");
-    } else {
-      message.error("Payment failed");
+      // Returning Null if the user has already logged in
+      // if (txSig === null) {
+      //   message.success("Welcome back to Quack! 🎉 ");
+      //   setHasUserLoggedIn(true);
+      //   setModalMessage("Let's start Quacking! 🦆");
+      //   // setIsOnboardingModalOpen(false);
+      //   return;
+      // }
+      if (txSig) {
+        message.success("Payment received successfully");
+        localStorage.setItem("jwt", loginInfo?.jwt || "");
+        localStorage.setItem("fid", loginInfo?.fid || "");
+      } else {
+        message.error("Payment failed");
+        localStorage.removeItem("jwt");
+        // setIsOnboardingModalOpen(false);
+        return;
+      }
+
+      setModalMessage("Please wait while we register your wallet.");
+      const registerStatus = await fnTriggerRegister(txSig);
+      console.log("registerStatus", registerStatus);
+
+      // if(registerStatus) {
+      //   localStorage.removeItem("jwt");
+      //   message.error("Registration Failed");
+      //   return;
+      // }
+      
+      message.success(
+        "Login Successful! Your Account is now ready to quack. 🎉"
+      );
       // setIsOnboardingModalOpen(false);
-      return;
+
+      setModalMessage("Let's start Quacking! 🎉");
+      setHasUserLoggedIn(true);
     }
-
-    setModalMessage("Please wait while we register your wallet.");
-    await fnTriggerRegister(txSig);
-
-    message.success("Login Successful! Your Account is now ready to quack. 🎉");
-    // setIsOnboardingModalOpen(false);
-
-    setModalMessage("Let's start Quacking! 🎉");
-    setHasUserLoggedIn(true);
   };
 
   const fnHandleOnboarding = async () => {

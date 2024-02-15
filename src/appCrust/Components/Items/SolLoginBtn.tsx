@@ -79,32 +79,6 @@ const SolLoginBtnUI: FC = () => {
     localStorage.removeItem("fid");
   };
 
-  const fnCheckIfUserHasLoggedIn = () => {
-    if (hasUserLoggedIn) {
-      setHasUserLoggedIn(true);
-    }
-
-    if (!hasUserLoggedIn) {
-      setHasUserLoggedIn(false);
-    }
-  };
-
-  useEffect(() => {
-    fnCheckIfUserHasLoggedIn;
-  }, []);
-
-  useEffect(() => {
-    fnCheckIfUserHasLoggedIn;
-  }, [hasUserLoggedIn]);
-
-  useEffect(() => {
-    fnCheckIfUserHasLoggedIn;
-  }, [userData]);
-
-  useEffect(() => {
-    fnCheckIfUserHasLoggedIn;
-  }, [connected]);
-
   return (
     <>
       {!connected && (

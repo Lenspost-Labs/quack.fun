@@ -27,11 +27,11 @@ const useUserAuth = () => {
     });
     console.log("apiLogin is", res);
     localStorage.setItem("jwt", res?.data?.jwt);
+    localStorage.setItem("fid", res?.data?.fid);
     setUserData({
       ...userData,
       fid: res?.data?.fid || "",
     });
-    localStorage.setItem("fid", res?.data?.fid);
 
     return res?.data;
   };
@@ -69,7 +69,7 @@ const useUserAuth = () => {
     try {
       const res = await apiRegisterNewUser(txSig);
       console.log("apiRegisterNewUser is", res);
-      message.success("Login Successful.");
+      // message.success("Login Successful.");
     } catch (err) {
       console.log("Err in fnTriggerRegister", err);
 

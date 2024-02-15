@@ -1,8 +1,11 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const useUser = (): useUserType => {
   // const { publicKey: solanaAddress } = useWallet();
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState({
     solanaAddress: "",
     evmAddress: "",
@@ -39,6 +42,38 @@ const useUser = (): useUserType => {
       fid: localStorage.getItem("fid") || "",
     });
   }, []);
+
+  const fnCheckForFIDAndNavigate = () => {
+    console.log("Checking Session");
+    // if ((userData as { fid: string })?.fid !== "" && jwt != null) {
+    if (
+      localStorage.getItem("fid") !== "" &&
+      localStorage.getItem("jwt") !== ""
+    ) {
+      console.log("Navigating to feed");
+      navigate("/feed");
+      return true;
+    } else if (
+      localStorage.getItem("fid") == "" ||
+      localStorage.getItem("jwt") == ""
+    ) {
+      localStorage.removeItem("jwt");
+      navigate("/auth");
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    fnCheckForFIDAndNavigate();
+  }, [jwt]);
+
+  useEffect(() => {
+    fnCheckForFIDAndNavigate();
+  }, []);
+
+  useEffect(() => {
+    fnCheckForFIDAndNavigate();
+  }, [userData]);
 
   return {
     userData,
