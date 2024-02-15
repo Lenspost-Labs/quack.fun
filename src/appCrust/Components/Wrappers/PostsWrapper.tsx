@@ -94,7 +94,7 @@ const PostsWrapper: React.FC<{
   };
   useEffect(() => {
     fnLoadPosts();
-  }, [isInFeed, noOfPosts]);
+  }, [isInFeed]);
 
   return (
     <>
@@ -114,14 +114,14 @@ const PostsWrapper: React.FC<{
           <>
             <InfiniteScroll
               dataLength={posts?.length}
-              next={() => {
+              next={async () => {
                 console.log(
                   "Next called, Loading Posts from noOfPosts",
                   noOfPosts
                 );
                 setNoOfPosts(noOfPosts + 10);
                 // fnGetAllPosts();
-                fnLoadPosts();
+                await fnLoadPosts();
               }}
               hasMore={true}
               loader={
