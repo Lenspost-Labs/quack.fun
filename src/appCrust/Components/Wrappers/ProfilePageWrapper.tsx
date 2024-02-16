@@ -67,14 +67,11 @@ const ProfilePageWrapper = () => {
     fnGetProfileInfo();
   }, [userFid]);
   
-  useEffect(() => {
-    fnGetProfileInfo();
-  }, []);
 
   return (
     <>
       <HeaderWithBackBtn
-        headerName={userFid ? userFid : "Profile"}
+        headerName={userFid ? `FID: ${userFid}` : "Profile"}
         backToPath="/feed"
       />
       {/* Sample - Using Username */}

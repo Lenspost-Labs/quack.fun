@@ -26,7 +26,6 @@ const PostsWrapper: React.FC<{
   const { jwt } = useUser();
 
   const updatePostsWithAuthor = (newPosts: any[]) => {
-
     const updatedPosts = newPosts.map((post) => ({
       ...post,
       author: { ...author },
@@ -56,6 +55,7 @@ const PostsWrapper: React.FC<{
     const res = await apiGetFeed(infCursor);
     console.log("res in fnGetFeed", res);
     setInfCursor(res?.data?.cursor);
+
     console.log("infCursor in fnGetFeed", infCursor);
     setLoading(false);
     return res?.data?.feed || [];
@@ -76,13 +76,29 @@ const PostsWrapper: React.FC<{
       newPosts = await fnGetAllPosts();
     }
 
+    return newPosts;
     // Append the new posts to the existing ones
-    setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+    // setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+    // setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+    // console.log("posts in fnLoadPosts", posts);
   };
 
+  // useEffect(() => {
+  //   fnLoadPosts();
+  // }, [authorFid, author]);
+  const fnSetPosts = async () => {
+    const newPosts = await fnLoadPosts();
+    setPosts(newPosts);
+  };
   useEffect(() => {
-    fnLoadPosts();
-  }, [isInFeed, authorFid, author]);
+    // fnLoadPosts();
+    fnSetPosts();
+  }, [authorFid]);
+
+  useEffect(() => {
+    // fnLoadPosts();
+    fnSetPosts();
+  }, []);
 
   return (
     <>
@@ -109,8 +125,11 @@ const PostsWrapper: React.FC<{
                   noOfPosts
                 );
                 // setNoOfPosts(noOfPosts + 10);
-                await setNoOfPosts(noOfPosts + 10);
-                await fnLoadPosts();
+                // setNoOfPosts(noOfPosts + 10);
+                // const newPosts = await fnLoadPosts();
+                // setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+                // console.log("posts in fnLoadPosts", posts);
+                fnSetPosts();
               }}
               scrollThreshold={0.9}
               hasMore={true}
