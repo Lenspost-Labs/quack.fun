@@ -66,7 +66,7 @@ const SolLoginBtnContext: FC<{ children: ReactNode }> = ({ children }) => {
 
 const SolLoginBtnUI: FC = () => {
   const { connected, disconnect, publicKey: address } = useWallet();
-  const { userData } = useUser();
+  const { userData, fid } = useUser();
   const [hasLoggedInBtnContext, setHasUserLoggedInBtnContext] = useState(false);
 
   console.log(connected);
@@ -95,6 +95,9 @@ const SolLoginBtnUI: FC = () => {
     fnCheckLocalStorage();
   }, []);
 
+  useEffect(() => {
+    fnCheckLocalStorage();
+  }, [connected]);
   return (
     <>
       {!connected && (
@@ -108,9 +111,7 @@ const SolLoginBtnUI: FC = () => {
       {connected && (
         <>
           <div className="flex justify-between items-center align-middle ">
-            <Link
-              to={`/${(userData as { fid?: string; username?: string })?.fid}`}
-            >
+            <Link to={`/${fid}`}>
               <SidebarItem
                 className="hidden md:inline-block"
                 itemName={
