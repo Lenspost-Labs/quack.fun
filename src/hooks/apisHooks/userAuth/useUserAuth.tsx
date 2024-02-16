@@ -12,7 +12,7 @@ const useUserAuth = () => {
   const { fnCheckWalletConnection, fnTriggerSignature, fnSignAndSendTx } =
     useSolWallet();
   const { publicKey: address } = useWallet();
-  const { userData, setUserData } = useUser();
+  const { setFid } = useUser();
   const signatureMessage =
     "Clicking Sign or Approve only means you have proved this wallet is owned by you. This request will not trigger any blockchain transaction or cost any gas fee.";
 
@@ -28,10 +28,7 @@ const useUserAuth = () => {
     console.log("apiLogin is", res);
     localStorage.setItem("jwt", res?.data?.jwt);
     localStorage.setItem("fid", res?.data?.fid);
-    setUserData({
-      ...userData,
-      fid: res?.data?.fid || "",
-    });
+    setFid(res?.data?.fid);
 
     return res?.data;
   };

@@ -24,7 +24,10 @@ body {
   /* background-color: #b22424; */
   height: 100vh;
   width: 100vw;
-  font-family: "PT Sans", sans-serif !important;
+  /* font-family: "PT Sans", sans-serif !important; */
+  font-family: "Inter", sans-serif !important;
+  font-weight: 400;
+  font-size: 14px;
   overflow: hidden;
 }
 .wallet-adapter-button-trigger {

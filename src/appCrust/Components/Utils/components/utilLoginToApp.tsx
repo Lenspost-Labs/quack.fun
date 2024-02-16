@@ -11,7 +11,7 @@ import { apiUpdateUser } from "src/services/BEApis/auth/AuthAPIs";
 import { useNavigate } from "react-router-dom";
 
 export const UtilLoginToApp = () => {
-  const { hasUserLoggedIn, setHasUserLoggedIn, userData, setUserData } =
+  const { hasUserLoggedIn, setHasUserLoggedIn, fid,setFid } =
     useUser();
   const [modalMessage, setModalMessage] = useState<string>(
     "Sign in with your wallet, and Pay a small fee to start your presence on-chain on Quack!"
@@ -137,6 +137,8 @@ export const UtilLoginToApp = () => {
       setModalMessage("Let's start Quacking! 🎉");
     }
     setHasUserLoggedIn(true);
+    setFid(localStorage.getItem("fid"));
+    navigate("/feed");
   };
 
   const fnHandleOnboarding = async () => {
