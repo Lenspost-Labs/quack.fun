@@ -59,10 +59,10 @@ const MainAppLayout: React.FC<any> = () => {
   }, []);
 
   useEffect(() => {
-    // if (pathname === "/") {
-    //   navigate("/feed");
-    // }
-  }, [jwt]);
+    if (pathname === "/") {
+      navigate("/feed");
+    }
+  }, [pathname]);
 
   const utilUpdateFIDFromLocal = () => {
     const storedFid = localStorage.getItem("fid");
