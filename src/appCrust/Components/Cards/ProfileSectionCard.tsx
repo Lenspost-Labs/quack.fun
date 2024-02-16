@@ -65,14 +65,14 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
   return (
     <>
       <div className="flex flex-col gap-4 p-6 bg-white shadow-sm">
-        <img
+        {/* <img
           src={userBannerPicture}
           alt={userProfileName}
           title={userProfileName}
           width="100%"
           height="48"
           className="h-32 rounded-sm"
-        />
+        /> */}
 
         <div className="flex justify-between items-center">
           <div className="flex border-yellow-500  min-h-[2rem] flex-col gap-0 w-full">

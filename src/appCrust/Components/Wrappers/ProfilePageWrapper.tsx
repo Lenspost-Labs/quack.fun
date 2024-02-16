@@ -62,14 +62,14 @@ const ProfilePageWrapper = () => {
     setProfileInfo(profileInfoRes);
     console.log("profileInfo", profileInfo);
   };
-
-  const fnGetCastsForFid = async () => {
-    const castsForFid = await apiGetCastsForFid(userFid ? userFid : "");
-  };
-
+  
   useEffect(() => {
     fnGetProfileInfo();
   }, [userFid]);
+  
+  useEffect(() => {
+    fnGetProfileInfo();
+  }, []);
 
   return (
     <>
