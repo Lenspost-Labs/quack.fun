@@ -22,7 +22,7 @@ import quackLogo from "../../../assets/Logos/quackLogo.jpg";
 const LeftSidebar: React.FC<any> = () => {
   const [isSideNavOpen] = useState(true);
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
-  const { userData, hasUserLoggedIn, setHasUserLoggedIn } = useUser();
+  const { userData, hasUserLoggedIn, setHasUserLoggedIn, fid } = useUser();
 
   const { connected } = useWallet();
   console.log(connected);
@@ -61,7 +61,7 @@ const LeftSidebar: React.FC<any> = () => {
       ),
     },
     {
-      to: `/${(userData as { fid?: string })?.fid}`,
+      to: `/${fid}`,
       content: (
         <SidebarItem
           itemName="Profile"

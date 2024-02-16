@@ -16,7 +16,7 @@ const MainAppLayout: React.FC<any> = () => {
     useState(false);
 
   const navigate = useNavigate();
-  const { jwt } = useUser();
+  const { userData, jwt, fid, setFid } = useUser();
 
   const items: TabsProps["items"] = [
     {
@@ -62,6 +62,36 @@ const MainAppLayout: React.FC<any> = () => {
       navigate("/feed");
     }
   }, [jwt]);
+
+  // Function to check for "fid" in local storage and update userData.fid
+  const updateFidFromLocalStorage = () => {
+    const storedFid = localStorage.getItem("fid");
+    // if (storedFid) {
+    setFid(storedFid);
+    // }
+
+    console.log("fid updated from local storage");
+  };
+
+  // Call the function to check and update fid from local storage
+  useEffect(() => {
+    updateFidFromLocalStorage();
+  }, []);
+
+  // Call the function to check and update fid from local storage every 2 seconds for the first 10 seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      updateFidFromLocalStorage();
+    }, 2000);
+
+    // Clear the interval after 10 seconds
+    setTimeout(() => {
+      clearInterval(intervalId);
+    }, 10000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <>

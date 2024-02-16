@@ -5,7 +5,7 @@ export const utilFormatPostText = (text: string) => {
     if (word.startsWith("https://")) {
       return (
         <>
-          <span key={index} className="text-blue-400 text-sm">
+          <span key={index} className="text-blue-500 text-sm">
             {/* <a href={word}>{word}</a> */}
             {word}
           </span>
