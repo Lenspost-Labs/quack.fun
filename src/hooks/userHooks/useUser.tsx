@@ -43,37 +43,37 @@ const useUser = (): useUserType => {
     });
   }, []);
 
-  const fnCheckForFIDAndNavigate = () => {
-    console.log("Checking Session");
-    // if ((userData as { fid: string })?.fid !== "" && jwt != null) {
-    if (
-      localStorage.getItem("fid") !== "" &&
-      localStorage.getItem("jwt") !== ""
-    ) {
-      console.log("Navigating to feed");
-      navigate("/feed");
-      return true;
-    } else if (
-      localStorage.getItem("fid") == "" ||
-      localStorage.getItem("jwt") == ""
-    ) {
-      localStorage.removeItem("jwt");
-      navigate("/auth");
-      return false;
-    }
-  };
+  // const fnCheckForFIDAndNavigate = () => {
+  //   console.log("Checking Session");
+  //   // if ((userData as { fid: string })?.fid !== "" && jwt != null) {
+  //   if (
+  //     localStorage.getItem("fid") !== "" &&
+  //     localStorage.getItem("jwt") !== ""
+  //   ) {
+  //     console.log("Navigating to feed");
+  //     navigate("/feed");
+  //     return true;
+  //   } else if (
+  //     localStorage.getItem("fid") == "" ||
+  //     localStorage.getItem("jwt") == ""
+  //   ) {
+  //     localStorage.removeItem("jwt");
+  //     navigate("/auth");
+  //     return false;
+  //   }
+  // };
 
-  useEffect(() => {
-    fnCheckForFIDAndNavigate();
-  }, [jwt]);
+  // useEffect(() => {
+  //   fnCheckForFIDAndNavigate();
+  // }, [jwt]);
 
-  useEffect(() => {
-    fnCheckForFIDAndNavigate();
-  }, []);
+  // useEffect(() => {
+  //   fnCheckForFIDAndNavigate();
+  // }, []);
 
-  useEffect(() => {
-    fnCheckForFIDAndNavigate();
-  }, [userData]);
+  // useEffect(() => {
+  //   fnCheckForFIDAndNavigate();
+  // }, [userData]);
 
   return {
     userData,

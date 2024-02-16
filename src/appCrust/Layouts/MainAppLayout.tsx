@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LeftSidebar from "../appMantle/leftMantle/LeftSidebar.tsx";
 import TopicsCard from "../Components/Cards/TopicsCard.tsx";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
@@ -12,6 +12,9 @@ import useUser from "src/hooks/userHooks/useUser.tsx";
 
 const MainAppLayout: React.FC<any> = () => {
   const { pathname } = useLocation();
+  const [hasUserLoggedInBtnContext, setHasUserLoggedInBtnContext] =
+    useState(false);
+
   const navigate = useNavigate();
   const { jwt } = useUser();
 
@@ -37,24 +40,28 @@ const MainAppLayout: React.FC<any> = () => {
     console.log(key);
   };
 
-  const fnCheckForJWTAndNavigate = () => {
-    console.log("Checking Session");
-    if (jwt != null) {
+  const fnCheckLocalStorage = () => {
+    if (
+      localStorage.getItem("jwt") !== null &&
+      localStorage.getItem("fid") !== null
+    ) {
+      setHasUserLoggedInBtnContext(true);
       navigate("/feed");
-      return true;
-    } else if (jwt == null) {
+    } else {
+      setHasUserLoggedInBtnContext(false);
       navigate("/auth");
-      return false;
     }
   };
 
   useEffect(() => {
-    fnCheckForJWTAndNavigate();
-  }, [jwt]);
+    fnCheckLocalStorage();
+  }, []);
 
   useEffect(() => {
-    fnCheckForJWTAndNavigate();
-  }, []);
+    if (pathname === "/") {
+      navigate("/feed");
+    }
+  }, [jwt]);
 
   return (
     <>

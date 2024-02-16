@@ -75,6 +75,7 @@ const PostsWrapper: React.FC<{
     // });
 
     setInfCursor(res?.data?.cursor);
+    console.log("infCursor in fnGetFeed", infCursor);
     setLoading(false);
     return res?.data?.feed || [];
   };
@@ -100,11 +101,11 @@ const PostsWrapper: React.FC<{
 
   useEffect(() => {
     fnLoadPosts();
-  }, [isInFeed, noOfPosts, authorFid, author]);
+  }, [isInFeed, authorFid, author]);
 
-  useEffect(() => {
-    fnLoadPosts();
-  }, [noOfPosts]);
+  // useEffect(() => {
+  //   fnLoadPosts();
+  // }, [noOfPosts]);
 
   useEffect(() => {
     console.log("posts in useEffect", posts);
@@ -129,15 +130,14 @@ const PostsWrapper: React.FC<{
             {/* <div id="infScrolltarget" style={{ height: 300, overflow: "auto" }}> */}
             <InfiniteScroll
               dataLength={posts?.length}
-              next={() => {
+              next={async () => {
                 console.log(
                   "Next called, Loading Posts from noOfPosts",
                   noOfPosts
                 );
-                setNoOfPosts(noOfPosts + 10);
-                // fnGetAllPosts();
-                // fnLoadPosts();
-                // setPosts();
+                // setNoOfPosts(noOfPosts + 10);
+                await setNoOfPosts(noOfPosts + 10);
+                await fnLoadPosts();
               }}
               scrollThreshold={0.9}
               hasMore={true}

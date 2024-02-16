@@ -4,7 +4,7 @@
  * Npm package `@solana/wallet-adapter-wallets`.
  */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   ConnectionProvider,
@@ -66,7 +66,8 @@ const SolLoginBtnContext: FC<{ children: ReactNode }> = ({ children }) => {
 
 const SolLoginBtnUI: FC = () => {
   const { connected, disconnect, publicKey: address } = useWallet();
-  const { userData, setHasUserLoggedIn, hasUserLoggedIn } = useUser();
+  const { userData } = useUser();
+  const [hasLoggedInBtnContext, setHasUserLoggedInBtnContext] = useState(false);
 
   console.log(connected);
   console.log(address);
@@ -74,10 +75,25 @@ const SolLoginBtnUI: FC = () => {
   const handleDisconnect = () => {
     message.success("Disconnected");
     disconnect();
-    setHasUserLoggedIn(false);
+    setHasUserLoggedInBtnContext(false);
     localStorage.removeItem("jwt");
     localStorage.removeItem("fid");
   };
+
+  const fnCheckLocalStorage = () => {
+    if (
+      localStorage.getItem("jwt") !== null &&
+      localStorage.getItem("fid") !== null
+    ) {
+      setHasUserLoggedInBtnContext(true);
+    } else {
+      setHasUserLoggedInBtnContext(false);
+    }
+  };
+
+  useEffect(() => {
+    fnCheckLocalStorage();
+  }, []);
 
   return (
     <>
@@ -170,7 +186,8 @@ const SolLoginBtnUI: FC = () => {
           </div>
         </>
       )}
-      <UtilLoginToApp />
+      {/* {!connected && !hasUserLoggedIn && <UtilLoginToApp />} */}
+      {!hasLoggedInBtnContext && <UtilLoginToApp />}
     </>
   );
 };
