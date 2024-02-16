@@ -19,7 +19,7 @@ export const UtilLoginToApp = () => {
   const [isOnboardingModalOpen, setIsOnboardingModalOpen] =
     useState<boolean>(false);
 
-  const { fnTriggerLogin, fnGetPriceAndSign, fnTriggerRegister } =
+  const { fnTriggerLogin, fnTriggerGetPriceAndSign, fnTriggerRegister } =
     useUserAuth();
 
   const onboardUsernameRef = useRef<InputRef>(null);
@@ -41,19 +41,17 @@ export const UtilLoginToApp = () => {
 
     // If there is JWT and FID - User is already Registered
     // No need to call Payment API
-    if (
-      localStorage.getItem("jwt") !== "" &&
-      localStorage.getItem("fid") !== ""
-    ) {
-      console.log("Test Logged In");
-
-      setHasUserLoggedIn(true);
-      message.success("Welcome back to Quack! 🎉 ");
-      console.log(localStorage.getItem("jwt"));
-      console.log(localStorage.getItem("fid"));
-      navigate("/feed");
-      return;
-    }
+    // if (
+    //   localStorage.getItem("jwt") !== "" &&
+    //   localStorage.getItem("fid") !== ""
+    // ) {
+    //   setHasUserLoggedIn(true);
+    //   message.success("Welcome back to Quack! 🎉 ");
+    //   console.log(localStorage.getItem("jwt"));
+    //   console.log(localStorage.getItem("fid"));
+    //   navigate("/feed");
+    //   return;
+    // }
 
     // If there is FID but no JWT - Login Issue
     // No need to call Payment API
@@ -97,8 +95,10 @@ export const UtilLoginToApp = () => {
       localStorage.getItem("jwt") !== "" &&
       localStorage.getItem("fid") == ""
     ) {
-      setModalMessage("Please sign and pay to confirm the transaction.");
-      const txSig = await fnGetPriceAndSign();
+      setModalMessage(
+        "Farcaster requires a registration fee for account activation. Upon registration, you will be prompted to make a payment for your account."
+      );
+      const txSig = await fnTriggerGetPriceAndSign();
 
       // Returning Null if the user has already logged in
       // if (txSig === null) {
@@ -115,7 +115,7 @@ export const UtilLoginToApp = () => {
       } else {
         message.error("Payment failed");
         localStorage.removeItem("jwt");
-        // setIsOnboardingModalOpen(false);
+        setIsOnboardingModalOpen(false);
         return;
       }
 
@@ -128,28 +128,28 @@ export const UtilLoginToApp = () => {
       //   message.error("Registration Failed");
       //   return;
       // }
-      
+
       message.success(
         "Login Successful! Your Account is now ready to quack. 🎉"
       );
       // setIsOnboardingModalOpen(false);
 
       setModalMessage("Let's start Quacking! 🎉");
-      setHasUserLoggedIn(true);
     }
+    setHasUserLoggedIn(true);
   };
 
   const fnHandleOnboarding = async () => {
     // setIsOnboardingModalOpen(true);
-    console.log("onboardUsernameRef", onboardUsernameRef.current?.input?.value);
-    console.log("onboardEmailRef", onboardEmailRef.current?.input?.value);
+    // console.log("onboardUsernameRef", onboardUsernameRef.current?.input?.value);
+    // console.log("onboardEmailRef", onboardEmailRef.current?.input?.value);
 
     try {
       const onboardingStatus = await apiUpdateUser({
         username: onboardUsernameRef.current?.input?.value,
         email: onboardEmailRef.current?.input?.value,
       });
-      console.log("onboardingStatus", onboardingStatus);
+      // console.log("onboardingStatus", onboardingStatus);
       if (onboardingStatus) {
         setShowOnboardValidation(true);
         setOnboardValidation({
@@ -174,9 +174,6 @@ export const UtilLoginToApp = () => {
       message.error("Account Creation Failed! ❌ Error :" + err);
       setIsOnboardingModalOpen(false);
     }
-    // if (onboardingStatus.message === "User Updated") {
-    // }
-    // setIsOnboardingModalOpen(false);
   };
   return (
     <>

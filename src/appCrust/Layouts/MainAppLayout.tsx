@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LeftSidebar from "../appMantle/leftMantle/LeftSidebar.tsx";
 import TopicsCard from "../Components/Cards/TopicsCard.tsx";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
@@ -12,8 +12,11 @@ import useUser from "src/hooks/userHooks/useUser.tsx";
 
 const MainAppLayout: React.FC<any> = () => {
   const { pathname } = useLocation();
+  const [hasUserLoggedInBtnContext, setHasUserLoggedInBtnContext] =
+    useState(false);
+
   const navigate = useNavigate();
-  const { jwt } = useUser();
+  const { userData, jwt, fid, setFid } = useUser();
 
   const items: TabsProps["items"] = [
     {
@@ -37,23 +40,57 @@ const MainAppLayout: React.FC<any> = () => {
     console.log(key);
   };
 
-  const fnCheckForJWTAndNavigate = () => {
-    console.log("Checking Session");
-    if (jwt != null) {
+  const fnCheckLocalStorage = () => {
+    if (
+      localStorage.getItem("jwt") !== null &&
+      localStorage.getItem("fid") !== null
+    ) {
+      setHasUserLoggedInBtnContext(true);
       navigate("/feed");
-      return true;
-    } else if (jwt == null) {
+    } else {
+      setHasUserLoggedInBtnContext(false);
       navigate("/auth");
-      return false;
     }
   };
 
   useEffect(() => {
-    fnCheckForJWTAndNavigate();
-  }, [jwt]);
+    fnCheckLocalStorage();
+  }, []);
 
   useEffect(() => {
-    fnCheckForJWTAndNavigate();
+    if (pathname === "/") {
+      navigate("/feed");
+    }
+  }, [jwt]);
+
+  // Function to check for "fid" in local storage and update userData.fid
+  const updateFidFromLocalStorage = () => {
+    const storedFid = localStorage.getItem("fid");
+    // if (storedFid) {
+    setFid(storedFid);
+    // }
+
+    console.log("fid updated from local storage");
+  };
+
+  // Call the function to check and update fid from local storage
+  useEffect(() => {
+    updateFidFromLocalStorage();
+  }, []);
+
+  // Call the function to check and update fid from local storage every 2 seconds for the first 10 seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      updateFidFromLocalStorage();
+    }, 2000);
+
+    // Clear the interval after 10 seconds
+    setTimeout(() => {
+      clearInterval(intervalId);
+    }, 10000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (

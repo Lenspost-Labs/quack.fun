@@ -37,7 +37,7 @@ const useUserAuth = () => {
   };
 
   // Step 2 : Get Price and tx to pay
-  const fnGetPriceAndSign = async () => {
+  const fnTriggerGetPriceAndSign = async () => {
     try {
       const res = await apiGetPaymentPrice();
       console.log("apiGetPaymentPrice is", res);
@@ -77,7 +77,7 @@ const useUserAuth = () => {
       return;
     }
   };
-  return { fnTriggerLogin, fnGetPriceAndSign, fnTriggerRegister };
+  return { fnTriggerLogin, fnTriggerGetPriceAndSign, fnTriggerRegister };
 };
 
 export default useUserAuth;
