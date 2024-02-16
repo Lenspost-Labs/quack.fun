@@ -15,10 +15,10 @@ const router = createBrowserRouter([
     element: <ThankyouWrapper />,
     // errorElement: <ErrorPage />,
     children: [
-      {
-        index: true, // Indicates this is the default child route
-        element: <Navigate to="/feed" replace />, // Redirects from `/` to `/feed`
-      },
+      // {
+      //   index: true, // Indicates this is the default child route
+      //   element: <Navigate to="/feed" replace />, // Redirects from `/` to `/feed`
+      // },
       {
         path: "/feed",
         element: <PostsWrapper isInFeed={true} />,
