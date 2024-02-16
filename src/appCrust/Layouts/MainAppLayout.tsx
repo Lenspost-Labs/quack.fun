@@ -55,13 +55,13 @@ const MainAppLayout: React.FC<any> = () => {
   };
 
   useEffect(() => {
-    fnCheckLocalStorage();
+    // fnCheckLocalStorage();
   }, []);
 
   useEffect(() => {
-    if (pathname === "/") {
-      navigate("/feed");
-    }
+    // if (pathname === "/") {
+    //   navigate("/feed");
+    // }
   }, [jwt]);
 
   const utilUpdateFIDFromLocal = () => {
