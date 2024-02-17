@@ -2,7 +2,7 @@ import { Tabs, TabsProps } from "antd";
 import React, { useEffect, useState } from "react";
 import PostsWrapper from "./PostsWrapper";
 import ProfileSectionCard from "../Cards/ProfileSectionCard";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 // @ts-ignore
 import BsArrowLeft from "@meronex/icons/bs/BsArrowLeft";
@@ -24,6 +24,15 @@ const ProfilePageWrapper = () => {
     following: [],
   });
 
+  // Fetch using username or userId from params
+  const fnGetProfileInfo = async () => {
+    const profileInfoRes = await apiUserDetailsforFID(userFid ? userFid : "");
+
+    // console.log("profileInfo", profileInfoRes);
+    setProfileInfo(await profileInfoRes);
+    console.log("author in profileInfo", profileInfo);
+  };
+
   const onChange = (key: string) => {
     console.log(key);
   };
@@ -33,13 +42,18 @@ const ProfilePageWrapper = () => {
       key: "1",
       label: "Posts",
       //   className: "bg-blue-100",
-      children: (
-        <PostsWrapper
-          authorFid={userFid}
-          author={profileInfo}
-          isInFeed={false}
-        />
-      ),
+      children:
+        // Render the PostsWrapper only if profileInfo is not empty
+        (profileInfo?.name !== "" ||
+          profileInfo?.username !== "" ||
+          profileInfo?.pfp !== "") &&
+        userFid == profileInfo?.fid ? (
+          <PostsWrapper
+            authorFid={userFid}
+            author={profileInfo}
+            isInFeed={false}
+          />
+        ) : <Navigate to={`/${userFid}`} />,
     },
     {
       key: "2",
@@ -52,21 +66,9 @@ const ProfilePageWrapper = () => {
       // children: <PostsWrapper />,
     },
   ];
-
-  // Fetch data from API - Profile
-  // Fetch using username or userId from params
-  const fnGetProfileInfo = async () => {
-    const profileInfoRes = await apiUserDetailsforFID(userFid ? userFid : "");
-
-    // console.log("profileInfo", profileInfoRes);
-    setProfileInfo(profileInfoRes);
-    console.log("profileInfo", profileInfo);
-  };
-  
   useEffect(() => {
     fnGetProfileInfo();
   }, [userFid]);
-  
 
   return (
     <>
