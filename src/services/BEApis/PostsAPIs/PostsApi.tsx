@@ -82,3 +82,13 @@ export const apiGetCastsForFid = async (data: any) => {
     console.log(error);
   }
 };
+
+export const apiActOnAPost = async (data: any) => {
+  try {
+    const response = await apiInstance.post("/user/post/act", data);
+    return response;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+};

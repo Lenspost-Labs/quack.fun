@@ -20,10 +20,9 @@ import BsArrowRepeat from "@meronex/icons/bs/BsArrowRepeat";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import { Button, Modal, Spin, message } from "antd";
+import { Modal, Spin, message } from "antd";
 import { Link } from "react-router-dom";
 import {
-  apiActOnAPost,
   apiGetPosts,
   apiReactForAPost,
 } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
@@ -33,10 +32,6 @@ import Iframe from "react-iframe";
 import { SandboxAttributeValue } from "react-iframe/types";
 import { utilFormatPostText } from "src/appCrust/Components/Utils/functions/utilFormatPostText.tsx";
 import { apiGetOgs } from "src/services/BEApis/utils/UtilsApis.tsx";
-
-import BiLinkExternal from "@meronex/icons/bi/BiLinkExternal";
-import axios from "axios";
-
 const PostDetailsCard = ({
   postAuthorFid,
   userPostId, //Hash
@@ -76,18 +71,16 @@ PostCardType) => {
     fcFrame: "",
     frameImage: "",
     ogImage: "",
-    ogTitle: "",
-    ogDescription: "",
-    frameButton1: "",
+    frameButton1Label: "",
     frameButton1Action: "post", // Default action is 'post'
     frameButton1Target: "",
-    frameButton2: "",
+    frameButton2Label: "",
     frameButton2Action: "post", // Default action is 'post'
     frameButton2Target: "",
-    frameButton3: "",
+    frameButton3Label: "",
     frameButton3Action: "post", // Default action is 'post'
     frameButton3Target: "",
-    frameButton4: "",
+    frameButton4Label: "",
     frameButton4Action: "post", // Default action is 'post'
     frameButton4Target: "",
     framePostUrl: "",
@@ -150,56 +143,176 @@ PostCardType) => {
     // setComments(res?.data?.posts.slice(0, 5));
   };
 
+  // const fetchOgData = async (url: any) => {
+  //   try {
+  //     const response = await apiGetOgs(url); // Fetch page content using your API
+  //     console.log("OG Response data:", response.data);
+  //     if (response?.data) {
+  //       // Directly access properties from the response
+  //       const {
+  //         "og:image": image,
+  //         "og:title": title,
+  //         "og:description": description,
+  //         "fc:frame": fcFrame,
+  //         "fc:frame:image": frameImage,
+  //       } = response.data;
+  //       let buttons = [];
+
+  //       // Assuming you want to handle buttons in the response
+  //       for (const key in response.data) {
+  //         if (key.startsWith("fc:frame:button:")) {
+  //           buttons.push(response.data[key]);
+  //         }
+  //       }
+
+  //       console.log("OG buttons:", buttons);
+
+  //       setOgData({
+  //         ogImage: image || "",
+  //         ogTitle: title || "",
+  //         ogDescription: description || "",
+  //         frameImage: frameImage || "",
+  //         frameButtons: buttons,
+  //       });
+
+  //       // console.log("OG data:", ogData);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching OG data:", error);
+  //     // Handle error appropriately
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (frameLink) {
+  //     fetchOgData(frameLink);
+  //   }
+  // }, [frameLink]);
+
+  // --------------------
+  // useEffect(() => {
+  //   const fetchDataAndSetMetadata = async () => {
+  //     try {
+  //       const response = await apiGetOgs(frameLink);
+
+  //       if (response?.data) {
+  //         const {
+  //           "og:image": ogImage,
+  //           "og:title": ogTitle,
+  //           "og:description": ogDescription,
+
+  //           // Frame data
+  //           "fc:frame": fcFrame,
+  //           "fc:frame:image": frameImage,
+  //           "fc:frame:button": frameButton,
+  //           "fc:frame:post_url": framePostUrl,
+  //           "fc:frame:button:1": frameButton1Label,
+  //           "fc:frame:button:1:action": frameButton1Action,
+  //           "fc:frame:button:1:target": frameButton1Target,
+  //           "fc:frame:input:text": frameInputText,
+  //           "fc:frame:image:aspect_ratio": frameImageAspectRatio,
+  //           // Button 2
+  //           "fc:frame:button:2": frameButton2Label,
+  //           "fc:frame:button:2:action": frameButton2Action,
+  //           "fc:frame:button:2:target": frameButton2Target,
+  //           // Button 3
+  //           "fc:frame:button:3": frameButton3Label,
+  //           "fc:frame:button:3:action": frameButton3Action,
+  //           "fc:frame:button:3:target": frameButton3Target,
+  //           // Button 4
+  //           "fc:frame:button:4": frameButton4Label,
+  //           "fc:frame:button:4:action": frameButton4Action,
+  //           "fc:frame:button:4:target": frameButton4Target,
+  //         } = response.data;
+
+  //         // Update document head with the fetched metadata
+  //         document.title = ogTitle;
+
+  //         // Clear existing meta tags in the head
+  //         document.head
+  //           .querySelectorAll('meta[name^="og:"]')
+  //           .forEach((meta) => {
+  //             meta.remove();
+  //           });
+
+  //         document.head
+  //           .querySelectorAll('meta[name^="fc:frame:"]')
+  //           .forEach((meta) => {
+  //             meta.remove();
+  //           });
+
+  //         // Create and append new meta tags
+  //         const metaTags = [
+  //           { name: "og:title", content: ogTitle },
+  //           { name: "og:description", content: ogDescription },
+  //           { name: "og:image", content: ogImage },
+  //           { name: "fc:frame", content: fcFrame },
+  //           { name: "fc:frame:image", content: frameImage },
+  //           { name: "fc:frame:button", content: frameButton },
+  //           { name: "fc:frame:post_url", content: framePostUrl },
+  //           { name: "fc:frame:button:1", content: frameButton1Label },
+  //           { name: "fc:frame:button:1:action", content: frameButton1Action },
+  //           { name: "fc:frame:button:1:target", content: frameButton1Target },
+  //           { name: "fc:frame:input:text", content: frameInputText },
+  //           {
+  //             name: "fc:frame:image:aspect_ratio",
+  //             content: frameImageAspectRatio,
+  //           },
+  //           { name: "fc:frame:button:2", content: frameButton2Label },
+  //           { name: "fc:frame:button:2:action", content: frameButton2Action },
+  //           { name: "fc:frame:button:2:target", content: frameButton2Target },
+  //           { name: "fc:frame:button:3", content: frameButton3Label },
+  //           { name: "fc:frame:button:3:action", content: frameButton3Action },
+  //           { name: "fc:frame:button:3:target", content: frameButton3Target },
+  //           { name: "fc:frame:button:4", content: frameButton4Label },
+  //           { name: "fc:frame:button:4:action", content: frameButton4Action },
+  //           { name: "fc:frame:button:4:target", content: frameButton4Target },
+  //         ];
+
+  //         metaTags.forEach((meta) => {
+  //           const metaTag = document.createElement("meta");
+  //           metaTag.name = meta.name;
+  //           metaTag.content = meta.content;
+  //           document.head.appendChild(metaTag);
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching OG data:", error);
+  //       // Handle error appropriately
+  //     }
+  //   };
+
+  //   fetchDataAndSetMetadata();
+  // }, [frameLink]);
+
+  const handleButtonClick = (idx) => {
+    // Implement logic to handle button click based on the idx
+    console.log(`Button ${idx} clicked`);
+  };
+
   useEffect(() => {
     const fetchDataAndSetMetadata = async () => {
       try {
         const response = await apiGetOgs(frameLink);
 
         if (response?.data) {
-          const {
-            "og:image": ogImage,
-            "og:title": ogTitle,
-            "og:description": ogDescription,
-            "fc:frame": fcFrame,
-            "fc:frame:image": frameImage,
-            "fc:frame:image:aspect_ratio": frameImageAspectRatio,
-            "fc:frame:post_url": framePostUrl,
-            "fc:frame:button:1": frameButton1,
-            "fc:frame:button:2": frameButton2,
-            "fc:frame:button:3": frameButton3,
-            "fc:frame:button:4": frameButton4,
-            "fc:frame:button:1:action": frameButton1Action,
-            "fc:frame:button:1:target": frameButton1Target,
-            "fc:frame:button:2:action": frameButton2Action,
-            "fc:frame:button:2:target": frameButton2Target,
-            "fc:frame:button:3:action": frameButton3Action,
-            "fc:frame:button:3:target": frameButton3Target,
-            "fc:frame:button:4:action": frameButton4Action,
-            "fc:frame:button:4:target": frameButton4Target,
-          } = response.data;
+          setMetadata(response.data);
 
-          setMetadata({
-            ogImage,
-            ogTitle,
-            ogDescription,
-            frameImage,
-            frameImageAspectRatio,
-            fcFrame,
-            frameButton1,
-            frameButton1Action,
-            frameButton1Target,
-            frameButton2,
-            frameButton2Action,
-            frameButton2Target,
-            frameButton3,
-            frameButton3Action,
-            frameButton3Target,
-            frameButton4,
-            frameButton4Action,
-            frameButton4Target,
-            framePostUrl,
-            frameInputText: "",
-          });
+          //  Update document head with the fetched metadata
+          document.title = ogTitle;
+
+          // Clear existing meta tags in the head
+          document.head
+            .querySelectorAll('meta[name^="og:"]')
+            .forEach((meta) => {
+              meta.remove();
+            });
+
+          document.head
+            .querySelectorAll('meta[name^="fc:frame:"]')
+            .forEach((meta) => {
+              meta.remove();
+            });
         }
       } catch (error) {
         console.error("Error fetching OG data:", error);
@@ -209,127 +322,6 @@ PostCardType) => {
 
     fetchDataAndSetMetadata();
   }, [frameLink]);
-
-  // const handleButtonClick = async (action, target) => {
-  //   try {
-  //     if (action === "post" || action === "post_redirect") {
-  //       // Construct a Frame Signature Packet (replace this with your actual implementation)
-  //       // const signaturePacket = constructFrameSignaturePacket();
-
-  //       // Determine the target URL for the POST request
-  //       const postTarget = target || metadata.framePostUrl || frameLink;
-
-  //       // POST the packet to the target URL
-  //       const response = await axios.post(postTarget, signaturePacket);
-
-  //       // Wait for at least 5 seconds for a response from the frame server (adjust timeout as needed)
-  //       await new Promise((resolve) => setTimeout(resolve, 5000));
-
-  //       // Handle the response from the frame server as needed
-  //       console.log("Frame server response:", response.data);
-  //     } else if (action === "mint") {
-  //       // Allow the user to mint the NFT or open an external page
-  //       // (you may need to implement this functionality based on your application's requirements)
-  //       console.log("Minting NFT or opening external page for minting");
-  //     } else {
-  //       // Handle other actions or provide a default behavior
-  //       console.log("Unhandled action:", action);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error handling button click:", error);
-  //     // Handle error appropriately
-  //   }
-  // };
-
-  const handleButtonClick = async (evt, isALink, index) => {
-    evt.preventDefault();
-    try {
-      if (isALink === "post_redirect" || isALink === "link") {
-        window.open(frameLink, "_blank");
-        return;
-      }
-      const btnHitRes = await apiActOnAPost({
-        hash: userPostId,
-        fid: postAuthorFid,
-        buttonIndex: index,
-        url: frameLink,
-      });
-      message.success("Frame Action Successful");
-    } catch (error) {
-      console.error("Error handling button click:", error);
-      message.error("Frame Action Error");
-      // Handle error appropriately
-    }
-  };
-
-  useEffect(() => {
-    // Clear existing meta tags in the head
-    document.head
-      .querySelectorAll('meta[name^="og:"], meta[name^="fc:"]')
-      .forEach((meta) => {
-        meta.remove();
-      });
-
-    // Create and append new meta tags
-    const metaTags = [
-      { name: "og:title", content: metadata.ogTitle },
-      { name: "og:description", content: metadata.ogDescription },
-      { name: "og:image", content: metadata.ogImage || metadata.frameImage },
-      { name: "fc:frame", content: metadata.fcFrame },
-      { name: "fc:frame:image", content: metadata.frameImage },
-      { name: "fc:frame:post_url", content: metadata.framePostUrl },
-      { name: "fc:frame:input:text", content: metadata.frameInputText },
-      {
-        name: "fc:frame:image:aspect_ratio",
-        content: metadata.frameImageAspectRatio || "1.91:1",
-      },
-      { name: "fc:frame:button:1", content: metadata.frameButton1 },
-      {
-        name: "fc:frame:button:1:action",
-        content: metadata.frameButton1Action,
-      },
-      {
-        name: "fc:frame:button:1:target",
-        content: metadata.frameButton1Target,
-      },
-      { name: "fc:frame:button:2", content: metadata.frameButton2 },
-      {
-        name: "fc:frame:button:2:action",
-        content: metadata.frameButton2Action,
-      },
-      {
-        name: "fc:frame:button:2:target",
-        content: metadata.frameButton2Target,
-      },
-      { name: "fc:frame:button:3", content: metadata.frameButton3 },
-      {
-        name: "fc:frame:button:3:action",
-        content: metadata.frameButton3Action,
-      },
-      {
-        name: "fc:frame:button:3:target",
-        content: metadata.frameButton3Target,
-      },
-      { name: "fc:frame:button:4", content: metadata.frameButton4 },
-      {
-        name: "fc:frame:button:4:action",
-        content: metadata.frameButton4Action,
-      },
-      {
-        name: "fc:frame:button:4:target",
-        content: metadata.frameButton4Target,
-      },
-    ];
-
-    console.log("metaTags", metaTags);
-
-    metaTags.forEach((meta) => {
-      const metaTag = document.createElement("meta");
-      metaTag.name = meta.name;
-      metaTag.content = meta.content;
-      document.head.appendChild(metaTag);
-    });
-  }, [metadata]);
 
   return (
     <>
@@ -383,71 +375,76 @@ PostCardType) => {
             {userProfilePostText && (
               <p>{utilFormatPostText(userProfilePostText)}</p>
             )}
+
+            {/* {frameLink && (
+              <div className="w-full h-[400px] border rounded-md mt-2">
+                <Iframe
+                  allow="autoplay"
+                  sandbox={
+                    "allow-same-origin allow-scripts allow-scripts" as SandboxAttributeValue
+                  }
+                  url={frameLink}
+                  // width={"100%"}
+                  // height="320px"
+                  className="w-full h-auto md:h-80"
+                  frameBorder={0}
+                  scrolling="no"
+                  loading="lazy"
+                  // display="block"
+                  // position="relative"
+                />
+              </div>
+            )} */}
           </div>
 
           {/* -- Profile details -- */}
-          <div className="m-2 border rounded-md p-2">
-            <LazyLoadImage
-              src={metadata.ogImage || metadata.frameImage}
-              alt={metadata.ogTitle}
-              className={`w-full p-2 rounded-md aspect-${
-                metadata.frameImageAspectRatio || "1.91:1"
-              }`}
-            />
-            <h1 className="m-2 border px-2 p-1 text-sm w-fit rounded-md">
-              {metadata.ogTitle}
-            </h1>
 
-            {/* Render input field if present */}
-            {metadata.frameInputText && (
-              <input type="text" placeholder={metadata.frameInputText} />
-            )}
+          <img
+            src={metadata.frameImage || metadata.ogImage}
+            alt={metadata.fcFrame}
+          />
+          <h1>{metadata.fcFrame}</h1>
 
-            <div className="flex gap-2 p-2 w-full">
-              {[1, 2, 3, 4].map((index) => {
-                const buttonData = metadata[`frameButton${index}`];
-                return (
-                  buttonData && (
-                    <Button
-                      icon={
-                        metadata[`frameButton${index}Action`] ===
-                          "post_redirect" ||
-                        metadata[`frameButton${index}Action`] === "link" ? (
-                          <BiLinkExternal size={12} className="pt-0.5" />
-                        ) : null
-                      }
-                      className="w-full"
-                      onClick={(evt) =>
-                        handleButtonClick(
-                          evt,
-                          metadata[`frameButton${index}Action`],
-                          index
-                        )
-                      }
-                    >
-                      {buttonData}
-                    </Button>
-                  )
-                );
-              })}
+          {/* Render buttons based on presence and sequence */}
+          {[1, 2, 3, 4].map(
+            (idx) =>
+              metadata[`frameButton${idx}Label`] && (
+                <button key={idx} onClick={() => handleButtonClick(idx)}>
+                  {metadata[`frameButton${idx}Label`]}
+                </button>
+              )
+          )}
+
+          {metadata.frameInputText && (
+            <input type="text" placeholder={metadata.frameInputText} />
+          )}
+
+          {userPostImage && (
+            <div className="mt-2">
+              {/* <img
+                src={userPostImage}
+                alt="card image"
+                className="aspect-video w-full p-4"
+              /> */}
+
+              <LazyLoadImage
+                src={userPostImage}
+                alt={userProfileName}
+                title={userProfileName}
+                // className="max-w-full rounded-full z-10 h-8 w-8 object-cover"
+                className="aspect-video w-full p-4"
+                effect="blur"
+              />
             </div>
-          </div>
-        </Link>
-        {userPostImage && (
-          <div className="mt-2">
-            <LazyLoadImage
-              src={userPostImage}
-              alt={userProfileName}
-              title={userProfileName}
-              // className="max-w-full rounded-full z-10 h-8 w-8 object-cover"
-              className="aspect-video w-full p-4"
-              effect="blur"
-            />
-          </div>
-        )}
-        {/* 
+          )}
+
           {ogData?.ogImage && (
             <div className="my-4 mx-4 border rounded-md">
+              {/* <img
+                src={ogData?.ogImage}
+                alt="card image"
+                className="aspect-video w-full p-2 rounded-md"
+              /> */}
               <LazyLoadImage
                 src={ogData?.ogImage}
                 alt={userProfileName}
@@ -457,7 +454,8 @@ PostCardType) => {
                 effect="blur"
               />
             </div>
-          )} */}
+          )}
+        </Link>
 
         {/* Icons container */}
         <div className="m-2 flex flex-row justify-between gap-2 cursor-pointer hover:cursor-pointer">
