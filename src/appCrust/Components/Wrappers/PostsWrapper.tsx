@@ -6,7 +6,7 @@ import {
   apiGetPosts,
 } from "src/services/BEApis/PostsAPIs/PostsApi.tsx";
 import { Button, Spin } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { utilXtimeAgo } from "../Utils/functions/utilXtimeAgo.tsx";
 import { apiGetOgs } from "src/services/BEApis/utils/UtilsApis.tsx";
@@ -24,9 +24,12 @@ const PostsWrapper: React.FC<{
   const [noOfPosts, setNoOfPosts] = useState(10);
   const [infCursor, setInfCursor] = useState("");
   const { jwt } = useUser();
+  const { userFid } = useParams();
+
+  console.log("author in PostsWrapper", author);
 
   const updatePostsWithAuthor = (newPosts: any[]) => {
-
+    author;
     const updatedPosts = newPosts.map((post) => ({
       ...post,
       author: { ...author },
@@ -38,9 +41,8 @@ const PostsWrapper: React.FC<{
 
   const fnGetAllPosts = async () => {
     setLoading(true);
-
     // const res = await apiGetPosts();
-    const res = await apiGetCastsForFid(authorFid ? authorFid : "");
+    const res = await apiGetCastsForFid(userFid ? userFid : "");
     console.log("res in fnGetAllPosts", res);
 
     // setPosts(res?.data);
@@ -82,7 +84,7 @@ const PostsWrapper: React.FC<{
 
   useEffect(() => {
     fnLoadPosts();
-  }, [isInFeed, authorFid, author]);
+  }, [isInFeed, userFid, author]);
 
   return (
     <>
