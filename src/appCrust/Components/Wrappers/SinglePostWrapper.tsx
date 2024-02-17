@@ -18,7 +18,7 @@ const SinglePostWrapper = () => {
 
   const [profileInfo, setProfileInfo] = useState({
     bio: { mentionedProfiles: [], text: "" },
-    displayName: "",
+    name: "",
     username: "",
     fid: postFid,
     pfp: "",
@@ -38,7 +38,6 @@ const SinglePostWrapper = () => {
   };
 
   // For Getting User Details
-
   const fnGetProfileInfo = async () => {
     const profileInfoRes = await apiUserDetailsforFID(postFid ? postFid : "");
 
@@ -67,7 +66,7 @@ const SinglePostWrapper = () => {
             postLikes={item?.reaction?.LIKE}
             postRecasts={item?.reaction?.RECAST}
             userProfileImage={profileInfo?.pfp}
-            userProfileName={profileInfo?.displayName}
+            userProfileName={profileInfo?.name}
             userProfileUsername={profileInfo?.username}
             userPostImage={item?.embeds?.[0] ? item?.embeds?.[0]?.image : null}
             postAuthorFid={profileInfo?.fid}
