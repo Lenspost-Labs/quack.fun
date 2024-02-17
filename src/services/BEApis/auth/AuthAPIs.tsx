@@ -57,6 +57,20 @@ export const apiUpdateUser = async (data: any) => {
   }
 };
 
+export const apiCheckUsernameAvailable = async (data: any) => {
+  try {
+    const response = await apiInstance.get(
+      `/helper/is-username-available?username=${data}`
+    );
+    console.log("response", response);
+
+    return response;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+};
+
 export const apiUserDetailsforFID = async (data: string) => {
   try {
     const response = await apiInstance.get(`/user/about?target_fid=${data}`);

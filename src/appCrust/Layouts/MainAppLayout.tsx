@@ -17,7 +17,6 @@ const MainAppLayout: React.FC<any> = () => {
 
   const navigate = useNavigate();
   const { userData, jwt, fid, setFid } = useUser();
-  
 
   const items: TabsProps["items"] = [
     {
@@ -99,7 +98,8 @@ const MainAppLayout: React.FC<any> = () => {
       <TopNavbar />
       {/* <Navigate to="/feed" /> */}
       <div className="flex justify-center">
-        <div className="my-2 border-r border-slate-200 hidden md:block h-100vh">
+        {/* <div className="my-2 border-r border-slate-200 hidden md:block h-100vh"> */}
+        <div className="my-2 hidden md:block h-100vh">
           <LeftSidebar />
         </div>
         <div className="">
@@ -109,7 +109,7 @@ const MainAppLayout: React.FC<any> = () => {
         <Divider type="vertical" className="h-full" />
         <div
           id="infScrolltarget"
-          className="w-full h-96vh overflow-scroll my-2 md:w-2/4 lg:w-1/3 no-scrollbar"
+          className="border-x w-full h-96vh overflow-scroll my-2 md:w-2/4 lg:w-1/3 no-scrollbar"
         >
           <div className="mx-2">
             {pathname === "/feed" && (
@@ -130,7 +130,8 @@ const MainAppLayout: React.FC<any> = () => {
           </div>
         </div>
         <Divider type="vertical" className="h-full" />
-        <div className="pl-2 hidden my-2  border-l border-slate-200 lg:block w-1/6">
+        {/* <div className="pl-2 hidden my-2  border-l border-slate-200 lg:block w-1/6"> */}
+        <div className="pl-2 hidden my-2 lg:block w-1/6">
           <CustomSearchIp />
           <TopicsCard />
         </div>

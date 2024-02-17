@@ -7,12 +7,14 @@ import animationData2 from "../../../../assets/Animations/Lottie/onboarding/onbo
 
 import useUserAuth from "src/hooks/apisHooks/userAuth/useUserAuth";
 import { utilDecodeJWT } from "../functions/utilDecodeJWT";
-import { apiUpdateUser } from "src/services/BEApis/auth/AuthAPIs";
+import {
+  apiCheckUsernameAvailable,
+  apiUpdateUser,
+} from "src/services/BEApis/auth/AuthAPIs";
 import { useNavigate } from "react-router-dom";
 
 export const UtilLoginToApp = () => {
-  const { hasUserLoggedIn, setHasUserLoggedIn, fid,setFid } =
-    useUser();
+  const { hasUserLoggedIn, setHasUserLoggedIn, fid, setFid } = useUser();
   const [modalMessage, setModalMessage] = useState<string>(
     "Sign in with your wallet, and Pay a small fee to start your presence on-chain on Quack!"
   );
@@ -25,11 +27,15 @@ export const UtilLoginToApp = () => {
   const onboardUsernameRef = useRef<InputRef>(null);
   const onboardEmailRef = useRef<InputRef>(null);
   const [onboardValidation, setOnboardValidation] = useState({
-    username: "Username is available",
-    email: "Email is valid",
+    username: false,
+    email: false,
   });
   const [showOnboardValidation, setShowOnboardValidation] =
     useState<boolean>(false);
+
+  const [checkingAvailability, setCheckingAvailability] =
+    useState<boolean>(false);
+
   const navigate = useNavigate();
 
   const fnUserAuth = async () => {
@@ -74,11 +80,11 @@ export const UtilLoginToApp = () => {
       localStorage.getItem("fid") !== ""
     ) {
       setHasUserLoggedIn(true);
-      setIsOnboardingModalOpen(false);
+      setIsOnboardingModalOpen(false); //Commmented for testing purpose only
       setModalMessage("Welcome Back! 🎉");
       message.success("Welcome back to Quack! 🎉 ");
 
-      navigate("/feed");
+      navigate("/");
       return;
     }
 
@@ -141,6 +147,39 @@ export const UtilLoginToApp = () => {
     navigate("/feed");
   };
 
+  let timeoutId;
+  const fnCheckInputBoxIsTyping = () => {
+    // Clear the previous timeout (if any)
+    clearTimeout(timeoutId);
+    // Set a new timeout for 1 second
+    timeoutId = setTimeout(function () {
+      // Call your function after 1 seconds of no typing
+      handleUsernameValidation();
+    }, 1000);
+  };
+
+  const handleUsernameValidation = async () => {
+    setCheckingAvailability(true);
+    const ipUsername = onboardUsernameRef.current?.input?.value;
+    const checkUsername = await apiCheckUsernameAvailable(ipUsername);
+
+    console.log("checkUsername", checkUsername?.data?.available);
+    if (checkUsername?.data?.available === true) {
+      setShowOnboardValidation(true);
+      setOnboardValidation({
+        ...onboardValidation,
+        username: true,
+      });
+    } else {
+      setShowOnboardValidation(true);
+      setOnboardValidation({
+        ...onboardValidation,
+        username: false,
+      });
+    }
+    setCheckingAvailability(false);
+  };
+
   const fnHandleOnboarding = async () => {
     // setIsOnboardingModalOpen(true);
     // console.log("onboardUsernameRef", onboardUsernameRef.current?.input?.value);
@@ -155,8 +194,8 @@ export const UtilLoginToApp = () => {
       if (onboardingStatus) {
         setShowOnboardValidation(true);
         setOnboardValidation({
-          username: "Username is available",
-          email: "Email is valid",
+          ...onboardValidation,
+          username: true,
         });
         message.success("Account Created Successfully! 🎉");
         setIsOnboardingModalOpen(false);
@@ -166,8 +205,8 @@ export const UtilLoginToApp = () => {
       if (!onboardingStatus) {
         setShowOnboardValidation(true);
         setOnboardValidation({
-          username: "Username is not available",
-          email: "Email is valid",
+          ...onboardValidation,
+          username: false,
         });
         message.error("Account Creation Failed!");
       }
@@ -225,12 +264,26 @@ export const UtilLoginToApp = () => {
                   Sail into Quack with a personality-packed username!
                 </div>
                 <div className="mt-4">
-                  <Input ref={onboardUsernameRef} placeholder="Username" />
+                  <Input
+                    ref={onboardUsernameRef}
+                    onInput={fnCheckInputBoxIsTyping}
+                    placeholder="Username"
+                  />
                 </div>
-                {showOnboardValidation && (
+                {checkingAvailability && (
                   <div className="mt-2 text-yellow-600">
                     {" "}
-                    {onboardValidation.username}
+                    Checking availability
+                  </div>
+                )}
+                {!checkingAvailability && showOnboardValidation && (
+                  <div className="mt-2 text-yellow-600">
+                    {" "}
+                    {onboardValidation.username === true ? (
+                      <div className=""> Username is available</div>
+                    ) : (
+                      <div className="">Username is not available</div>
+                    )}
                   </div>
                 )}
               </div>
@@ -244,16 +297,16 @@ export const UtilLoginToApp = () => {
                 <div className="mt-4">
                   <Input ref={onboardEmailRef} placeholder="Email" />
                 </div>
-                {showOnboardValidation && (
+                {/* {showOnboardValidation && (
                   <div className="mt-2 text-yellow-600">
                     {" "}
                     {onboardValidation.email}
                   </div>
-                )}
+                )} */}
               </div>
               <div className="mt-4 w-full">
                 <Button
-                  // disabled={false}
+                  disabled={!onboardValidation.username}
                   className="w-full"
                   onClick={fnHandleOnboarding}
                   type="primary"
