@@ -9,9 +9,9 @@ const CommentsWrapper = () => {
 
   const fnLoadComments = async (limit: number) => {
     setLoading(true);
-    const res = await apiGetComments();
-    console.log(res);
-    setComments(res?.data?.comments.slice(0, limit));
+    // const res = await apiGetComments();
+    // console.log(res);
+    // setComments(res?.data?.comments.slice(0, limit));
     setLoading(false);
   };
 
