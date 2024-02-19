@@ -14,7 +14,6 @@ import BsCollection from "@meronex/icons/bs/BsCollection";
 import SuShuffle from "@meronex/icons/su/SuShuffle";
 // // ts-ignore
 // import BsBookmark from "@meronex/icons/bs/BsBookmark";
-
 // ts-ignore
 import BsArrowRepeat from "@meronex/icons/bs/BsArrowRepeat";
 import "react-lazy-load-image-component/src/effects/blur.css";
@@ -36,6 +35,7 @@ import { apiGetOgs } from "src/services/BEApis/utils/UtilsApis.tsx";
 
 import BiLinkExternal from "@meronex/icons/bi/BiLinkExternal";
 import axios from "axios";
+import { apiGetComments } from "src/services/BEApis/PostsAPIs/CommentsApi.tsx";
 
 const PostDetailsCard = ({
   postAuthorFid,
@@ -56,7 +56,16 @@ PostCardType) => {
   const [isLike, setIsLike] = useState(false);
   const [isRecast, setIsRecast] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([
+    {
+      commentUserImage: "",
+      commentAction: "",
+      commentUser: "",
+      commentTimeStamp: "",
+      commentText: "",
+      commentUsername: "",
+    },
+  ]);
   const [loading, setLoading] = useState(false);
   const [profileTeaser, setProfileTeaser] = useState(false);
   const [reactions, setReactions] = useState({
@@ -72,7 +81,7 @@ PostCardType) => {
     frameButtons: [],
   });
 
-  const [metadata, setMetadata] = useState({
+  const [metadata, setMetadata] = useState<any>({
     fcFrame: "",
     frameImage: "",
     ogImage: "",
@@ -144,8 +153,12 @@ PostCardType) => {
   // Function to Load Nested Posts from Post Card based on userId / username and PostId
   const fnLoadNestedPosts = async (userPostId: any) => {
     console.log("userPostId", userPostId);
+    console.log("postAuthorFid", postAuthorFid);
 
-    const res = await apiGetPosts();
+    const res = await apiGetComments({
+      fid: postAuthorFid,
+      hash: userPostId,
+    });
     console.log(res);
     // setComments(res?.data?.posts.slice(0, 5));
   };
@@ -210,41 +223,22 @@ PostCardType) => {
     fetchDataAndSetMetadata();
   }, [frameLink]);
 
-  // const handleButtonClick = async (action, target) => {
-  //   try {
-  //     if (action === "post" || action === "post_redirect") {
-  //       // Construct a Frame Signature Packet (replace this with your actual implementation)
-  //       // const signaturePacket = constructFrameSignaturePacket();
-
-  //       // Determine the target URL for the POST request
-  //       const postTarget = target || metadata.framePostUrl || frameLink;
-
-  //       // POST the packet to the target URL
-  //       const response = await axios.post(postTarget, signaturePacket);
-
-  //       // Wait for at least 5 seconds for a response from the frame server (adjust timeout as needed)
-  //       await new Promise((resolve) => setTimeout(resolve, 5000));
-
-  //       // Handle the response from the frame server as needed
-  //       console.log("Frame server response:", response.data);
-  //     } else if (action === "mint") {
-  //       // Allow the user to mint the NFT or open an external page
-  //       // (you may need to implement this functionality based on your application's requirements)
-  //       console.log("Minting NFT or opening external page for minting");
-  //     } else {
-  //       // Handle other actions or provide a default behavior
-  //       console.log("Unhandled action:", action);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error handling button click:", error);
-  //     // Handle error appropriately
-  //   }
-  // };
-
-  const handleButtonClick = async (evt, isALink, index) => {
+  /**
+   * Handle button click event
+   * @param evt - The click event
+   * @param btnAction - Specifies if the button action is post_redirect or link
+   * @param index - The index of the button
+   * @returns void
+   */
+  const handleButtonClick = async (
+    evt: React.MouseEvent,
+    btnAction: "post_redirect" | "link",
+    index: number
+  ): Promise<void> => {
     evt.preventDefault();
+    message.loading("Frame Action in Progress");
     try {
-      if (isALink === "post_redirect" || isALink === "link") {
+      if (btnAction === "post_redirect" || btnAction === "link") {
         window.open(frameLink, "_blank");
         return;
       }
@@ -254,9 +248,49 @@ PostCardType) => {
         buttonIndex: index,
         url: frameLink,
       });
+
+      console.log("btnHitRes", btnHitRes);
+      message.loading("Frame Action in Progress");
+      // Assuming btnHitRes is HTML response, parse it to extract meta tags
+      const parser = new DOMParser();
+      const htmlDoc = parser.parseFromString(
+        btnHitRes?.data?.data,
+        "text/html"
+      );
+
+      // Extract meta tags from the parsed HTML
+      const metaTags = Array.from(htmlDoc.querySelectorAll("meta")).reduce(
+        (acc, meta) => {
+          acc[meta.getAttribute("name") || meta.getAttribute("property")] =
+            meta.getAttribute("content");
+          return acc;
+        },
+        {}
+      );
+
+      // Set metadata based on the extracted meta tags
+      setMetadata({
+        fcFrame: metaTags["fc:frame"] || "",
+        frameImage: metaTags["fc:frame:image"] || metaTags["og:image"] || "",
+        ogImage: metaTags["og:image"] || "",
+        ogTitle: metaTags["og:title"] || "",
+        ogDescription: metaTags["og:description"] || "",
+        frameButton1: metaTags["fc:frame:button:1"] || "",
+        frameButton1Action: metaTags["fc:frame:button:1:action"] || "post",
+        frameButton1Target: metaTags["fc:frame:button:1:target"] || "",
+        frameButton2: "", // Add the missing property with an initial value
+        frameButton2Action: "", // Add the missing property with an initial value
+        frameButton2Target: "", // Add the missing property with an initial value
+        frameButton3: "", // Add the missing property with an initial value
+        // Add the other missing properties here
+      });
+
+      console.log("btnHitRes", btnHitRes);
+      message.destroy();
       message.success("Frame Action Successful");
     } catch (error) {
       console.error("Error handling button click:", error);
+      message.destroy();
       message.error("Frame Action Error");
       // Handle error appropriately
     }
@@ -275,48 +309,48 @@ PostCardType) => {
       { name: "og:title", content: metadata.ogTitle },
       { name: "og:description", content: metadata.ogDescription },
       { name: "og:image", content: metadata.ogImage || metadata.frameImage },
-      { name: "fc:frame", content: metadata.fcFrame },
-      { name: "fc:frame:image", content: metadata.frameImage },
-      { name: "fc:frame:post_url", content: metadata.framePostUrl },
-      { name: "fc:frame:input:text", content: metadata.frameInputText },
+      { property: "fc:frame", content: metadata.fcFrame },
+      { property: "fc:frame:image", content: metadata.frameImage },
+      { property: "fc:frame:post_url", content: metadata.framePostUrl },
+      { property: "fc:frame:input:text", content: metadata.frameInputText },
       {
-        name: "fc:frame:image:aspect_ratio",
+        property: "fc:frame:image:aspect_ratio",
         content: metadata.frameImageAspectRatio || "1.91:1",
       },
-      { name: "fc:frame:button:1", content: metadata.frameButton1 },
+      { property: "fc:frame:button:1", content: metadata.frameButton1 },
       {
-        name: "fc:frame:button:1:action",
+        property: "fc:frame:button:1:action",
         content: metadata.frameButton1Action,
       },
       {
-        name: "fc:frame:button:1:target",
+        property: "fc:frame:button:1:target",
         content: metadata.frameButton1Target,
       },
-      { name: "fc:frame:button:2", content: metadata.frameButton2 },
+      { property: "fc:frame:button:2", content: metadata.frameButton2 },
       {
-        name: "fc:frame:button:2:action",
+        property: "fc:frame:button:2:action",
         content: metadata.frameButton2Action,
       },
       {
-        name: "fc:frame:button:2:target",
+        property: "fc:frame:button:2:target",
         content: metadata.frameButton2Target,
       },
-      { name: "fc:frame:button:3", content: metadata.frameButton3 },
+      { property: "fc:frame:button:3", content: metadata.frameButton3 },
       {
-        name: "fc:frame:button:3:action",
+        property: "fc:frame:button:3:action",
         content: metadata.frameButton3Action,
       },
       {
-        name: "fc:frame:button:3:target",
+        property: "fc:frame:button:3:target",
         content: metadata.frameButton3Target,
       },
-      { name: "fc:frame:button:4", content: metadata.frameButton4 },
+      { property: "fc:frame:button:4", content: metadata.frameButton4 },
       {
-        name: "fc:frame:button:4:action",
+        property: "fc:frame:button:4:action",
         content: metadata.frameButton4Action,
       },
       {
-        name: "fc:frame:button:4:target",
+        property: "fc:frame:button:4:target",
         content: metadata.frameButton4Target,
       },
     ];
@@ -326,6 +360,7 @@ PostCardType) => {
     metaTags.forEach((meta) => {
       const metaTag = document.createElement("meta");
       metaTag.name = meta.name;
+      metaTag.setAttribute("property", meta.property); // Fix: Use setAttribute to set the 'property' attribute
       metaTag.content = meta.content;
       document.head.appendChild(metaTag);
     });
@@ -348,14 +383,6 @@ PostCardType) => {
                 className="max-w-full rounded-full z-10 h-8 w-8 object-cover"
                 effect="blur"
               />
-              {/* <img
-                src={userProfileImage}
-                alt="user name"
-                title="user name"
-                width="40"
-                height="40"
-                className="max-w-full rounded-full z-10 h-8 w-8 object-cover"
-              />{" "} */}
             </Link>
 
             <h3 className="text-sm font-medium text-slate-700">
@@ -445,20 +472,6 @@ PostCardType) => {
             />
           </div>
         )}
-        {/* 
-          {ogData?.ogImage && (
-            <div className="my-4 mx-4 border rounded-md">
-              <LazyLoadImage
-                src={ogData?.ogImage}
-                alt={userProfileName}
-                title={userProfileName}
-                // className="max-w-full rounded-full z-10 h-8 w-8 object-cover"
-                className="aspect-video w-full p-2 rounded-md"
-                effect="blur"
-              />
-            </div>
-          )} */}
-
         {/* Icons container */}
         <div className="m-2 flex flex-row justify-between gap-2 cursor-pointer hover:cursor-pointer">
           <div className="flex align-middle justify-between items-center">

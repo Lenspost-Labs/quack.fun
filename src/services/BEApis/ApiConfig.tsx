@@ -19,7 +19,6 @@ apiInstance.interceptors.request.use(
 
     // Modify Content-Type for specific routes - for multipart/form-data
     // Useful for Forms Data
-
     const routesForMultipartType = [""];
 
     if (routesForMultipartType.includes(config.url || "")) {

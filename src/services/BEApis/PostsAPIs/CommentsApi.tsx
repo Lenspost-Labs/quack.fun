@@ -1,14 +1,11 @@
-
 import { apiInstance } from "../ApiConfig";
 
-
-export const apiGetComments = async () => {
-    try {
-        const response = await apiInstance.get("/comments/");
-        return response;
-    } catch (error) {
-        console.log("IN API - ERROR")
-        console.log(error);
-    }
-
-}
+export const apiGetComments = async (data: any) => {
+  try {
+    const response = await apiInstance.get("/user/post/child", data);
+    return response;
+  } catch (error) {
+    console.log("IN API - ERROR");
+    console.log(error);
+  }
+};
