@@ -36,7 +36,7 @@ import { utilCopyToClip } from "../Utils/functions/utilCopyToClip";
 import { UtilLoginToApp } from "../Utils/components/utilLoginToApp";
 import useUser from "src/hooks/userHooks/useUser";
 
-export const SolLoginBtn: FC = () => {
+const SolLoginBtn: FC = () => {
   return (
     <SolLoginBtnContext>
       <SolLoginBtnUI />
@@ -192,3 +192,5 @@ const SolLoginBtnUI: FC = () => {
     </>
   );
 };
+
+export default SolLoginBtn;
