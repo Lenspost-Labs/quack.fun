@@ -27,6 +27,7 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserfollowed, setIsUserfollowed] = useState(false);
   const { publicKey: address } = useWallet();
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const navigate = useNavigate();
   const handleOk = () => {
     setIsModalOpen(false);
@@ -111,12 +112,7 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
             >
               Edit Profile
             </Button> */}
-            <Button
-              type="default"
-              onClick={() => {
-                navigate("/onboard");
-              }}
-            >
+            <Button type="default" onClick={() => setIsOnboardingOpen(!isOnboardingOpen)}>
               <MdEdit />
             </Button>
             {!isUserfollowed ? (
@@ -164,7 +160,7 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
             @{userBioMentionedProfiles}
           </p>
         )}
-
+        {isOnboardingOpen && <OnboardingComp />}
         <Modal
           title="Edit Profile"
           centered

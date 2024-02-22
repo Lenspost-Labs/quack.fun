@@ -16,6 +16,7 @@ const CustomLoginBtn = () => {
     wallets,
     select,
     connected,
+    publicKey: address,
     connecting,
   } = useWallet();
   const [installedWallets, setInstalledWallets] = useState<any>({
@@ -154,9 +155,9 @@ const CustomLoginBtn = () => {
         setIsWalletModalOpen(false);
         navigate("/");
       }
-      setInOboardingFlow(true);
     }
     setInLoginFlow(false);
+    setInOboardingFlow(true);
   };
 
   useEffect(() => {
@@ -168,7 +169,7 @@ const CustomLoginBtn = () => {
     } else {
       setLoginStatus("");
     }
-  }, [connected]);
+  }, [connected, address]);
 
   return (
     <>
@@ -185,7 +186,7 @@ const CustomLoginBtn = () => {
         // </Button>
         <UserChip propFnOnDisconnect={fnLogoutFlow} />
       )}
-
+      {inOboardingFlow && connected && <OnboardingComp />}
       <Modal
         width={400}
         maskClosable={false}
@@ -206,7 +207,6 @@ const CustomLoginBtn = () => {
             </>
           )}
 
-          {inOboardingFlow && connected && <OnboardingComp />}
           {!connected && (
             <>
               <ul className="flex flex-col gap-2">

@@ -33,7 +33,6 @@ Here's a quick guide while using imports :
 
 | Technology | Official Website |
 | :--------- | :--------------- |
-
 Frontend
 | Reactjs | https://react.dev |
 | Vitejs | https://vitejs.dev |
