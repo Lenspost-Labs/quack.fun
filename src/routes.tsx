@@ -6,6 +6,7 @@ import NotificationsWrapper from "./appCrust/Components/Wrappers/NotificationsWr
 import ProfilePageWrapper from "./appCrust/Components/Wrappers/ProfilePageWrapper.tsx";
 import SinglePostWrapper from "./appCrust/Components/Wrappers/SinglePostWrapper.tsx";
 import AuthWrapper from "./appCrust/Components/Wrappers/AuthWrapper.tsx";
+import { OnboardingComp } from "./appCrust/Components/Items/OnboardingComp.tsx";
 
 const router = createBrowserRouter([
   {
@@ -52,8 +53,11 @@ const router = createBrowserRouter([
         element: <AuthWrapper />,
         // errorElement: <ErrorPage />,
       },
-
-    
+      {
+        path: "/onboard",
+        element: <OnboardingComp />,
+        // errorElement: <ErrorPage />,
+      },
     ],
   },
 ]);

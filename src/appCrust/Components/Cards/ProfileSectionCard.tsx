@@ -10,6 +10,8 @@ import {
   apiFollowAUser,
   apiUnfollowAUser,
 } from "src/services/BEApis/UserInteractionAPIs/InteractionsAps.tsx";
+import { OnboardingComp } from "../Items/OnboardingComp.tsx";
+import { useNavigate } from "react-router-dom";
 
 const ProfileSectionCard: React.FC<ProfileType> = ({
   userPicture,
@@ -25,7 +27,7 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserfollowed, setIsUserfollowed] = useState(false);
   const { publicKey: address } = useWallet();
-
+  const navigate = useNavigate();
   const handleOk = () => {
     setIsModalOpen(false);
     message.success("Profile updated successfully");
@@ -109,7 +111,14 @@ const ProfileSectionCard: React.FC<ProfileType> = ({
             >
               Edit Profile
             </Button> */}
-
+            <Button
+              type="default"
+              onClick={() => {
+                navigate("/onboard");
+              }}
+            >
+              <MdEdit />
+            </Button>
             {!isUserfollowed ? (
               <Button
                 type="primary"

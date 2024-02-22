@@ -3,9 +3,12 @@ import React, { useState } from "react";
 import BsBookmark from "@meronex/icons/bs/BsBookmark";
 
 // import solLogo from "src/assets/Logos/logoSolana.png";
-import { SolLoginBtn } from "src/appCrust/Components/Items/SolLoginBtn";
+
 // import solLogo from "../../../assets/Logos/logoSolana.png";
 import quackLogo from "../../../assets/Logos/quackLogo.jpg";
+import SolLoginBtn from "../Items/SolLoginBtn";
+import CustomLoginBtn from "../Items/CustomLoginBtn";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 const TopNavbar: React.FC = () => {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
@@ -78,7 +81,9 @@ const TopNavbar: React.FC = () => {
               </li>
             </ul>
             <div className="ml-auto flex items-center px-0 lg:ml-0 lg:p-0 cursor-pointer">
-              <SolLoginBtn />
+              {/* <SolLoginBtn /> */}
+              <WalletMultiButton/>
+              {/* <CustomLoginBtn/> */}
             </div>
           </nav>
         </div>

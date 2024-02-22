@@ -9,6 +9,7 @@ import HeaderWithBackBtn from "../Items/HeaderWithBackBtn";
 import { apiViewSinglePost } from "src/services/BEApis/PostsAPIs/PostsApi";
 import { utilXtimeAgo } from "../Utils/functions/utilXtimeAgo";
 import { apiUserDetailsforFID } from "src/services/BEApis/auth/AuthAPIs";
+import { Spin } from "antd";
 
 const SinglePostWrapper = () => {
   const { postFid, postHash } = useParams();
@@ -57,7 +58,7 @@ const SinglePostWrapper = () => {
   return (
     <>
       <HeaderWithBackBtn headerName={"Post"} backToPath="/feed" />
-
+      {loading && <Spin />}
       {posts?.map((item, index) => {
         return (
           <PostDetailsCard

@@ -287,7 +287,11 @@ PostCardType) => {
 
       console.log("btnHitRes", btnHitRes);
       message.destroy();
-      message.success("Frame Action Successful");
+      if (btnHitRes?.data?.message) {
+        message.success(btnHitRes?.data?.message);
+      } else {
+        message.info("Frame Action Error");
+      }
     } catch (error) {
       console.error("Error handling button click:", error);
       message.destroy();
