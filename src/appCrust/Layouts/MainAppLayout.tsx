@@ -95,7 +95,9 @@ const MainAppLayout: React.FC<any> = () => {
   return (
     <>
       {/* Enabled only for mobile */}
-      <TopNavbar />
+      <div className=" sm:hidden">
+        <TopNavbar />
+      </div>
       {/* <Navigate to="/feed" /> */}
       <div className="flex justify-center">
         {/* <div className="my-2 border-r border-slate-200 hidden md:block h-100vh"> */}
@@ -133,7 +135,7 @@ const MainAppLayout: React.FC<any> = () => {
         {/* <div className="pl-2 hidden my-2  border-l border-slate-200 lg:block w-1/6"> */}
         <div className="pl-2 hidden my-2 lg:block w-1/6">
           <CustomSearchIp />
-          <TopicsCard />
+          {/* <TopicsCard /> */}
         </div>
       </div>
     </>

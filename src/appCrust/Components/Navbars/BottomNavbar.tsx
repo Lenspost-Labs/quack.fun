@@ -63,7 +63,9 @@ const BottomNavbar = () => {
         ),
     },
     {
-      to: `${(userData as { fid?: string })?.fid}`,
+      to: `${
+        localStorage.getItem("fid") ? `${localStorage.getItem("fid")}` : "/auth"
+      }`,
       dashIcon:
         stIsActive === 4 ? (
           <BsPersonFill color="#ffe000" />

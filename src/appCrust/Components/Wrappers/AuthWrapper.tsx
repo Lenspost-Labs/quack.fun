@@ -1,7 +1,8 @@
 import React from "react";
-import { SolLoginBtn } from "../Items/SolLoginBtn";
 import Lottie from "react-lottie";
 import animationData from "../../../assets/Animations/Lottie/login/solanaAnimation.json";
+import SolLoginBtn from "../Items/SolLoginBtn";
+import CustomLoginBtn from "../Items/CustomLoginBtn";
 const AuthWrapper = () => {
   return (
     <>
@@ -10,9 +11,10 @@ const AuthWrapper = () => {
 
         <div className="">
           {" "}
-          Log in using your Solana wallet to start quacking!
+          Login using your Solana wallet to start quacking!
         </div>
-        <SolLoginBtn />
+        {/* <SolLoginBtn /> */}
+        {/* <CustomLoginBtn /> */}
       </div>
     </>
   );

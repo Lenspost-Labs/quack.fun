@@ -18,19 +18,23 @@ const useUserAuth = () => {
 
   const fnTriggerLogin = async () => {
     fnCheckWalletConnection();
+    try {
+      const signatureBase58 = await fnTriggerSignature(signatureMessage);
+      const res = await apiLogin({
+        signature: signatureBase58 || "",
+        message: signatureMessage,
+        solana_address: address?.toString() || "",
+      });
+      console.log("apiLogin is", res);
+      localStorage.setItem("jwt", res?.data?.jwt);
+      localStorage.setItem("fid", res?.data?.fid);
+      setFid(res?.data?.fid);
 
-    const signatureBase58 = await fnTriggerSignature(signatureMessage);
-    const res = await apiLogin({
-      signature: signatureBase58 || "",
-      message: signatureMessage,
-      solana_address: address?.toString() || "",
-    });
-    console.log("apiLogin is", res);
-    localStorage.setItem("jwt", res?.data?.jwt);
-    localStorage.setItem("fid", res?.data?.fid);
-    setFid(res?.data?.fid);
-
-    return res?.data;
+      return res?.data;
+    } catch (err) {
+      console.log("Err in fnTriggerLogin", err);
+      return;
+    }
   };
 
   // Step 2 : Get Price and tx to pay

@@ -15,9 +15,11 @@ import NewPostCard from "../../Components/Cards/NewPostCard.tsx";
 import SidebarItem from "../../Components/Items/SidebarItem.tsx";
 import { Divider, Modal } from "antd";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { SolLoginBtn } from "src/appCrust/Components/Items/SolLoginBtn.tsx";
+
 import useUser from "src/hooks/userHooks/useUser.tsx";
 import quackLogo from "../../../assets/Logos/quackLogo.jpg";
+import SolLoginBtn from "src/appCrust/Components/Items/SolLoginBtn.tsx";
+import CustomLoginBtn from "src/appCrust/Components/Items/CustomLoginBtn.tsx";
 
 const LeftSidebar: React.FC<any> = () => {
   const [isSideNavOpen] = useState(true);
@@ -40,7 +42,11 @@ const LeftSidebar: React.FC<any> = () => {
       content: (
         <div className="cursor-pointer m-4 flex items-center gap-2">
           {" "}
-          <img className="h-16 w-16 rounded-full" src={quackLogo} alt="Quack" />{" "}
+          <img
+            className="h-16 w-16 rounded-full"
+            src={quackLogo}
+            alt="Quack"
+          />{" "}
           <div className="">Quack.fun</div>
         </div>
       ),
@@ -51,17 +57,19 @@ const LeftSidebar: React.FC<any> = () => {
         <SidebarItem itemName="Home" dashIcon={<BsHouse color="#000" />} />
       ),
     },
+    // {
+    //   to: "/notifications",
+    //   content: (
+    //     <SidebarItem
+    //       itemName="Notifications"
+    //       dashIcon={<MdNotificationsOutline color="#000" />}
+    //     />
+    //   ),
+    // },
     {
-      to: "/notifications",
-      content: (
-        <SidebarItem
-          itemName="Notifications"
-          dashIcon={<MdNotificationsOutline color="#000" />}
-        />
-      ),
-    },
-    {
-      to: `/${fid}`,
+      to: localStorage.getItem("fid")
+        ? `${localStorage.getItem("fid")}`
+        : "/auth",
       content: (
         <SidebarItem
           itemName="Profile"
@@ -127,7 +135,8 @@ const LeftSidebar: React.FC<any> = () => {
           </div>
         </nav>
 
-        <SolLoginBtn />
+        {/* <SolLoginBtn /> */}
+        <CustomLoginBtn />
       </aside>
 
       <Modal
