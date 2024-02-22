@@ -6,7 +6,7 @@ const UserChip = ({ userFid, username, userPfp, userDisplayName }) => {
   const [user, setUser] = useState({});
   return (
     <>
-      <div onClick={() => navigate(`/${userFid}`)}>
+      <div onClick={() => navigate(`/${localStorage.getItem("fid")}`)}>
         <div className="flex gap-4 align-middle justify-left">
           <div className="">
             {" "}

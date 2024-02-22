@@ -61,7 +61,7 @@ const useUserAuth = () => {
       }
     } catch (err) {
       console.log("Err in fnGetPriceToPay", err);
-      return;
+      return null;
     }
   };
 

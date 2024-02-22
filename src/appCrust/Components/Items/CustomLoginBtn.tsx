@@ -57,8 +57,8 @@ const CustomLoginBtn = () => {
     setIsWalletModalOpen(!isWalletModalOpen);
   };
 
-  const fnSelectAndLogin = async (wallet: any) => {
-    select(wallet);
+  const fnSelectAndLogin = async (walletName: any) => {
+    select(walletName);
     connect();
   };
 
@@ -135,6 +135,7 @@ const CustomLoginBtn = () => {
         localStorage.setItem("fid", loginInfo?.fid || "");
         localStorage.setItem("username", loginInfo?.username || "");
       } else {
+        message.destroy();
         message.error("Payment failed");
         localStorage.removeItem("jwt");
         // setIsOnboardingModalOpen(false);
@@ -144,15 +145,15 @@ const CustomLoginBtn = () => {
       setModalMessage("Please wait while we register your wallet.");
       const registerStatus = await fnTriggerRegister(txSig);
       console.log("registerStatus", registerStatus);
-      // if(registerStatus?.) {
-      //   message.success("Registration Successful");
-      //   localStorage.setItem("jwt", loginInfo.jwt);
-      //   localStorage.setItem("fid", loginInfo.fid);
-      //   localStorage.setItem("username", loginInfo.username);
-      //   setLoginStatus("success");
-      //   setIsWalletModalOpen(false);
-      //   navigate("/");
-      // }
+      if ((registerStatus as any)?.data?.status) {
+        message.success("Registration Successful");
+        localStorage.setItem("jwt", loginInfo.jwt);
+        localStorage.setItem("fid", loginInfo.fid);
+        localStorage.setItem("username", loginInfo.username);
+        setLoginStatus("success");
+        setIsWalletModalOpen(false);
+        navigate("/");
+      }
       setInOboardingFlow(true);
     }
     setInLoginFlow(false);
@@ -194,7 +195,7 @@ const CustomLoginBtn = () => {
         open={isWalletModalOpen}
         footer={null}
       >
-        <div className="modalWrapper py-2 ">
+        <div className="modalWrapper py-2 pt-4">
           {inLoginFlow && connected && !inOboardingFlow && (
             <>
               <div className="flex justify-center">{modalMessage}</div>
@@ -227,7 +228,7 @@ const CustomLoginBtn = () => {
                           <div className="text-xl">{wallet.adapter.name}</div>
                         </div>
 
-                        <div className="text-xs">
+                        <div className="text-xs m-2">
                           {wallet.adapter.connected
                             ? "Connected"
                             : "Click to connect"}
@@ -236,12 +237,13 @@ const CustomLoginBtn = () => {
                     </li>
                   ))}
               </ul>
-              {wallets.length === 0 && (
-                <div>
-                  No wallets found, please install a solana wallet on your
-                  browser to continue
-                </div>
-              )}
+              {wallets.filter((item) => item.readyState === "NotDetected") &&
+                wallets.length === 0 && (
+                  <div>
+                    No wallets detected, please install a solana wallet on your
+                    browser to start quacking.
+                  </div>
+                )}
             </>
           )}
         </div>

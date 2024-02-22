@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 export const OnboardingComp = () => {
   const { hasUserLoggedIn, setHasUserLoggedIn, fid, setFid } = useUser();
   const [modalMessage, setModalMessage] = useState<string>(
-    "Sign in with your wallet, and Pay a small fee to start your presence on-chain on Quack!"
+    "Edit your profile details"
   );
   const [isOnboardingModalOpen, setIsOnboardingModalOpen] =
     useState<boolean>(false);
@@ -216,7 +216,7 @@ export const OnboardingComp = () => {
   };
   return (
     <>
-      <div className="w-96 flex flex-col align-middle items-center my-4">
+      <div className="flex flex-col align-middle items-center justify-center m-4">
         <div className="mt-2 text-lg"> {modalMessage}</div>
         <div className="mt-4">
           <Lottie height={200} options={{ animationData: animationData2 }} />
@@ -241,9 +241,9 @@ export const OnboardingComp = () => {
             <div className="mt-2 text-yellow-600">
               {" "}
               {onboardValidation.username === true ? (
-                <div className=""> Username is available</div>
+                <div className="text-green-600"> Username is available</div>
               ) : (
-                <div className="">Username is not available</div>
+                <div className="text-red-600">Username is not available</div>
               )}
             </div>
           )}
@@ -272,7 +272,7 @@ export const OnboardingComp = () => {
             onClick={fnHandleOnboarding}
             type="primary"
           >
-            Create an account
+            Update Profile
           </Button>
         </div>
       </div>
