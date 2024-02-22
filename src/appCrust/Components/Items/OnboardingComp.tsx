@@ -17,7 +17,7 @@ export const OnboardingComp = () => {
     "Edit your profile details"
   );
   const [isOnboardingModalOpen, setIsOnboardingModalOpen] =
-    useState<boolean>(false);
+    useState<boolean>(true);
 
   const { fnTriggerLogin, fnTriggerGetPriceAndSign, fnTriggerRegister } =
     useUserAuth();
@@ -216,66 +216,73 @@ export const OnboardingComp = () => {
   };
   return (
     <>
-      <div className="flex flex-col align-middle items-center justify-center m-4">
-        <div className="mt-2 text-lg"> {modalMessage}</div>
-        <div className="mt-4">
-          <Lottie height={200} options={{ animationData: animationData2 }} />
-        </div>
-
-        <div className="mt-4 w-full">
-          {" "}
-          <div className="mt-4 text-sm text-gray-500">
-            Sail into Quack with a personality-packed username!
-          </div>
+      <Modal
+        open={isOnboardingModalOpen}
+        onCancel={() => setIsOnboardingModalOpen(false)}
+        footer={null}
+        // closable={false}
+      >
+        <div className="flex flex-col align-middle items-center justify-center m-4">
+          <div className="mt-2 text-lg"> {modalMessage}</div>
           <div className="mt-4">
-            <Input
-              ref={onboardUsernameRef}
-              onInput={fnCheckInputBoxIsTyping}
-              placeholder="Username"
-            />
+            <Lottie height={200} options={{ animationData: animationData2 }} />
           </div>
-          {checkingAvailability && (
-            <div className="mt-2 text-yellow-600"> Checking availability</div>
-          )}
-          {!checkingAvailability && showOnboardValidation && (
-            <div className="mt-2 text-yellow-600">
-              {" "}
-              {onboardValidation.username === true ? (
-                <div className="text-green-600"> Username is available</div>
-              ) : (
-                <div className="text-red-600">Username is not available</div>
-              )}
-            </div>
-          )}
-        </div>
 
-        <div className="mt-2 w-full">
-          {" "}
-          <div className="mt-4 text-sm text-gray-500">
+          <div className="mt-4 w-full">
             {" "}
-            Join Quack and stay updated. Enter your email.
+            <div className="mt-4 text-sm text-gray-500">
+              Sail into Quack with a personality-packed username!
+            </div>
+            <div className="mt-4">
+              <Input
+                ref={onboardUsernameRef}
+                onInput={fnCheckInputBoxIsTyping}
+                placeholder="Username"
+              />
+            </div>
+            {checkingAvailability && (
+              <div className="mt-2 text-yellow-600"> Checking availability</div>
+            )}
+            {!checkingAvailability && showOnboardValidation && (
+              <div className="mt-2 text-yellow-600">
+                {" "}
+                {onboardValidation.username === true ? (
+                  <div className="text-green-600"> Username is available</div>
+                ) : (
+                  <div className="text-red-600">Username is not available</div>
+                )}
+              </div>
+            )}
           </div>
-          <div className="mt-4">
-            <Input ref={onboardEmailRef} placeholder="Email" />
-          </div>
-          {/* {showOnboardValidation && (
+
+          <div className="mt-2 w-full">
+            {" "}
+            <div className="mt-4 text-sm text-gray-500">
+              {" "}
+              Join Quack and stay updated. Enter your email.
+            </div>
+            <div className="mt-4">
+              <Input ref={onboardEmailRef} placeholder="Email" />
+            </div>
+            {/* {showOnboardValidation && (
                   <div className="mt-2 text-yellow-600">
                     {" "}
                     {onboardValidation.email}
                   </div>
                 )} */}
+          </div>
+          <div className="mt-4 w-full">
+            <Button
+              disabled={!onboardValidation.username}
+              className="w-full"
+              onClick={fnHandleOnboarding}
+              type="primary"
+            >
+              Update Profile
+            </Button>
+          </div>
         </div>
-        <div className="mt-4 w-full">
-          <Button
-            disabled={!onboardValidation.username}
-            className="w-full"
-            onClick={fnHandleOnboarding}
-            type="primary"
-          >
-            Update Profile
-          </Button>
-        </div>
-      </div>
+      </Modal>
     </>
   );
 };
