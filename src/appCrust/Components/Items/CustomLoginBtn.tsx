@@ -99,6 +99,7 @@ const CustomLoginBtn = () => {
       localStorage.setItem("fid", loginInfo.fid);
       localStorage.setItem("username", loginInfo.username);
       setLoginStatus("success");
+      setIsWalletModalOpen(false);
       setInOboardingFlow(true);
     }
     // If there is username and FID - User is already Registered
@@ -116,6 +117,26 @@ const CustomLoginBtn = () => {
       setIsWalletModalOpen(false);
       setLoginStatus("success");
       navigate("/");
+    }
+
+    // If there is no FID but JWT & Username - User is already Registered
+    // Error in Generating FID from BE
+    // No need to call Payment API
+    if (
+      loginInfo?.username !== "" &&
+      loginInfo?.fid === "" &&
+      loginInfo?.jwt !== ""
+    ) {
+      localStorage.setItem("jwt", loginInfo.jwt);
+      localStorage.setItem("fid", loginInfo.fid);
+      localStorage.setItem("username", loginInfo.username);
+
+      setIsWalletModalOpen(false);
+      // setLoginStatus("success");
+      localStorage.removeItem("jwt");
+      message.destroy();
+      message.error("Error in generating FID");
+      navigate("/auth");
     }
 
     // If there is JWT and no FID and no Username - User is not Registered
@@ -154,10 +175,12 @@ const CustomLoginBtn = () => {
         setLoginStatus("success");
         setIsWalletModalOpen(false);
         navigate("/");
+        setInLoginFlow(false);
+        setInOboardingFlow(true);
       }
     }
     setInLoginFlow(false);
-    setInOboardingFlow(true);
+    // setInOboardingFlow(true);
   };
 
   useEffect(() => {
