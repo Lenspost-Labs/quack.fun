@@ -171,6 +171,7 @@ const CustomLoginBtn = () => {
         message.success("Registration Successful");
         localStorage.setItem("jwt", loginInfo.jwt);
         localStorage.setItem("fid", loginInfo.fid);
+        localStorage.setItem("fid", (registerStatus as any)?.data?.fid);
         localStorage.setItem("username", loginInfo.username);
         setLoginStatus("success");
         setIsWalletModalOpen(false);

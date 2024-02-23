@@ -102,6 +102,7 @@ PostCardType) => {
     framePostUrl: "",
     frameInputText: "",
     frameImageAspectRatio: "1.91:1", // Default aspect ratio is '1.91:1'
+    frameState: {},
   });
 
   const handleLikeBtn = () => {
@@ -189,6 +190,7 @@ PostCardType) => {
             "fc:frame:button:3:target": frameButton3Target,
             "fc:frame:button:4:action": frameButton4Action,
             "fc:frame:button:4:target": frameButton4Target,
+            "fc:frame:state": frameState,
           } = response.data;
 
           setMetadata({
@@ -212,6 +214,7 @@ PostCardType) => {
             frameButton4Target,
             framePostUrl,
             frameInputText: "",
+            frameState,
           });
         }
       } catch (error) {
@@ -282,6 +285,7 @@ PostCardType) => {
         frameButton2Action: "", // Add the missing property with an initial value
         frameButton2Target: "", // Add the missing property with an initial value
         frameButton3: "", // Add the missing property with an initial value
+        frameState: {}, //Empty for now - New update
         // Add the other missing properties here
       });
 
@@ -356,6 +360,11 @@ PostCardType) => {
       {
         property: "fc:frame:button:4:target",
         content: metadata.frameButton4Target,
+      },
+      {
+        property: "fc:frame:state",
+        // content: JSON.stringify(metadata.frameState),
+        content: metadata.frameState,
       },
     ];
 
